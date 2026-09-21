@@ -1,0 +1,15 @@
+﻿<jqxLoader [theme]="'fluent'" #jqxLoader           
+           [imagePosition]="'top'"
+           [width]="100"
+           [height]="60">
+</jqxLoader>
+<jqxButton [theme]="'fluent'" #openLoader
+           (onClick)="openLoaderClick($event)"
+           [width]="150">
+  Open Loader
+</jqxButton>
+<jqxButton [theme]="'fluent'" #closeLoader
+           (onClick)="closeLoaderClick($event)"
+           [width]="100">
+  Close
+</jqxButton>

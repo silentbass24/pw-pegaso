@@ -1,0 +1,24 @@
+﻿<jqxDataTable [theme]="'fluent'" #myDataTable
+              [width]="370" [source]="dataAdapter" [exportSettings]="exportSettings" [columns]="columns"
+              [altRows]="true" [pageable]="true" [sortable]="true">
+</jqxDataTable>
+
+<div style="margin-top: 20px">
+
+    <jqxButton [theme]="'fluent'" (onClick)="excelExport()" [width]="110">Export to Excel</jqxButton>
+    <jqxButton [theme]="'fluent'" (onClick)="xmlExport()" [width]="110">Export to XML</jqxButton>
+    <jqxButton [theme]="'fluent'" (onClick)="csvExport()" [width]="110">Export to CSV</jqxButton>
+
+    <br />
+    <br />
+
+    <jqxButton [theme]="'fluent'" (onClick)="tsvExport()" [width]="110">Export to TSV</jqxButton>
+    <jqxButton [theme]="'fluent'" (onClick)="jsonExport()" [width]="110">Export to JSON</jqxButton>
+    <jqxButton [theme]="'fluent'" (onClick)="pdfExport()" [width]="110">Export to PDF</jqxButton>
+
+    <br />
+    <br />
+
+    <jqxButton [theme]="'fluent'" (onClick)="htmlExport()" [width]="110">Export to HTML</jqxButton>
+
+</div>

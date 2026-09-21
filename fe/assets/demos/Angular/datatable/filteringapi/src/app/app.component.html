@@ -1,0 +1,30 @@
+﻿<div style="margin-bottom: 30px">
+    <div>Filter By:</div>
+
+    <jqxDropDownList [theme]="'fluent'" #myDropDownList (onSelect)="dropDownListOnSelect($event)"
+                     [width]="160" [height]="25" [source]="dropDownListSource"
+                     [selectedIndex]="0" [autoDropDownHeight]="true">
+    </jqxDropDownList>
+
+    <jqxListBox [theme]="'fluent'" #myListBox style="margin-top: 10px"
+                (onCheckChange)="listBoxOnCheckChange($event)"
+                [width]="160" [height]="250" [checkboxes]="true">
+    </jqxListBox>
+
+    <div style="margin-top: 10px; margin-right: 5px;">
+
+        <jqxButton [theme]="'fluent'" (onClick)="applyFilterBtnOnClick()">
+            Apply Filter
+        </jqxButton>
+
+        <jqxButton [theme]="'fluent'" (onClick)="clearfilterBtnOnClick()">
+            Clear Filter
+        </jqxButton>
+
+    </div>
+</div>
+
+<jqxDataTable [theme]="'fluent'" #myDataTable
+              [width]="getWidth()" [source]="dataAdapter" [columns]="columns"
+              [pageable]="true" [altRows]="true" [pagerButtonsCount]="4">
+</jqxDataTable>

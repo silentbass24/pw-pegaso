@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="keywords" content="jQuery Chat, dark mode, color scheme, accent color, jqxChat appearance" />
+    <meta name="description"
+        content="Restyle jqxChat at runtime: switch light / dark / auto color schemes and pick a brand accent color - all driven by simple widget options." />
+    <title id='Description'>Restyle jqxChat at runtime: light / dark / auto scheme and a brand accent color.</title>
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.light.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />
+    <script type="text/javascript" src="../../../scripts/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../../../scripts/demos.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxchat.js"></script>
+    <script type="text/javascript" src="mockassistant.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#chat').jqxChat({
+                width: 440,
+                height: 580,
+                title: 'Themed Assistant',
+                botName: 'Nova',
+                colorScheme: 'light',
+                accentColor: '#6366f1',
+                welcomeMessage: 'Pick a **color scheme** and an **accent color** above - I restyle instantly.',
+                starterPrompts: ['Tell me about theming', 'Show me a code example'],
+                messages: [
+                    { role: 'user', content: 'Can I match my brand color?' },
+                    { role: 'assistant', content: 'Absolutely - set the **accentColor** option to any CSS color, and **colorScheme** to `light`, `dark` or `auto`. No theme files required.' }
+                ],
+                sendRequest: jqxChatMock
+            });
+
+            // ---- color scheme ----
+            $('#scheme').jqxDropDownList({
+                theme: 'light', width: 150, height: 30, autoDropDownHeight: true,
+                source: ['light', 'dark', 'auto'], selectedIndex: 0
+            });
+            $('#scheme').on('select', function (e) {
+                var scheme = e.args.item.value;
+                $('#chat').jqxChat({ colorScheme: scheme });
+                document.getElementById('stage').style.background =
+                    scheme === 'dark' ? '#0d0f13' : '#f0f2f5';
+            });
+
+            // ---- accent color swatches ----
+            var accents = ['#6366f1', '#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#ec4899'];
+            $.each(accents, function (i, color) {
+                var sw = $('<span class="swatch"></span>').css('background', color).attr('data-color', color);
+                if (i === 0) { sw.addClass('active'); }
+                $('#swatches').append(sw);
+            });
+            $('#swatches').on('click', '.swatch', function () {
+                $('.swatch').removeClass('active');
+                $(this).addClass('active');
+                $('#chat').jqxChat({ accentColor: $(this).attr('data-color') });
+            });
+        });
+    </script>
+    <style>
+        .bar { display: flex; align-items: center; gap: 18px; margin-bottom: 16px; flex-wrap: wrap; }
+        .bar .grp { display: flex; align-items: center; gap: 8px; }
+        .bar label { font-size: 13px; color: #444; }
+        #swatches { display: flex; gap: 8px; }
+        .swatch { width: 26px; height: 26px; border-radius: 50%; cursor: pointer; border: 2px solid transparent;
+                  box-shadow: 0 1px 4px rgba(0,0,0,0.2); transition: transform 0.1s; }
+        .swatch:hover { transform: scale(1.1); }
+        .swatch.active { border-color: #1f2430; box-shadow: 0 0 0 2px #fff, 0 0 0 4px currentColor; }
+        #stage { background: #f0f2f5; padding: 24px; border-radius: 14px; display: inline-block; transition: background 0.2s; }
+    </style>
+</head>
+
+<body class='default'>
+    <div class="bar">
+        <div class="grp"><label for="scheme">Color scheme:</label><div id="scheme"></div></div>
+        <div class="grp"><label>Accent:</label><div id="swatches"></div></div>
+    </div>
+    <div id="stage">
+        <div id="chat"></div>
+    </div>
+</body>
+
+</html>

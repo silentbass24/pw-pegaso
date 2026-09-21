@@ -1,0 +1,40 @@
+﻿import { Component, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+
+
+
+import { jqxListBoxModule, jqxListBoxComponent } from 'jqwidgets-ng/jqxlistbox';
+@Component({
+    selector: 'app-root',
+    imports: [jqxListBoxModule],
+    standalone: true,
+    templateUrl: './app.component.html'
+})
+
+export class AppComponent implements AfterViewInit {
+    @ViewChild('jqxListBox') myListBox: jqxListBoxComponent;
+    @ViewChild('select') select: ElementRef;
+
+    ngAfterViewInit() {
+        this.myListBox.loadFromSelect('select');
+    }
+
+    updating = false;
+
+    change(event: any): void {
+        this.updating = true;
+        let index = this.select.nativeElement.selectedIndex;
+        this.myListBox.selectIndex(index);
+        this.myListBox.ensureVisible(index);
+        this.updating = false;
+    };
+
+    selectItem(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.select) { return; }
+        if (event.args && !this.updating) {
+            // select the item in the 'select' tag.
+            let index = event.args.item.index;
+            this.select.nativeElement.selectedIndex = index;
+        }
+    };
+}

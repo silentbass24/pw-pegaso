@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id='Description'>jqxGrid AI classification - fill a column with an AI-generated label per row.</title>
+    <meta name="description" content="One click asks the model to classify every row and writes a label into a grid column (aiClassifyColumn) - provider-agnostic, shown with an offline mock." />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.tailwind.css" type="text/css" />
+    <link rel="stylesheet" href="ai-demos.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="../../../scripts/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.ai.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.celltemplates.js"></script>
+    <script type="text/javascript" src="ai-mock.js"></script>
+    <script type="text/javascript" src="generatedata.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = generatedata(80);
+            var adapter = new $.jqx.dataAdapter({
+                localdata: data, datatype: 'array', datafields: [
+                    { name: 'firstname', type: 'string' }, { name: 'productname', type: 'string' },
+                    { name: 'quantity', type: 'number' }, { name: 'price', type: 'number' },
+                    { name: 'tier', type: 'string' }   // <-- AI-filled column (empty at start)
+                ]
+            });
+
+            var COLORS = { Low: '#64748b', Medium: '#4f46e5', High: '#16a34a' };
+            var tierCell = function (row, column, value) {
+                if (!value) { return '<span style="color:#cbd5e1;padding:0 10px;">—</span>'; }
+                return '<span style="display:inline-block;margin:5px 8px;padding:3px 12px;border-radius:999px;font-size:12px;font-weight:600;color:#fff;background:'
+                    + (COLORS[value] || '#64748b') + '">' + value + '</span>';
+            };
+
+            $("#grid").jqxGrid({
+                theme: 'tailwind', width: '100%', height: 400, source: adapter, sortable: true, pageable: true,
+                aiSendRequest: jqxGridAIMock, rowsheight: 48, columnsheight: 38,
+                columns: [
+                    { text: 'Customer', datafield: 'firstname', width: 190, cellTemplate: { type: 'avatar' } },
+                    { text: 'Product', datafield: 'productname', width: 210 },
+                    { text: 'Quantity', datafield: 'quantity', width: 110, cellsalign: 'right' },
+                    { text: 'Unit Price', datafield: 'price', width: 120, cellsalign: 'right', cellTemplate: '{{value | c2}}' },
+                    { text: 'Price Tier (AI)', datafield: 'tier', width: 150, cellsrenderer: tierCell }
+                ]
+            });
+
+            $('#classify').jqxButton({ theme: 'tailwind', height: 40 }).addClass('jqx-primary');
+            $('#classify').on('click', function () {
+                $('#classify').jqxButton({ disabled: true });
+                $('#result').html('<div class="ai-avatar">' + ICON.spark + '</div><div class="ai-result-body">' +
+                    '<div class="ai-result-title">Classifying</div><div class="ai-dots"><span></span><span></span><span></span></div></div>').show();
+                $("#grid").jqxGrid('aiClassifyColumn', {
+                    datafield: 'tier', sourceFields: ['productname', 'price'],
+                    instruction: 'Classify each order by its unit price.', categories: ['Low', 'Medium', 'High']
+                }, function (err, res) {
+                    $('#classify').jqxButton({ disabled: false });
+                    if (err) {
+                        $('#result').html('<div class="ai-avatar">' + ICON.spark + '</div><div class="ai-result-body"><div class="ai-result-title">Error</div><span class="ai-hint">' + err.message + '</span></div>');
+                        return;
+                    }
+                    $('#result').html('<div class="ai-avatar">' + ICON.check + '</div><div class="ai-result-body">' +
+                        '<div class="ai-result-title">Done</div><div class="ai-answer-text">Wrote an AI label into <b>' + res.written +
+                        '</b> rows of the <b>Price Tier</b> column.</div></div>').show();
+                });
+            });
+        });
+    </script>
+</head>
+<body class='ai-demo'>
+    <div class="ai-wrap">
+        <div class="ai-hero">
+            <span class="ai-badge">jqxGrid AI</span>
+            <h1>Turn a column into an AI classifier</h1>
+            <p>One click and the model labels every visible row; the label is written into a real grid column via <code>aiClassifyColumn</code>. The mock buckets by price - swap in a real model for sentiment, category, priority, risk&hellip;</p>
+        </div>
+        <div class="ai-nav">
+            <a href="ai-command-bar.htm">Command bar</a>
+            <a href="ai-ask-data.htm">Ask your data</a>
+            <a href="ai-classify-column.htm" class="active">Classify</a>
+            <a href="ai-summarize.htm">Summarize</a>
+        </div>
+
+        <div class="ai-card">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+                <input type="button" id="classify" value="Categorize price with AI" />
+                <div class="ai-legend">
+                    <span class="lg"><span class="dot" style="background:#64748b"></span> Low</span>
+                    <span class="lg"><span class="dot" style="background:#4f46e5"></span> Medium</span>
+                    <span class="lg"><span class="dot" style="background:#16a34a"></span> High</span>
+                </div>
+            </div>
+            <div id="grid"></div>
+        </div>
+
+        <div id="result" class="ai-result" style="display:none;"></div>
+
+        <p class="ai-foot"><strong>Batching:</strong> for large tables send rows in chunks (structured output = one label array per call) and write with <code>setcellvalue</code>. Provider &amp; key via <code>aiKey</code> / <code>aiProxyUrl</code>.</p>
+    </div>
+
+    <script type="text/javascript">
+        var ICON = {
+            spark: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.7 4.6L18.3 8.3 13.7 10 12 14.6 10.3 10 5.7 8.3 10.3 6.6z"/><path d="M18.5 13.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></svg>',
+            tag: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 12 22l-9-9V3h10z"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/></svg>',
+            check: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
+        };
+        document.querySelector('.ai-badge').innerHTML = ICON.spark + ' jqxGrid AI';
+    </script>
+</body>
+</html>

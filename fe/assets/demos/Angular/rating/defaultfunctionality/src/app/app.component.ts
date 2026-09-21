@@ -1,0 +1,22 @@
+﻿import { Component, ViewChild, ElementRef } from '@angular/core';
+
+
+import { jqxRatingModule, jqxRatingComponent } from 'jqwidgets-ng/jqxrating';
+@Component({
+    selector: 'app-root',
+    imports: [jqxRatingModule],
+    standalone: true,
+    templateUrl: './app.component.html'
+})
+
+export class AppComponent {
+    @ViewChild('rate') rate: ElementRef;
+
+    change(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.rate) { return; }
+        let rate = this.rate.nativeElement;
+
+        rate.innerHTML = '<span> ' + event.value + '</span>';
+    }
+}

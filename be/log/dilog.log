@@ -1,0 +1,117 @@
+2026-04-18T17:46:54.674714+02:00 ERROR: Errore di validazione: {'data_nascita': ['La data deve essere nel formato DD-MM-YYYY']}
+2026-04-26T15:16:57.207134+02:00 ERROR: Errore di validazione: {'data_nascita': ['La data deve essere nel formato DD-MM-YYYY']}
+2026-04-26T15:46:49.490282+02:00 ERROR: Paziente con ID 8aa80464-5222-44a6-a065-2ea90611d68e non trovato durante l'aggiornamento
+2026-04-26T15:48:24.710694+02:00 ERROR: Errore di validazione: {'data_nascita': ['La data deve essere nel formato DD-MM-YYYY']}
+2026-05-10T11:43:39.052534+02:00 ERROR: Errore di validazione: {'telefono': ['Field may not be null.']}
+2026-05-10T11:44:41.615496+02:00 ERROR: Errore di validazione: {'numero_civico': ['Unknown field.']}
+2026-05-10T15:14:07.299783+02:00 ERROR: Errore di validazione: {'ora_fine': ['Longer than maximum length 2.']}
+2026-08-29T15:35:47.207655+02:00 ERROR: Errore di validazione: {'id_paziente': ['Missing data for required field.'], 'email': ['Missing data for required field.'], 'telefono': ['Missing data for required field.'], 'mobile': ['Missing data for required field.'], 'cus_telefono': ['Unknown field.'], 'cus_email': ['Unknown field.'], 'cus_mobile': ['Unknown field.']}
+2026-08-29T15:35:47.207655+02:00 ERROR: Errore di validazione: {'id_paziente': ['Missing data for required field.'], 'indirizzo': ['Missing data for required field.'], 'numero_civico': ['Missing data for required field.'], 'cap': ['Missing data for required field.'], 'citta': ['Missing data for required field.'], 'cus_citta': ['Unknown field.'], 'cus_indirizzo': ['Unknown field.'], 'cus_cap': ['Unknown field.'], 'cus_civico': ['Unknown field.']}
+2026-08-29T15:35:47.207655+02:00 ERROR: Errore di validazione: {'nome': ['Missing data for required field.'], 'cognome': ['Missing data for required field.'], 'data_nascita': ['Missing data for required field.'], 'codice_fiscale': ['Missing data for required field.'], 'cus_codice_fiscale': ['Unknown field.'], 'cus_data_nascita': ['Unknown field.'], 'cus_name': ['Unknown field.'], 'cus_cognome': ['Unknown field.']}
+2026-08-29T15:46:55.212973+02:00 ERROR: Errore di validazione: {'nome': ['Missing data for required field.'], 'cognome': ['Missing data for required field.'], 'data_nascita': ['Missing data for required field.'], 'codice_fiscale': ['Missing data for required field.'], 'cus_codice_fiscale': ['Unknown field.'], 'cus_data_nascita': ['Unknown field.'], 'cus_name': ['Unknown field.'], 'cus_cognome': ['Unknown field.']}
+2026-08-29T15:46:55.215974+02:00 ERROR: Errore di validazione: {'id_paziente': ['Missing data for required field.'], 'indirizzo': ['Missing data for required field.'], 'numero_civico': ['Missing data for required field.'], 'cap': ['Missing data for required field.'], 'citta': ['Missing data for required field.'], 'cus_citta': ['Unknown field.'], 'cus_indirizzo': ['Unknown field.'], 'cus_cap': ['Unknown field.'], 'cus_civico': ['Unknown field.']}
+2026-08-29T15:46:55.215974+02:00 ERROR: Errore di validazione: {'id_paziente': ['Missing data for required field.'], 'email': ['Missing data for required field.'], 'telefono': ['Missing data for required field.'], 'mobile': ['Missing data for required field.'], 'cus_telefono': ['Unknown field.'], 'cus_email': ['Unknown field.'], 'cus_mobile': ['Unknown field.']}
+2026-08-29T15:49:48.145447+02:00 ERROR: Errore di validazione: {'nome': ['Missing data for required field.'], 'cognome': ['Missing data for required field.'], 'data_nascita': ['Missing data for required field.'], 'codice_fiscale': ['Missing data for required field.'], 'cus_codice_fiscale': ['Unknown field.'], 'cus_data_nascita': ['Unknown field.'], 'cus_name': ['Unknown field.'], 'cus_cognome': ['Unknown field.']}
+2026-08-29T15:49:48.147449+02:00 ERROR: Errore di validazione: {'id_paziente': ['Missing data for required field.'], 'email': ['Missing data for required field.'], 'telefono': ['Missing data for required field.'], 'mobile': ['Missing data for required field.'], 'cus_telefono': ['Unknown field.'], 'cus_email': ['Unknown field.'], 'cus_mobile': ['Unknown field.']}
+2026-08-29T15:49:48.147449+02:00 ERROR: Errore di validazione: {'id_paziente': ['Missing data for required field.'], 'indirizzo': ['Missing data for required field.'], 'numero_civico': ['Missing data for required field.'], 'cap': ['Missing data for required field.'], 'citta': ['Missing data for required field.'], 'cus_citta': ['Unknown field.'], 'cus_indirizzo': ['Unknown field.'], 'cus_cap': ['Unknown field.'], 'cus_civico': ['Unknown field.']}
+2026-08-29T15:55:40.458882+02:00 ERROR: Errore di validazione: {'id_paziente': ['Missing data for required field.'], 'email': ['Missing data for required field.'], 'telefono': ['Missing data for required field.'], 'mobile': ['Missing data for required field.'], 'cus_telefono': ['Unknown field.'], 'cus_email': ['Unknown field.'], 'cus_mobile': ['Unknown field.']}
+2026-08-29T15:55:40.458882+02:00 ERROR: Errore di validazione: {'id_paziente': ['Missing data for required field.'], 'indirizzo': ['Missing data for required field.'], 'numero_civico': ['Missing data for required field.'], 'cap': ['Missing data for required field.'], 'citta': ['Missing data for required field.'], 'cus_indirizzo': ['Unknown field.'], 'cus_citta': ['Unknown field.'], 'cus_cap': ['Unknown field.'], 'cus_civico': ['Unknown field.']}
+2026-08-29T15:55:40.458882+02:00 ERROR: Errore di validazione: {'nome': ['Missing data for required field.'], 'cognome': ['Missing data for required field.'], 'data_nascita': ['Missing data for required field.'], 'codice_fiscale': ['Missing data for required field.'], 'cus_cognome': ['Unknown field.'], 'cus_codice_fiscale': ['Unknown field.'], 'cus_name': ['Unknown field.'], 'cus_data_nascita': ['Unknown field.']}
+2026-08-29T16:04:51.714906+02:00 ERROR: Errore di validazione: {'data_nascita': ['La data deve essere nel formato DD-MM-YYYY']}
+2026-08-29T16:04:51.714906+02:00 ERROR: Errore di validazione: {'id_paziente': ['Missing data for required field.'], 'numero_civico': ['Missing data for required field.']}
+2026-08-29T16:04:51.714906+02:00 ERROR: Errore di validazione: {'id_paziente': ['Missing data for required field.']}
+2026-08-29T17:34:06.672221+02:00 ERROR: Errore di validazione: {'numero_civico': ['Missing data for required field.']}
+2026-08-30T11:42:47.673286+02:00 ERROR: Errore di validazione: {'numero_civico': ['Missing data for required field.']}
+2026-08-30T11:46:00.519713+02:00 ERROR: Errore di validazione: {'numero_civico': ['Missing data for required field.']}
+2026-09-02T16:19:43.384447+02:00 ERROR: Residenza già esistente per 2fba419f-8e82-4487-b46a-9ca03c28db48
+2026-09-02T16:27:35.811038+02:00 ERROR: Errore di validazione: {'id_paziente': ['Unknown field.']}
+2026-09-02T16:50:09.953808+02:00 ERROR: Errore di validazione: {'id_paziente': ['Unknown field.']}
+2026-09-19T15:57:24.972376+02:00 ERROR: Errore di validazione: {'ora_inizio': ['Missing data for required field.'], 'ora_fine': ['Missing data for required field.'], 'orario_fine': ['Unknown field.'], 'orario_inizio': ['Unknown field.']}
+2026-09-19T15:58:42.646916+02:00 ERROR: Errore di validazione: {'ora_inizio': ['Missing data for required field.'], 'ora_fine': ['Missing data for required field.'], 'orario_fine': ['Unknown field.'], 'orario_inizio': ['Unknown field.']}
+2026-09-19T16:11:26.035180+02:00 ERROR: Errore di validazione: {'ora_inizio': ['Missing data for required field.'], 'ora_fine': ['Missing data for required field.'], 'orario_fine': ['Unknown field.'], 'orario_inizio': ['Unknown field.']}
+2026-09-19T16:13:01.575468+02:00 ERROR: Errore di validazione: {'ora_inizio': ['Missing data for required field.'], 'ora_fine': ['Missing data for required field.'], 'orario_inizio': ['Unknown field.'], 'orario_fine': ['Unknown field.']}
+2026-09-19T16:13:29.125565+02:00 ERROR: Errore di validazione: {'ora_inizio': ['Missing data for required field.'], 'ora_fine': ['Missing data for required field.'], 'orario_inizio': ['Unknown field.'], 'orario_fine': ['Unknown field.']}
+2026-09-19T16:15:56.917150+02:00 ERROR: Errore di validazione: {'ora_inizio': ['Missing data for required field.'], 'ora_fine': ['Missing data for required field.'], 'orario_inizio': ['Unknown field.'], 'orario_fine': ['Unknown field.']}
+2026-09-19T16:16:45.604941+02:00 ERROR: Errore di validazione: {'ora_inizio': ['Missing data for required field.'], 'ora_fine': ['Missing data for required field.'], 'orario_inizio': ['Unknown field.'], 'orario_fine': ['Unknown field.']}
+2026-09-19T17:44:33.554687+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:33.858672+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:34.142832+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:34.429621+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:34.734980+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:35.022468+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:35.313393+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:35.594433+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:35.891415+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:36.174704+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:36.470708+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:36.765448+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:37.061420+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:37.371264+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:37.640752+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:37.912444+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:38.208845+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:38.491810+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:38.775342+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:39.061617+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:39.355391+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:39.654570+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:39.943350+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:40.234605+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:40.519896+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:41.958411+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:42.222567+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:42.506676+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:42.784650+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:43.066461+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:43.353527+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:43.643542+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:43.939604+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:44.213576+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:44.505635+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:44.784519+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:45.062175+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:45.345614+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:45.628079+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:45.909952+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:46.195837+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:46.475643+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:46.759710+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:47.064498+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:47.360718+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:47.652900+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:47.941812+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:48.278589+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:48.583199+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:48.867876+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:49.179607+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:49.493177+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:49.828003+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:44:50.131785+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato
+2026-09-19T17:48:25.307207+02:00 ERROR: Slot con ID 3409a70c-e5c1-4695-95e4-20e3b0be465a non trovato durante l'eliminazione
+2026-09-20T09:44:03.717872+02:00 ERROR: Errore di validazione: {'insorgenza': ['Not a valid date.']}
+2026-09-20T09:46:41.071779+02:00 ERROR: Errore di validazione: {'insorgenza': ['Not a valid date.']}
+2026-09-20T10:18:28.673605+02:00 ERROR: Errore di validazione: {'id_paziente': ['Unknown field.']}
+2026-09-20T10:24:20.410664+02:00 ERROR: Errore di validazione: {'id_paziente': ['Unknown field.']}
+2026-09-20T10:25:50.727465+02:00 ERROR: Errore di validazione: {'id_paziente': ['Unknown field.']}
+2026-09-20T10:42:19.177654+02:00 ERROR: Anamnesi con ID bb8b42c1-59ed-48f8-ac80-86a7aec9d453 non trovato
+2026-09-20T10:42:58.298030+02:00 ERROR: Anamnesi con ID bb8b42c1-59ed-48f8-ac80-86a7aec9d453 non trovato
+2026-09-20T10:43:59.943860+02:00 ERROR: Anamnesi con ID bb8b42c1-59ed-48f8-ac80-86a7aec9d453 non trovato
+2026-09-20T10:50:04.013903+02:00 ERROR: Anamnesi con ID bb8b42c1-59ed-48f8-ac80-86a7aec9d453 non trovato
+2026-09-20T10:51:15.213510+02:00 ERROR: Anamnesi con ID bb8b42c1-59ed-48f8-ac80-86a7aec9d453 non trovato
+2026-09-20T11:08:37.436041+02:00 ERROR: Anamnesi con ID bb8b42c1-59ed-48f8-ac80-86a7aec9d453 non trovato
+2026-09-20T11:31:48.032334+02:00 ERROR: Anamnesi con ID 0277ce6e-5b9a-4fd2-9291-d5cb132cff34 non trovato
+2026-09-20T11:58:59.405391+02:00 ERROR: Anamnesi con ID 99294f28-31e8-48d5-88bf-63f68db3352a non trovato
+2026-09-20T12:00:40.946372+02:00 ERROR: Anamnesi con ID bb8b42c1-59ed-48f8-ac80-86a7aec9d453 non trovato
+2026-09-20T14:43:24.907684+02:00 ERROR: Analisi con ID bb8b42c1-59ed-48f8-ac80-86a7aec9d453 non trovato
+2026-09-20T14:44:16.558256+02:00 ERROR: Analisi con ID bb8b42c1-59ed-48f8-ac80-86a7aec9d453 non trovato
+2026-09-20T15:03:00.865641+02:00 ERROR: Analisi con ID 99294f28-31e8-48d5-88bf-63f68db3352a non trovato
+2026-09-20T15:12:32.890769+02:00 ERROR: Analisi con ID bb8b42c1-59ed-48f8-ac80-86a7aec9d453 non trovato
+2026-09-20T15:13:49.529986+02:00 ERROR: Anamnesi con ID 99294f28-31e8-48d5-88bf-63f68db3352a non trovato
+2026-09-20T15:18:43.462337+02:00 ERROR: Anamnesi con ID 99294f28-31e8-48d5-88bf-63f68db3352a non trovato
+2026-09-20T15:29:11.924974+02:00 ERROR: Anamnesi con ID 99294f28-31e8-48d5-88bf-63f68db3352a non trovato
+2026-09-20T15:32:20.551595+02:00 ERROR: Anamnesi con ID 99294f28-31e8-48d5-88bf-63f68db3352a non trovato
+2026-09-20T15:45:05.741531+02:00 ERROR: Analisi con ID bb8b42c1-59ed-48f8-ac80-86a7aec9d453 non trovato
+2026-09-20T15:45:11.537833+02:00 ERROR: Anamnesi con ID bb8b42c1-59ed-48f8-ac80-86a7aec9d453 non trovato
+2026-09-20T15:46:05.999940+02:00 ERROR: Anamnesi con ID 99294f28-31e8-48d5-88bf-63f68db3352a non trovato
+2026-09-21T10:18:52.826010+02:00 ERROR: Errore di validazione: {'data_nascita': ['La data deve essere nel formato DD-MM-YYYY']}
+2026-09-21T11:46:28.074658+02:00 ERROR: Analisi con ID b85b6d85-64c0-4ecb-a6be-762c4e1e2a8d non trovato

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id='Description'>jqxGrid AI command bar - filter, sort and group the grid with plain language.</title>
+    <meta name="description" content="Type a plain-language request and the jqxGrid AI module turns it into validated filter, sort and group actions - provider-agnostic (Claude / OpenAI / your backend), shown here with an offline mock." />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.tailwind.css" type="text/css" />
+    <link rel="stylesheet" href="ai-demos.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="../../../scripts/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.filter.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.grouping.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.ai.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.celltemplates.js"></script>
+    <script type="text/javascript" src="ai-mock.js"></script>
+    <script type="text/javascript" src="generatedata.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = generatedata(200);
+            var adapter = new $.jqx.dataAdapter({
+                localdata: data, datatype: 'array', datafields: [
+                    { name: 'firstname', type: 'string' }, { name: 'lastname', type: 'string' },
+                    { name: 'productname', type: 'string' }, { name: 'quantity', type: 'number' },
+                    { name: 'price', type: 'number' }
+                ]
+            });
+
+            $("#grid").jqxGrid({
+                theme: 'tailwind', width: '100%', height: 380, source: adapter,
+                filterable: true, sortable: true, sortmode: 'many', groupable: true, pageable: true,
+                aiSendRequest: jqxGridAIMock, rowsheight: 48, columnsheight: 38,
+                columns: [
+                    { text: 'Member', datafield: 'firstname', width: 220, cellTemplate: { type: 'avatar', subField: 'lastname' } },
+                    { text: 'Product', datafield: 'productname', width: 210 },
+                    { text: 'Quantity', datafield: 'quantity', width: 110, cellsalign: 'right' },
+                    { text: 'Unit Price', datafield: 'price', cellsalign: 'right', cellTemplate: '{{value | c2}}' }
+                ]
+            });
+
+            function tagClass(t) {
+                if (t === 'cleared') { return 'clear'; }
+                if (t.indexOf('sort by') === 0) { return 'sort'; }
+                if (t.indexOf('group by') === 0) { return 'group'; }
+                return 'filter';
+            }
+            function run() {
+                var q = document.getElementById('q').value;
+                if (!q.trim()) { return; }
+                $('#result').html('<div class="ai-avatar">' + ICON.spark + '</div><div class="ai-result-body">' +
+                    '<div class="ai-result-title">Working</div><div class="ai-dots"><span></span><span></span><span></span></div></div>').show();
+                $("#grid").jqxGrid('aiCommand', q, function (err, res) {
+                    if (err) { showResult('Error', '<span class="ai-hint">' + err.message + '</span>'); return; }
+                    var applied = (res.applied && res.applied.length) ? res.applied : ['(no matching actions)'];
+                    var tags = applied.map(function (t) { return '<span class="ai-tag ' + tagClass(t) + '">' + t + '</span>'; }).join('');
+                    showResult('Applied to the grid', '<div class="ai-tags">' + tags + '</div>');
+                });
+            }
+            function showResult(title, body) {
+                $('#result').html('<div class="ai-avatar">' + ICON.spark + '</div><div class="ai-result-body">' +
+                    '<div class="ai-result-title">' + title + '</div>' + body + '</div>').show();
+            }
+            $('#run').jqxButton({ theme: 'tailwind', width: 96, height: 46 }).addClass('jqx-primary');
+            $('#run').on('click', run);
+            $('#q').on('keydown', function (e) { if (e.keyCode === 13) { run(); } });
+            $('.ai-chip-btn').jqxButton({ theme: 'tailwind' });
+            $('.ai-chip-btn').on('click', function () { document.getElementById('q').value = $(this).text().trim(); run(); });
+        });
+    </script>
+</head>
+<body class='ai-demo'>
+    <div class="ai-wrap">
+        <div class="ai-hero">
+            <span class="ai-badge">SPARK jqxGrid AI</span>
+            <h1>Command the grid in plain language</h1>
+            <p>Type what you want and the grid turns it into <b>validated</b> filter, sort and group actions - it never runs model output. Provider-agnostic (Claude / OpenAI / your backend); running here with an offline mock.</p>
+        </div>
+        <div class="ai-nav">
+            <a href="ai-command-bar.htm" class="active">Command bar</a>
+            <a href="ai-ask-data.htm">Ask your data</a>
+            <a href="ai-classify-column.htm">Classify</a>
+            <a href="ai-summarize.htm">Summarize</a>
+        </div>
+
+        <div class="ai-card">
+            <div class="ai-row">
+                <div class="ai-inputbar">
+                    <span class="ai-lead"></span>
+                    <input id="q" type="text" placeholder='e.g. "price over 3 and quantity under 5, sort by price desc, group by product"' />
+                </div>
+                <input type="button" id="run" value="Run" />
+            </div>
+            <div class="ai-chips">
+                <span class="ai-chips-label">Try:</span>
+                <button class="ai-chip-btn" type="button">price over 3 and quantity under 5</button>
+                <button class="ai-chip-btn" type="button">product contains Cappuccino, sort by price desc</button>
+                <button class="ai-chip-btn" type="button">quantity more than 10, group by product</button>
+                <button class="ai-chip-btn" type="button">clear</button>
+            </div>
+        </div>
+
+        <div class="ai-card"><div id="grid"></div></div>
+
+        <div id="result" class="ai-result" style="display:none;"></div>
+
+        <p class="ai-foot"><strong>Production:</strong> drop the mock and set <code>aiKey</code> for a quick trial, or <code>aiProxyUrl</code> / <code>aiSendRequest</code> to keep your key on the server.</p>
+    </div>
+
+    <script type="text/javascript">
+        // inline icons (replace the text placeholders above)
+        var ICON = {
+            spark: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.7 4.6L18.3 8.3 13.7 10 12 14.6 10.3 10 5.7 8.3 10.3 6.6z"/><path d="M18.5 13.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></svg>',
+            send: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5 21.5 12 3 3.5v6.9l12 1.6-12 1.6z"/></svg>',
+            search: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>'
+        };
+        document.querySelector('.ai-badge').innerHTML = ICON.spark + ' jqxGrid AI';
+        document.querySelector('.ai-lead').innerHTML = ICON.search;
+    </script>
+</body>
+</html>

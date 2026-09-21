@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="keywords" content="jQuery Chat, jqxChat API, events, methods, sendMessage, clearConversation" />
+    <meta name="description"
+        content="Drive jqxChat from code: call sendMessage, addMessage, getMessages, clearConversation and stop, and watch the widget's events in a live log." />
+    <title id='Description'>Drive jqxChat from code and watch its events in a live log.</title>
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.light.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />
+    <script type="text/javascript" src="../../../scripts/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../../../scripts/demos.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxchat.js"></script>
+    <script type="text/javascript" src="mockassistant.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var theme = 'light';
+
+            $('#chat').jqxChat({
+                colorScheme: 'light',
+                theme: theme,
+                width: 420,
+                height: 560,
+                title: 'API Playground',
+                welcomeMessage: 'Use the buttons on the right to drive me from code.',
+                sendRequest: jqxChatMock
+            });
+
+            function log(name, args) {
+                var detail = '';
+                if (args && args.content) { detail = ': ' + args.content.slice(0, 60); }
+                else if (args && args.message) { detail = ': ' + args.message; }
+                $('#log').prepend($('<div></div>').text(name + detail));
+            }
+
+            // every jqxChat event, logged live.
+            var events = ['messageSent', 'responseStart', 'responseDelta', 'messageReceived',
+                          'responseEnd', 'stop', 'error'];
+            $.each(events, function (i, name) {
+                $('#chat').on(name, function (e) {
+                    if (name === 'responseDelta') { return; } // too chatty to log each token
+                    log(name, e.args);
+                });
+            });
+
+            // ---- method buttons ----
+            $('.demo-btn').jqxButton({ theme: theme, width: 190, height: 30 });
+
+            $('#askBtn').on('click', function () {
+                $('#chat').jqxChat('sendMessage', 'Show me a code example');
+            });
+            $('#addBtn').on('click', function () {
+                $('#chat').jqxChat('addMessage', 'assistant', 'This message was injected with **addMessage()** - it is not sent to any model.');
+            });
+            $('#stopBtn').on('click', function () {
+                $('#chat').jqxChat('stop');
+            });
+            $('#getBtn').on('click', function () {
+                var msgs = $('#chat').jqxChat('getMessages');
+                log('getMessages() -> ' + msgs.length + ' messages');
+            });
+            $('#clearBtn').on('click', function () {
+                $('#chat').jqxChat('clearConversation');
+                log('clearConversation()');
+            });
+        });
+    </script>
+    <style>
+        .wrap { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+        .side { width: 300px; }
+        .side h3 { color: #2b6cb0; font-size: 14px; margin: 0 0 8px; }
+        .side .demo-btn { display: block; margin-bottom: 8px; }
+        #log { margin-top: 14px; height: 260px; overflow-y: auto; font-family: Consolas, monospace;
+               font-size: 12px; background: #1e1e1e; color: #d7f0d7; padding: 10px; border-radius: 6px; }
+        #log div { padding: 2px 0; border-bottom: 1px solid #2c2c2c; }
+    </style>
+</head>
+
+<body class='default'>
+    <div class="wrap">
+        <div id="chat"></div>
+        <div class="side">
+            <h3>Methods</h3>
+            <input type="button" class="demo-btn" id="askBtn" value="sendMessage('...')" />
+            <input type="button" class="demo-btn" id="addBtn" value="addMessage('assistant', ...)" />
+            <input type="button" class="demo-btn" id="stopBtn" value="stop()" />
+            <input type="button" class="demo-btn" id="getBtn" value="getMessages()" />
+            <input type="button" class="demo-btn" id="clearBtn" value="clearConversation()" />
+            <h3 style="margin-top:14px;">Event log</h3>
+            <div id="log"></div>
+        </div>
+    </div>
+</body>
+
+</html>

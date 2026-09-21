@@ -1,0 +1,40 @@
+{
+  "name": "angular-template",
+  "description": "",
+  "dependencies": {
+    "@angular/animations": "^19.0.0",
+    "@angular/common": "^19.0.0",
+    "@angular/compiler": "^19.0.0",
+    "@angular/core": "^19.0.0",
+    "@angular/forms": "^19.0.0",
+    "@angular/platform-browser": "^19.0.0",
+    "@angular/platform-browser-dynamic": "^19.0.0",
+    "@angular/router": "^19.0.0",
+    "jqwidgets-ng": "^27.0.0",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.5.0",
+    "zone.js": "~0.15.0",
+    "@types/jasminewd2": "2.0.8",
+    "@types/node": "10.12.30",
+    "core-js": "2.5.7",
+    "moment": "2.22.2"
+  },
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^19.0.0",
+    "@angular/cli": "^19.0.0",
+    "@angular/compiler-cli": "^19.0.0",
+    "@angular/language-service": "~9.0.7",
+    "@types/node": "^12.11.1",
+    "typescript": "~5.5.0"
+  },
+  "version": "0.0.0",
+  "license": "MIT"
+}

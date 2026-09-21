@@ -1,0 +1,52 @@
+{
+ "checked": 976,
+ "partial": false,
+ "broken": [
+  {
+   "id": "jqxtabs/javascript-tabs-map.htm",
+   "errors": [
+    "console.error: Google Maps JavaScript API error: ApiProjectMapError\nhttps://developers.google.com/maps/documentation/javascript/error-messages#api-project-map-error"
+   ],
+   "widget": true,
+   "note": ""
+  }
+ ],
+ "noWidget": [
+  {
+   "id": "jqxdataadapter/bindingtocsv.htm",
+   "note": ""
+  },
+  {
+   "id": "jqxdataadapter/bindingtojson.htm",
+   "note": ""
+  },
+  {
+   "id": "jqxdataadapter/bindingtojsonp.htm",
+   "note": ""
+  },
+  {
+   "id": "jqxdataadapter/bindingtotsv.htm",
+   "note": ""
+  },
+  {
+   "id": "jqxdataadapter/bindingtoxml.htm",
+   "note": ""
+  },
+  {
+   "id": "jqxdataadapter/defaultfunctionality.htm",
+   "note": ""
+  },
+  {
+   "id": "jqxresponse/defaultfunctionality.htm",
+   "note": ""
+  },
+  {
+   "id": "jqxresponse/responsive.htm",
+   "note": ""
+  },
+  {
+   "id": "jqxtouch/defaultfunctionality.htm",
+   "note": ""
+  }
+ ]
+}

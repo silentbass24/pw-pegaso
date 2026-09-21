@@ -1,0 +1,11 @@
+python-dotenv
+Flask
+psycopg2-binary
+marshmallow
+sqlalchemy
+flask-cors
+flasgger
+apispec[marshmallow]
+marshmallow-jsonschema
+bcrypt
+PyJWT

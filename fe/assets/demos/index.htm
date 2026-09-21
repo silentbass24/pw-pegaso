@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jQWidgets Demo Browser</title>
+<meta name="description" content="Browse, run and open every jQWidgets demo for JavaScript, TypeScript, Angular, React and Vue.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%230969da'/%3E%3Cstop offset='1' stop-color='%238250df'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='7' fill='url(%23g)'/%3E%3Ctext x='16' y='21.5' text-anchor='middle' font-family='system-ui,Segoe UI,Arial' font-size='15' font-weight='700' fill='%23fff'%3EjQ%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #f4f6f9; --panel: #ffffff; --panel-2: #f8fafc; --line: #e2e6ea; --line-2: #d0d7de;
+    --text: #1f2328; --muted: #636c76; --faint: #8c959f;
+    --accent: #0969da; --accent-2: #8250df; --accent-soft: #e7f1fd; --accent-ink: #0550ae;
+    --ok: #1a7f37; --ok-soft: #e6f6ea; --warn: #9a6700; --warn-soft: #fff8c5; --bad: #cf222e; --bad-soft: #ffebe9;
+    --code-bg: #f6f8fa; --hl: #fff3c4;
+    --shadow: 0 1px 2px rgba(31,35,40,.06), 0 1px 1px rgba(31,35,40,.04);
+    --shadow-2: 0 8px 24px rgba(31,35,40,.12);
+    --r: 8px; --r-lg: 12px;
+    --t-key: #cf222e; --t-str: #0a3069; --t-num: #0550ae; --t-com: #6e7781; --t-tag: #116329;
+    --t-attr: #0550ae; --t-fn: #8250df; --t-punc: #57606a;
+    --fw-js: #e8b923; --fw-ts: #3178c6; --fw-angular: #dd0031; --fw-react: #149eca; --fw-vue: #42b883;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-ui="light"]) { color-scheme: dark;
+      --bg: #0d1117; --panel: #161b22; --panel-2: #1c2129; --line: #30363d; --line-2: #3d444d;
+      --text: #e6edf3; --muted: #8b949e; --faint: #6e7681;
+      --accent: #58a6ff; --accent-2: #bc8cff; --accent-soft: #14283f; --accent-ink: #79c0ff;
+      --ok: #3fb950; --ok-soft: #12261e; --warn: #d29922; --warn-soft: #2b2300; --bad: #f85149; --bad-soft: #3a1d1f;
+      --code-bg: #0d1117; --hl: #4d3800; --shadow: none; --shadow-2: 0 8px 24px rgba(0,0,0,.5);
+      --t-key: #ff7b72; --t-str: #a5d6ff; --t-num: #79c0ff; --t-com: #8b949e; --t-tag: #7ee787;
+      --t-attr: #79c0ff; --t-fn: #d2a8ff; --t-punc: #8b949e; } }
+  :root[data-ui="dark"] { color-scheme: dark;
+    --bg: #0d1117; --panel: #161b22; --panel-2: #1c2129; --line: #30363d; --line-2: #3d444d;
+    --text: #e6edf3; --muted: #8b949e; --faint: #6e7681;
+    --accent: #58a6ff; --accent-2: #bc8cff; --accent-soft: #14283f; --accent-ink: #79c0ff;
+    --ok: #3fb950; --ok-soft: #12261e; --warn: #d29922; --warn-soft: #2b2300; --bad: #f85149; --bad-soft: #3a1d1f;
+    --code-bg: #0d1117; --hl: #4d3800; --shadow: none; --shadow-2: 0 8px 24px rgba(0,0,0,.5);
+    --t-key: #ff7b72; --t-str: #a5d6ff; --t-num: #79c0ff; --t-com: #8b949e; --t-tag: #7ee787;
+    --t-attr: #79c0ff; --t-fn: #d2a8ff; --t-punc: #8b949e; }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--text); background: var(--bg); display: flex; flex-direction: column; overflow: hidden; -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); }
+  button, select, input { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  code, pre, kbd, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 12.5px; }
+  kbd { background: var(--panel-2); border: 1px solid var(--line-2); border-bottom-width: 2px; border-radius: 5px; padding: 0 5px; font-size: 11px; line-height: 1.6; color: var(--muted); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .skip { position: absolute; left: -999px; top: 8px; z-index: 50; background: var(--panel); border: 1px solid var(--accent); padding: 6px 10px; border-radius: 6px; }
+  .skip:focus { left: 8px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+  /* ---------- header ---------- */
+  header { display: flex; align-items: center; gap: 10px; padding: 8px 14px; background: var(--panel); border-bottom: 1px solid var(--line); flex: none; min-width: 0; }
+  header > * { flex: none; }
+  header .search { flex: 0 1 260px; min-width: 120px; }
+  header .search input { width: 100%; }
+  /* the header never wraps; it gives things up in stages instead */
+  @media (max-width: 1560px) { .mode .label { display: none; } }
+  @media (max-width: 1420px) { .tabs button .n { display: none; } .brand .ver { display: none; } }
+  @media (max-width: 1240px) { .brand span:not(.logo) { display: none; } .theme { display: none; } }
+  .brand { display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: 15px; white-space: nowrap; text-decoration: none; color: inherit; }
+  .brand .logo { width: 28px; height: 28px; border-radius: 7px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: inline-grid; place-items: center; color: #fff; font-size: 13px; font-weight: 700; letter-spacing: -.02em; flex: none; }
+  .brand .ver { color: var(--muted); font-weight: 400; font-size: 12px; }
+  .menu { display: none; }
+  .tabs { display: flex; gap: 2px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 3px; }
+  .tabs button { border: 0; background: transparent; padding: 5px 11px; border-radius: 7px; color: var(--muted); display: inline-flex; gap: 7px; align-items: center; position: relative; transition: color .12s, background .12s; }
+  .tabs button .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--fw); opacity: .55; }
+  .tabs button[aria-selected="true"] { background: var(--panel); color: var(--text); box-shadow: var(--shadow); font-weight: 600; }
+  .tabs button[aria-selected="true"] .dot { opacity: 1; }
+  .tabs button:hover { color: var(--text); }
+  .tabs button .n { font-size: 11px; font-weight: 400; color: var(--muted); }
+  .tabs button.has::after { content: ""; position: absolute; top: 4px; right: 5px; width: 6px; height: 6px; border-radius: 50%; background: var(--ok); }
+  .spacer { flex: 1; }
+  .search { position: relative; }
+  .search input { width: 260px; max-width: 100%; padding: 6px 60px 6px 32px; border: 1px solid var(--line); border-radius: 9px; background: var(--bg); outline: none; transition: border-color .12s, box-shadow .12s; }
+  .search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); background: var(--panel); }
+  .search svg { position: absolute; left: 10px; top: 9px; width: 14px; height: 14px; fill: var(--muted); pointer-events: none; }
+  .search .kbds { position: absolute; right: 8px; top: 7px; display: flex; gap: 3px; pointer-events: none; }
+  .theme { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; }
+  .theme select { padding: 5px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); max-width: 140px; }
+  .iconbtn { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; width: 31px; height: 31px; display: grid; place-items: center; font-size: 14px; color: var(--muted); transition: border-color .12s, color .12s; }
+  .iconbtn:hover { border-color: var(--accent); color: var(--accent); }
+  .mode { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .mode .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--bad); }
+  .mode.http .dot { background: var(--ok); }
+
+  .notice { background: var(--warn-soft); border-bottom: 1px solid color-mix(in srgb, var(--warn) 40%, transparent); padding: 8px 16px; font-size: 13px; display: none; flex: none; color: var(--text); }
+  .notice.show { display: block; }
+  .notice code { background: rgba(0,0,0,.06); padding: 1px 5px; border-radius: 4px; }
+  .notice button { float: right; border: 0; background: transparent; color: inherit; font-size: 16px; line-height: 1; padding: 0 2px; }
+
+  /* ---------- layout ---------- */
+  main { --w1: 230px; --w2: 270px; flex: 1; display: grid; grid-template-columns: var(--w1) 5px var(--w2) 5px 1fr; min-height: 0; }
+  body.wide main { grid-template-columns: 0 0 0 0 1fr; }
+  body.wide nav, body.wide aside, body.wide .gutter { display: none; }
+  nav, aside { border-right: 1px solid var(--line); background: var(--panel); overflow: auto; min-height: 0; overscroll-behavior: contain; }
+  .scrim { display: none; }          /* only exists while the drawer is open on a narrow screen */
+  .gutter { cursor: col-resize; background: transparent; position: relative; z-index: 2; margin-left: -1px; }
+  .gutter::after { content: ""; position: absolute; inset: 0 1px; border-radius: 2px; transition: background .12s; }
+  .gutter:hover::after, .gutter.on::after { background: var(--accent); opacity: .5; }
+  body.resizing { cursor: col-resize; user-select: none; }
+  body.resizing iframe { pointer-events: none; }
+  .colhead { margin: 0; padding: 10px 14px 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); position: sticky; top: 0; background: var(--panel); z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .colhead .sub { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--faint); }
+  .list { list-style: none; margin: 0; padding: 0 6px 14px; }
+  .list li { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 9px; border-radius: 7px; cursor: pointer; transition: background .08s; position: relative; }
+  .list li:hover { background: var(--bg); }
+  .list li[aria-selected="true"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
+  .list li[aria-selected="true"]::before { content: ""; position: absolute; left: 0; top: 7px; bottom: 7px; width: 3px; border-radius: 2px; background: var(--accent); }
+  .list li.cursor { box-shadow: inset 0 0 0 1.5px var(--accent); }
+  .list li:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .list li .count { color: var(--faint); font-size: 11px; font-weight: 400; flex: none; }
+  .list li .sub { display: block; color: var(--muted); font-size: 11px; font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .list li .main { min-width: 0; overflow: hidden; flex: 1; }
+  .list li .main > span:first-child { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .list li .flag { flex: none; color: var(--warn); font-size: 12px; }
+  .list mark { background: var(--hl); color: inherit; border-radius: 2px; padding: 0 1px; }
+  .cat { padding: 12px 9px 3px; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 6px; user-select: none; }
+  .cat:hover { background: transparent; color: var(--text); }
+  .cat .chev { display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid currentColor; transition: transform .12s; opacity: .7; }
+  .cat.closed .chev { transform: rotate(-90deg); }
+  .cat .count { margin-left: auto; font-weight: 400; letter-spacing: 0; text-transform: none; }
+  .list .group-label { padding: 10px 9px 2px; font-size: 11px; color: var(--muted); cursor: default; }
+  .list .group-label:hover { background: transparent; }
+  .empty { color: var(--muted); padding: 14px; font-size: 13px; }
+
+  section#content { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
+  .toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-bottom: 1px solid var(--line); background: var(--panel); flex-wrap: wrap; flex: none; }
+  .toolbar .title { font-weight: 600; margin-right: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; outline: none; }
+  .toolbar .title .crumb { color: var(--muted); font-weight: 400; }
+  .btn { border: 1px solid var(--line); background: var(--panel); padding: 5px 10px; border-radius: 7px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--text); white-space: nowrap; transition: border-color .12s, color .12s, background .12s; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { filter: brightness(1.08); color: #fff; }
+  .btn[disabled] { opacity: .5; cursor: not-allowed; }
+  .btn.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.icon { padding: 5px 8px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+  .seg button { border: 0; background: var(--panel); padding: 5px 9px; font-size: 12.5px; color: var(--muted); border-right: 1px solid var(--line); }
+  .seg button:last-child { border-right: 0; }
+  .seg button:hover { color: var(--text); background: var(--bg); }
+  .seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
+  .seg button[disabled] { opacity: .5; cursor: not-allowed; }
+  .chips { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+  .chip { border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; font-size: 12px; background: var(--bg); cursor: pointer; display: inline-flex; align-items: center; gap: 5px; color: var(--text); transition: border-color .12s, color .12s; }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+  .chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--fw); }
+  .chip.badge, .chip.badge:hover { cursor: default; border-color: var(--line); color: var(--muted); }
+  .chip.badge.cur { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 50%, transparent); }
+
+  .desc { padding: 9px 14px; color: var(--muted); border-bottom: 1px solid var(--line); background: var(--panel); font-size: 13px; flex: none; }
+  .desc code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+  .issue { padding: 8px 14px; background: var(--warn-soft); border-bottom: 1px solid color-mix(in srgb, var(--warn) 40%, transparent); font-size: 13px; flex: none; }
+  .issue b { color: var(--warn); }
+  .issue code { background: rgba(0,0,0,.06); padding: 1px 5px; border-radius: 4px; }
+
+  /* ---------- live preview stage ---------- */
+  .stage { flex: 1; min-height: 0; position: relative; display: grid; grid-template-columns: 1fr; }
+  .stage[data-view="split"] { grid-template-columns: 1fr 1fr; }
+  .stage[data-view="source"] .preview { display: none; }
+  .stage[data-view="preview"] .codebox { display: none; }
+  .stage[data-view="split"] .codebox { border-left: 1px solid var(--line); }
+  .preview { min-height: 0; min-width: 0; display: flex; flex-direction: column; background: var(--bg); overflow: auto; position: relative; }
+  .frame { flex: 1; min-height: 0; display: flex; width: 100%; height: 100%; background: #fff; transition: width .15s; }
+  .stage[data-device="tablet"] .preview, .stage[data-device="phone"] .preview { padding: 14px; align-items: center; }
+  .stage[data-device="tablet"] .frame, .stage[data-device="phone"] .frame { border: 1px solid var(--line-2); border-radius: 14px; box-shadow: var(--shadow-2); overflow: hidden; height: calc(100% - 0px); flex: none; }
+  .stage[data-device="tablet"] .frame { width: 834px; max-width: 100%; }
+  .stage[data-device="phone"] .frame { width: 394px; max-width: 100%; }
+  iframe { flex: 1; width: 100%; border: 0; background: #fff; min-height: 0; }
+  .loading { position: absolute; left: 0; top: 0; height: 2px; width: 0; background: var(--accent); z-index: 2; transition: width .3s; }
+  .loading.on { width: 70%; }
+  .loading.done { width: 100%; opacity: 0; transition: width .15s, opacity .3s .15s; }
+
+  /* ---------- code ---------- */
+  .split { flex: 1; min-height: 0; display: grid; grid-template-rows: auto 1fr; }
+  .codewrap { display: grid; grid-template-columns: 240px 1fr; min-height: 0; min-width: 0; }
+  /* framework demos: the source, and the JavaScript twin running beside it */
+  .pstage { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr; }
+  .pstage[data-view="both"] { grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); }
+  .pstage[data-view="both"] .codewrap { grid-template-columns: 168px 1fr; }
+  .pstage[data-view="both"] .files div { padding: 4px 10px; font-size: 12px; }
+  .pvbar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .pvbar a { white-space: nowrap; }
+  .pstage[data-view="code"] .preview { display: none; }
+  .pstage[data-view="preview"] .codewrap { display: none; }
+  .pstage[data-view="both"] .preview { border-left: 1px solid var(--line); }
+  .pvbar { display: flex; align-items: center; gap: 8px; padding: 5px 10px; border-bottom: 1px solid var(--line); background: var(--panel); font-size: 12px; color: var(--muted); flex: none; }
+  .pvbar b { color: var(--text); font-weight: 600; }
+  .pvbar a { margin-left: auto; }
+  .results-foot { padding: 10px 9px 4px; font-size: 12px; color: var(--muted); cursor: default; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .results-foot:hover { background: transparent; }
+  .files { border-right: 1px solid var(--line); overflow: auto; background: var(--panel); font-size: 12.5px; padding-bottom: 8px; }
+  .files div { padding: 4px 12px; cursor: pointer; white-space: nowrap; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow: hidden; text-overflow: ellipsis; }
+  .files div:hover { background: var(--bg); }
+  .files div.active { background: var(--accent-soft); color: var(--accent-ink); }
+  .files .dir { color: var(--muted); cursor: default; padding-top: 8px; font-size: 11.5px; }
+  .files .dir:hover { background: transparent; }
+  .codebox { position: relative; min-height: 0; min-width: 0; display: flex; flex-direction: column; background: var(--code-bg); }
+  .codebar { display: flex; align-items: center; gap: 8px; padding: 5px 10px; border-bottom: 1px solid var(--line); background: var(--panel); font-size: 12px; color: var(--muted); flex: none; }
+  .codebar .path { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: auto; }
+  pre.code { margin: 0; padding: 12px 14px 12px 0; overflow: auto; flex: 1; min-height: 0; white-space: pre; tab-size: 4; counter-reset: ln; line-height: 1.5; }
+  pre.code.wrap { white-space: pre-wrap; word-break: break-word; }
+  pre.code .ln { display: block; }
+  pre.code .ln::before { counter-increment: ln; content: counter(ln); display: inline-block; width: 3.2em; padding-right: 1em; text-align: right; color: var(--faint); user-select: none; }
+  pre.code.wrap .ln::before { float: left; }
+  .t-key { color: var(--t-key); } .t-str { color: var(--t-str); } .t-num { color: var(--t-num); }
+  .t-com { color: var(--t-com); font-style: italic; } .t-tag { color: var(--t-tag); }
+  .t-attr { color: var(--t-attr); } .t-fn { color: var(--t-fn); } .t-punc { color: var(--t-punc); }
+  .hint { padding: 14px; color: var(--muted); font-size: 13px; }
+  .hint code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+  .runbox { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .runbox .cmds { display: flex; gap: 6px; flex-wrap: wrap; }
+  .runbox code { background: var(--code-bg); border: 1px solid var(--line); padding: 2px 8px; border-radius: 6px; color: var(--text); }
+
+  /* ---------- welcome ---------- */
+  .welcome { padding: 28px 32px 40px; overflow: auto; }
+  .welcome .inner { max-width: 1120px; }
+  .welcome h1 { font-size: 24px; margin: 0 0 6px; letter-spacing: -.01em; }
+  .welcome h1 .count { color: var(--muted); font-weight: 400; }
+  .welcome p.lead { color: var(--muted); margin: 0 0 22px; font-size: 15px; max-width: 72ch; }
+  .welcome h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 26px 0 10px; }
+  .fws { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .start { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 0 0 22px; }
+  .start .lbl { color: var(--muted); font-size: 13px; margin-right: 2px; }
+  .start .chip { padding: 5px 12px; font-size: 13px; background: var(--panel); }
+  .fwcard { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 13px 15px; text-align: left; cursor: pointer; transition: border-color .12s, box-shadow .12s; position: relative; overflow: hidden; }
+  .fwcard::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--fw); }
+  .fwcard:hover { border-color: var(--accent); box-shadow: var(--shadow-2); }
+  .fwcard[aria-current="true"] { border-color: var(--accent); }
+  .fwcard b { display: flex; align-items: center; gap: 8px; font-size: 15px; margin-bottom: 3px; }
+  .fwcard .num { font-size: 24px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+  .fwcard .num small { display: block; font-size: 12px; font-weight: 400; color: var(--muted); letter-spacing: 0; margin-top: 2px; }
+  .fwcard .status { font-size: 12px; color: var(--muted); margin-top: 4px; display: flex; align-items: center; gap: 5px; }
+  .fwcard .status .ok { color: var(--ok); } .fwcard .status .warn { color: var(--warn); }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
+  .step { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 13px 15px; font-size: 13px; color: var(--muted); }
+  .step b { display: block; margin-bottom: 4px; color: var(--text); font-size: 14px; }
+  .step .n { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; margin-right: 7px; }
+  .catgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
+  .catcard { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 12px 14px; }
+  .catcard h3 { margin: 0 0 8px; font-size: 13px; }
+  .catcard .wl { display: flex; flex-wrap: wrap; gap: 5px; }
+  .wchip { border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 2px 9px; font-size: 12px; cursor: pointer; color: var(--text); }
+  .wchip:hover { border-color: var(--accent); color: var(--accent); }
+  .wchip span { color: var(--faint); margin-left: 4px; font-size: 11px; }
+  .welcome table { border-collapse: collapse; width: 100%; font-size: 13px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+  .welcome td, .welcome th { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .welcome tr:last-child td, .welcome tr:last-child th { border-bottom: 0; }
+  .welcome th { color: var(--muted); font-weight: 600; font-size: 12px; white-space: nowrap; width: 90px; background: var(--panel-2); }
+  .welcome pre { background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; overflow: auto; margin: 4px 0 0; }
+  .recent { display: flex; gap: 6px; flex-wrap: wrap; }
+  .footnote { color: var(--faint); font-size: 12px; margin-top: 28px; }
+
+  .toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(6px); background: var(--text); color: var(--bg); padding: 8px 14px; border-radius: 9px; font-size: 13px; opacity: 0; transition: opacity .18s, transform .18s; pointer-events: none; z-index: 60; box-shadow: var(--shadow-2); }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  dialog { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); color: var(--text); padding: 0; max-width: 480px; box-shadow: var(--shadow-2); }
+  dialog::backdrop { background: rgba(0,0,0,.45); }
+  dialog .dlg { padding: 20px 24px; }
+  dialog h3 { margin: 0 0 12px; font-size: 16px; }
+  dialog table { border-collapse: collapse; font-size: 13px; }
+  dialog td { padding: 4px 10px 4px 0; }
+  dialog td:first-child { width: 110px; white-space: nowrap; }
+  dialog .close { position: absolute; top: 10px; right: 12px; border: 0; background: transparent; font-size: 18px; color: var(--muted); }
+
+  /* ---------- narrow screens: the two lists become a drawer ---------- */
+  @media (max-width: 960px) {
+    header { padding: 8px 10px; gap: 8px; }
+    .brand span:not(.logo) { display: none; }
+    .menu { display: grid; }
+    .tabs button { padding: 5px 8px; }
+    .tabs button .n { display: none; }
+    .search input { width: 150px; padding-right: 10px; }
+    .search .kbds { display: none; }
+    .theme { display: none; }
+    .mode .label { display: none; }
+    main { grid-template-columns: 1fr; }
+    .gutter { display: none; }
+    .pstage[data-view="both"] { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+    .pstage[data-view="both"] .preview { border-left: 0; border-top: 1px solid var(--line); }
+    nav, aside { position: fixed; top: 0; bottom: 0; width: min(85vw, 320px); z-index: 40; transform: translateX(-105%); transition: transform .18s; box-shadow: var(--shadow-2); border-right: 1px solid var(--line); }
+    aside { left: 0; }
+    nav { left: 0; }
+    body.drawer nav { transform: none; }
+    body.drawer.pick aside { transform: none; z-index: 41; }
+    .scrim { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 39; display: none; }
+    body.drawer .scrim { display: block; }
+    .stage[data-view="split"] { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+    .codewrap { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    .files { max-height: 130px; border-right: 0; border-bottom: 1px solid var(--line); }
+    .welcome { padding: 18px 16px 30px; }
+    .stage[data-device="tablet"] .preview, .stage[data-device="phone"] .preview { padding: 8px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to the demo</a>
+<header>
+  <button class="iconbtn menu" id="menuBtn" title="Browse widgets and demos" aria-label="Browse widgets and demos">☰</button>
+  <a class="brand" href="#" id="brand"><span class="logo" aria-hidden="true">jQ</span> <span>jQWidgets Demo Browser</span> <span class="ver" id="ver"></span></a>
+  <div class="tabs" role="tablist" aria-label="Framework" id="tabs"></div>
+  <div class="spacer"></div>
+  <div class="search">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.5 7a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm-.82 4.74a6 6 0 1 1 1.06-1.06l3.04 3.04a.75.75 0 1 1-1.06 1.06l-3.04-3.04Z"/></svg>
+    <input id="q" type="search" placeholder="Search demos" autocomplete="off" aria-label="Search demos" spellcheck="false">
+    <span class="kbds" aria-hidden="true"><kbd>/</kbd></span>
+  </div>
+  <label class="theme">Theme <select id="theme" aria-label="Widget theme"></select></label>
+  <button class="iconbtn" id="uiToggle" title="Light / dark page" aria-label="Toggle light or dark page">◐</button>
+  <button class="iconbtn" id="help" title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  <div class="mode" id="mode"><span class="dot"></span><span class="label"></span></div>
+</header>
+<div class="notice" id="notice">
+  <button id="noticeClose" aria-label="Dismiss">×</button>
+  You opened this page straight from disk. Most demos work, but about one in five loads its data with Ajax and needs a web server, and source view, StackBlitz and download need one too.
+  <strong>Double-click <code>start-demos.cmd</code></strong> (Windows) or run <code>sh start-demos.sh</code> / <code>node scripts/serve-demos.js</code> in the SDK folder — it needs only Node.js.
+</div>
+<main>
+  <div class="scrim" id="scrim"></div>
+  <nav aria-label="Widgets"><h4 class="colhead" id="navTitle">Widgets</h4><ul class="list" id="groups" role="listbox" aria-label="Widgets"></ul></nav>
+  <div class="gutter" data-col="1" title="Drag to resize"></div>
+  <aside aria-label="Demos"><h4 class="colhead" id="listTitle">Demos</h4><ul class="list" id="demos" role="listbox" aria-label="Demos"></ul></aside>
+  <div class="gutter" data-col="2" title="Drag to resize"></div>
+  <section id="content" aria-live="polite" tabindex="-1"></section>
+</main>
+<div class="toast" id="toast" role="status"></div>
+<dialog id="helpDlg"><button class="close" id="helpClose" aria-label="Close">×</button><div class="dlg">
+  <h3>Keyboard shortcuts</h3>
+  <table>
+    <tr><td><kbd>/</kbd> or <kbd>Ctrl</kbd>+<kbd>K</kbd></td><td>Search</td></tr>
+    <tr><td><kbd>↑</kbd> <kbd>↓</kbd> <kbd>Enter</kbd></td><td>Move through the list, open</td></tr>
+    <tr><td><kbd>J</kbd> <kbd>K</kbd></td><td>Next / previous demo</td></tr>
+    <tr><td><kbd>1</kbd>…<kbd>5</kbd></td><td>Switch framework, keeping the demo</td></tr>
+    <tr><td><kbd>P</kbd> <kbd>B</kbd> <kbd>S</kbd></td><td>Preview / both / source — for framework demos the preview is the JavaScript twin</td></tr>
+    <tr><td><kbd>Tab</kbd> <kbd>Space</kbd></td><td>The lists are keyboard-reachable; drag the column edges to resize</td></tr>
+    <tr><td><kbd>D</kbd></td><td>Cycle desktop, tablet, phone width</td></tr>
+    <tr><td><kbd>W</kbd></td><td>Wide mode (hide the lists)</td></tr>
+    <tr><td><kbd>T</kbd> / <kbd>Shift</kbd>+<kbd>T</kbd></td><td>Next / previous widget theme</td></tr>
+    <tr><td><kbd>R</kbd></td><td>Reload the preview</td></tr>
+    <tr><td><kbd>Esc</kbd></td><td>Clear search, leave wide mode, close the drawer</td></tr>
+  </table>
+</div></dialog>
+
+<script src="catalog.js"></script>
+<script>
+(function () {
+  'use strict';
+  var CAT = window.JQX_DEMO_CATALOG;
+  if (!CAT) { document.getElementById('content').innerHTML = '<div class="hint">catalog.js is missing. Run <code>node scripts/build-demo-catalog.js</code> from the SDK root.</div>'; return; }
+
+  // ---------- constants ----------
+  var FW_ORDER = ['js', 'ts', 'angular', 'react', 'vue'];
+  var FW = {
+    js:      { color: 'var(--fw-js)',      report: 'smoke-js-report.json',    run: 'runs here, no build' },
+    ts:      { color: 'var(--fw-ts)',      report: null,                      run: 'pre-compiled, runs here' },
+    angular: { color: 'var(--fw-angular)', report: 'smoke-ng-report.json',    run: 'npm start' },
+    react:   { color: 'var(--fw-react)',   report: 'smoke-react-report.json', run: 'npm run dev' },
+    vue:     { color: 'var(--fw-vue)',     report: 'smoke-vue-report.json',   run: 'npm run build' }
+  };
+  // Widgets, by what they are for. Keys are the group id without its "jqx" prefix.
+  var CATEGORIES = [
+    ['Data & grids',          ['grid', 'datatable', 'treegrid', 'pivotgrid', 'pivotdesigner', 'kanban', 'scheduler', 'gantt', 'dataadapter', 'knockout']],
+    ['Charts & gauges',       ['chart', 'bargauge', 'bulletchart', 'gauge', 'lineargauge', 'knob', 'rangeselector', 'treemap', 'heatmap', 'draw', 'timeline']],
+    ['Inputs & forms',        ['input', 'textarea', 'numberinput', 'maskedinput', 'passwordinput', 'formattedinput', 'complexinput', 'datetimeinput', 'timepicker', 'calendar', 'colorpicker', 'editor', 'fileupload', 'form', 'validator', 'rating', 'slider', 'switchbutton', 'checkbox', 'radiobutton', 'checkboxgroup', 'radiobuttongroup']],
+    ['Lists & selection',     ['listbox', 'dropdownlist', 'combobox', 'dropdownbutton', 'listmenu', 'tree', 'sortable', 'dragdrop', 'tagcloud', 'picklist']],
+    ['Buttons & navigation',  ['buttons', 'buttongroup', 'togglebutton', 'repeatbutton', 'linkbutton', 'menu', 'navbar', 'navigationbar', 'toolbar', 'ribbon', 'tabs']],
+    ['Layout & containers',   ['layout', 'dockinglayout', 'docking', 'dockpanel', 'splitter', 'splitlayout', 'panel', 'expander', 'window', 'popover', 'tooltip', 'notification', 'loader', 'progressbar', 'scrollbar', 'scrollview', 'responsivepanel']],
+    ['More',                  ['barcode', 'qrcode', 'chat', 'response', 'touch']],
+    ['Integrations',          ['bootstrapjs', 'requirejs']]
+  ];
+  var catOf = {};
+  CATEGORIES.forEach(function (c) { c[1].forEach(function (k) { catOf[k] = c[0]; }); });
+
+  var isHttp = /^https?:/.test(location.protocol);
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var norm = function (s) { return String(s).toLowerCase().replace(/[-_]/g, '').replace(/\.htm[l]?$/, ''); };
+  var gkey = function (g) { var k = g.id.replace(/^jqx/, ''); return k === 'button' ? 'buttons' : k; };
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem('jqx-demo-' + k); return v === null ? d : v; } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem('jqx-demo-' + k, v); } catch (e) {} }
+  };
+
+  // ---------- state ----------
+  var state = {
+    fw: 'js', group: null, demo: null, q: '', cursor: -1,
+    theme: (function () { var t = store.get('theme'); return t && CAT.themes.indexOf(t) >= 0 ? t : 'fluent'; })(),
+    view: (function () { var v = store.get('view', 'preview'); return /^(preview|split|source)$/.test(v) ? v : 'preview'; })(),
+    device: (function () { var v = store.get('device', 'desktop'); return /^(desktop|tablet|phone)$/.test(v) ? v : 'desktop'; })(),
+    pview: (function () { var v = store.get('pview', 'both'); return /^(preview|both|code)$/.test(v) ? v : 'both'; })(),
+    file: null,
+    wrap: store.get('wrap', '0') === '1'
+  };
+  var flat = [];             // what the demo column currently shows
+  var closedCats = {};       // collapsed categories in the widget column
+  try { (store.get('cats', '') || '').split('|').forEach(function (c) { if (c) closedCats[c] = true; }); } catch (e) {}
+  var ui = store.get('ui', 'auto');
+  if (ui !== 'auto') document.documentElement.setAttribute('data-ui', ui);
+  var focusTitle = false;
+
+  // ---------- cross-framework index ----------
+  var xref = {};
+  FW_ORDER.forEach(function (fw) {
+    xref[fw] = {};
+    CAT.frameworks[fw].groups.forEach(function (g) {
+      g.demos.forEach(function (d) {
+        var key = xkey(g, d, fw);
+        if (!xref[fw][key]) xref[fw][key] = { group: g, demo: d };
+      });
+    });
+  });
+  function xkey(group, demo, fw) {
+    var f = fw || state.fw, gk = gkey(group);
+    var dk = norm(demo.file || demo.id);
+    // "javascript_chart_areaseries.htm" and "typescript-grid-editing.htm" are the
+    // same demos as "areaseries" and "editing": drop the language and widget prefix
+    if (f === 'ts') dk = norm(dk.replace(new RegExp('^typescript' + group.id + '-?'), '') || 'defaultfunctionality');
+    if (f === 'js') dk = dk.replace(/^javascript/, '').replace(new RegExp('^' + gk), '') || dk;
+    return gk + '/' + dk;
+  }
+  // The same demo by name; failing that, the one demo of that widget whose name
+  // contains this one or is contained by it ("fluidsize" ~ "bulletchartfluidsize").
+  // Only a single candidate counts - two would be a guess.
+  function counterpart(fw, group, demo) {
+    var key = xkey(group, demo);
+    if (xref[fw][key]) return xref[fw][key];
+    var gk = key.slice(0, key.indexOf('/') + 1), dk = key.slice(gk.length);
+    if (dk.length < 5) return null;
+    var found = null, count = 0;
+    Object.keys(xref[fw]).forEach(function (k) {
+      if (k.indexOf(gk) !== 0) return;
+      var other = k.slice(gk.length);
+      if (other.length >= 5 && (other.indexOf(dk) >= 0 || dk.indexOf(other) >= 0)) { found = xref[fw][k]; count++; }
+    });
+    return count === 1 ? found : null;
+  }
+
+  // ---------- verification reports (when served) ----------
+  // The smoke sweeps write demos/smoke-*-report.json. When one is there, demos it
+  // lists as broken get a marker and a note; the welcome page shows the totals.
+  var reports = {};
+  function loadReports() {
+    if (!isHttp) return;
+    FW_ORDER.forEach(function (fw) {
+      var file = FW[fw].report; if (!file) return;
+      fetch(file, { cache: 'no-cache' }).then(function (r) {
+        if (!r.ok) throw new Error();
+        var lm = r.headers.get('last-modified');
+        return r.json().then(function (j) { return { j: j, lm: lm }; });
+      }).then(function (x) {
+        if (!x.j || x.j.partial) return;
+        var broken = {};
+        (x.j.broken || []).forEach(function (b) { broken[b.id] = (b.errors && b.errors[0]) || 'failed'; });
+        reports[fw] = { checked: x.j.checked || 0, broken: broken, count: Object.keys(broken).length, date: x.lm ? new Date(x.lm) : null };
+        render();
+      }).catch(function () {});
+    });
+  }
+  function issueFor(fw, g, d) { var r = reports[fw]; if (!r) return null; return r.broken[g.id + '/' + (d.file || d.id)] || null; }
+  function verifiedText(fw) {
+    var r = reports[fw]; if (!r) return null;
+    var when = r.date ? ' on ' + r.date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+    return { checked: r.checked, issues: r.count, when: when };
+  }
+
+  // ---------- header ----------
+  $('ver').textContent = 'v' + CAT.version;
+  $('brand').onclick = function (e) { e.preventDefault(); navigate({ fw: state.fw, group: null, demo: null }); };
+  var tabs = $('tabs');
+  FW_ORDER.forEach(function (fw, i) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.setAttribute('role', 'tab'); b.dataset.fw = fw; b.style.setProperty('--fw', FW[fw].color);
+    b.title = CAT.frameworks[fw].label + ' demos  (' + (i + 1) + ')';
+    b.innerHTML = '<span class="dot" aria-hidden="true"></span>' + esc(CAT.frameworks[fw].label) + ' <span class="n">' + CAT.counts[fw] + '</span>';
+    b.onclick = function () { switchFramework(fw); };
+    tabs.appendChild(b);
+  });
+  var themeSel = $('theme');
+  CAT.themes.forEach(function (t) { var o = document.createElement('option'); o.value = t; o.textContent = t; themeSel.appendChild(o); });
+  themeSel.value = state.theme;
+  themeSel.onchange = function () { setTheme(themeSel.value); };
+  function setTheme(t) { state.theme = t; themeSel.value = t; store.set('theme', t); renderContent(); }
+  $('uiToggle').onclick = function () {
+    var cur = document.documentElement.getAttribute('data-ui');
+    var dark = cur ? cur === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    var next = dark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-ui', next); store.set('ui', next);
+  };
+  $('help').onclick = function () { $('helpDlg').showModal(); };
+  $('helpClose').onclick = function () { $('helpDlg').close(); };
+  var mode = $('mode');
+  mode.className = 'mode ' + (isHttp ? 'http' : 'file');
+  mode.querySelector('.label').textContent = isHttp ? 'served over ' + location.host : 'opened from disk';
+  mode.title = isHttp ? 'All demos, source view, StackBlitz and download are available.' : 'Ajax-based demos, source view, StackBlitz and download need a web server.';
+  if (!isHttp && store.get('notice') !== 'off') $('notice').classList.add('show');
+  $('noticeClose').onclick = function () { $('notice').classList.remove('show'); store.set('notice', 'off'); };
+
+  var q = $('q');
+  q.oninput = function () { state.q = q.value.trim(); state.cursor = -1; renderGroups(); renderDemos(); };
+
+  // drawer, narrow screens only
+  $('menuBtn').onclick = function () { document.body.classList.toggle('drawer'); document.body.classList.remove('pick'); };
+  $('scrim').onclick = closeDrawer;
+  function closeDrawer() { document.body.classList.remove('drawer'); document.body.classList.remove('pick'); }
+
+  // resizable columns: drag the edge, widths are remembered
+  var mainEl = document.querySelector('main');
+  ['1', '2'].forEach(function (n) {
+    var w = parseInt(store.get('w' + n, ''), 10);
+    if (w >= 140 && w <= 600) mainEl.style.setProperty('--w' + n, w + 'px');
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.gutter'), function (g) {
+    g.addEventListener('mousedown', function (e) {
+      e.preventDefault();
+      var n = g.dataset.col, col = n === '1' ? document.querySelector('nav') : document.querySelector('aside');
+      var startX = e.clientX, startW = col.getBoundingClientRect().width;
+      g.classList.add('on'); document.body.classList.add('resizing');
+      var move = function (ev) {
+        var w = Math.max(140, Math.min(600, Math.round(startW + ev.clientX - startX)));
+        mainEl.style.setProperty('--w' + n, w + 'px');
+      };
+      var up = function () {
+        document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up);
+        g.classList.remove('on'); document.body.classList.remove('resizing');
+        store.set('w' + n, String(Math.round(col.getBoundingClientRect().width)));
+      };
+      document.addEventListener('mousemove', move); document.addEventListener('mouseup', up);
+    });
+    g.addEventListener('dblclick', function () { mainEl.style.removeProperty('--w' + g.dataset.col); store.set('w' + g.dataset.col, ''); });
+  });
+
+  // the lists are reachable by keyboard: Tab to an item, Enter or Space opens it
+  ['groups', 'demos'].forEach(function (id) {
+    $(id).addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var li = e.target.closest('li'); if (!li || !li.onclick) return;
+      e.preventDefault(); e.stopPropagation(); li.onclick();
+    });
+  });
+
+  // ---------- recently viewed ----------
+  function remember(fw, group, demo) {
+    var key = fw + '/' + group.id + '/' + (demo.file || demo.id);
+    var list = (store.get('recent', '') || '').split('|').filter(Boolean);
+    list = [key].concat(list.filter(function (k) { return k !== key; })).slice(0, 10);
+    store.set('recent', list.join('|'));
+  }
+  function recent() {
+    return (store.get('recent', '') || '').split('|').filter(Boolean).map(function (k) {
+      var p = k.split('/'); var fw = p[0]; var c = CAT.frameworks[fw]; if (!c) return null;
+      var g = null, d = null;
+      c.groups.forEach(function (x) { if (x.id === p[1]) g = x; });
+      if (!g) return null;
+      g.demos.forEach(function (x) { if ((x.file || x.id) === p.slice(2).join('/')) d = x; });
+      return d ? { fw: fw, g: g, d: d } : null;
+    }).filter(Boolean);
+  }
+
+  // ---------- routing ----------
+  function navigate(next) {
+    var fw = next.fw || state.fw;
+    var h = '#' + fw + (next.group ? '/' + encodeURIComponent(next.group) + (next.demo ? '/' + encodeURIComponent(next.demo) : '') : '');
+    if (next.file) h += '?file=' + encodeURIComponent(next.file);
+    focusTitle = !!next.demo;
+    if (location.hash === h) apply(parseHash()); else location.hash = h;
+  }
+  function parseHash() {
+    var raw = location.hash.replace(/^#/, '');
+    var query = raw.indexOf('?') >= 0 ? raw.slice(raw.indexOf('?') + 1) : '';
+    raw = raw.replace(/\?.*$/, '');
+    var params = {};
+    query.split('&').forEach(function (kv) { var i = kv.indexOf('='); if (i > 0) { try { params[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); } catch (e) {} } });
+    if (params.theme && CAT.themes.indexOf(params.theme) >= 0) { state.theme = params.theme; themeSel.value = state.theme; }
+    var parts = raw.split('/').map(function (p) { try { return decodeURIComponent(p); } catch (e) { return p; } });
+    var fw = FW_ORDER.indexOf(parts[0]) >= 0 ? parts[0] : null;
+    return { fw: fw, group: parts[1] || null, demo: parts.slice(2).join('/') || null, file: params.file || null };
+  }
+  function apply(r) {
+    state.fw = r.fw || 'js'; state.group = r.group; state.demo = r.demo; state.file = r.file || null;
+    // the older "mobile:" routes pointed at the jQuery Mobile set, which is gone
+    if (state.group && state.group.indexOf('mobile:') === 0) { state.group = null; state.demo = null; }
+    store.set('last', location.hash);
+    render();
+  }
+  window.addEventListener('hashchange', function () { apply(parseHash()); });
+
+  // Switching framework keeps the demo you are looking at, when it exists there.
+  function switchFramework(fw) {
+    if (fw === state.fw) return;
+    var g = findGroup(), d = findDemo(g);
+    if (g && d) {
+      var x = counterpart(fw, g, d);
+      if (x) { navigate({ fw: fw, group: x.group.id, demo: x.demo.file || x.demo.id }); return; }
+      var target = null;
+      CAT.frameworks[fw].groups.forEach(function (cand) { if (!target && gkey(cand) === gkey(g)) target = cand; });
+      if (target) { toast('No matching demo — showing ' + target.name + ' in ' + CAT.frameworks[fw].label); navigate({ fw: fw, group: target.id, demo: null }); return; }
+      toast(CAT.frameworks[fw].label + ' has no ' + g.name + ' demos');
+    } else if (g) {
+      var t2 = null;
+      CAT.frameworks[fw].groups.forEach(function (cand) { if (!t2 && gkey(cand) === gkey(g)) t2 = cand; });
+      if (t2) { navigate({ fw: fw, group: t2.id, demo: null }); return; }
+    }
+    navigate({ fw: fw, group: null, demo: null });
+  }
+
+  // ---------- helpers ----------
+  function findGroup() { var gs = CAT.frameworks[state.fw].groups; for (var i = 0; i < gs.length; i++) if (gs[i].id === state.group) return gs[i]; return null; }
+  function findDemo(g) { if (!g) return null; for (var i = 0; i < g.demos.length; i++) { var d = g.demos[i]; if ((d.file || d.id) === state.demo) return d; } return null; }
+  function demoUrl(fw, g, d) {
+    var c = CAT.frameworks[fw];
+    if (fw === 'js' || fw === 'ts') return encodeURI(c.base + '/' + g.id + '/' + d.file);
+    return encodeURI(c.base + '/' + g.id + '/' + d.id + '/');
+  }
+  function toast(msg) { var t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove('show'); }, 2200); }
+  function copy(text, what) {
+    var done = function () { toast((what || 'Copied') + ' copied'); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { prompt('Copy:', text); });
+    else prompt('Copy:', text);
+  }
+  function mark(text, terms) {
+    var out = esc(text);
+    terms.forEach(function (t) {
+      if (!t) return;
+      out = out.replace(new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '\u0001$1\u0002');
+    });
+    return out.replace(/\u0001/g, '<mark>').replace(/\u0002/g, '</mark>');
+  }
+  function terms() { return state.q ? state.q.toLowerCase().split(/\s+/).filter(Boolean) : []; }
+  // Every demo in the current framework that matches the search, best first.
+  function searchHits() {
+    var ts = terms(); if (!ts.length) return null;
+    var hits = [];
+    CAT.frameworks[state.fw].groups.forEach(function (g) {
+      g.demos.forEach(function (d) {
+        var name = (d.name + ' ' + (d.file || d.id)).toLowerCase();
+        var hay = (g.name + ' ' + g.id + ' ' + name + ' ' + (d.title || '') + ' ' + (d.desc || '')).toLowerCase();
+        if (!ts.every(function (t) { return hay.indexOf(t) >= 0; })) return;
+        var score = ts.every(function (t) { return name.indexOf(t) >= 0; }) ? 0 : 1;
+        if (name.indexOf(ts.join(' ')) === 0) score -= 1;
+        if (g.name.toLowerCase() === ts.join(' ')) score -= 1;
+        hits.push({ g: g, d: d, score: score });
+      });
+    });
+    // Nothing? Try the characters in order ("dftfunc" finds "default functionality"),
+    // ranked by how tightly they sit together.
+    if (!hits.length && ts.length === 1 && ts[0].length >= 3) {
+      var needle = ts[0];
+      CAT.frameworks[state.fw].groups.forEach(function (g) {
+        g.demos.forEach(function (d) {
+          var text = (g.name + ' ' + d.name).toLowerCase(), i = 0, first = -1, last = -1;
+          for (var k = 0; k < needle.length; k++) {
+            i = text.indexOf(needle[k], i); if (i < 0) return;
+            if (first < 0) first = i; last = i; i++;
+          }
+          hits.push({ g: g, d: d, score: 10 + (last - first) / needle.length, fuzzy: true });
+        });
+      });
+    }
+    hits.sort(function (a, b) { return a.score - b.score; });
+    return hits;
+  }
+  // how many demos in the OTHER frameworks match the same search
+  function elsewhere() {
+    var ts = terms(); if (!ts.length) return [];
+    return FW_ORDER.filter(function (fw) { return fw !== state.fw; }).map(function (fw) {
+      var n = 0;
+      CAT.frameworks[fw].groups.forEach(function (g) { g.demos.forEach(function (d) {
+        var hay = (g.name + ' ' + d.name + ' ' + (d.file || d.id) + ' ' + (d.title || '')).toLowerCase();
+        if (ts.every(function (t) { return hay.indexOf(t) >= 0; })) n++;
+      }); });
+      return { fw: fw, n: n };
+    }).filter(function (x) { return x.n; });
+  }
+
+  // ---------- syntax highlighting ----------
+  var KEYWORDS = /^(import|export|from|default|const|let|var|function|return|class|extends|implements|interface|type|enum|new|this|super|if|else|for|while|do|switch|case|break|continue|try|catch|finally|throw|typeof|instanceof|in|of|delete|void|async|await|yield|static|public|private|protected|readonly|as|is|declare|namespace|module|require|true|false|null|undefined|NaN)$/;
+  function highlightCode(src, lang) {
+    var html = '', re, m, last = 0;
+    if (/^(htm|html|vue|xml|svg)$/.test(lang)) {
+      re = /<!--[\s\S]*?-->|<\/?[A-Za-z][\w:-]*|\/?>|[A-Za-z-:]+(?==)|"[^"]*"|'[^']*'/g;
+      while ((m = re.exec(src))) {
+        html += esc(src.slice(last, m.index)); last = re.lastIndex;
+        var tok = m[0], cls;
+        if (tok.slice(0, 4) === '<!--') cls = 't-com';
+        else if (tok[0] === '<' || tok === '>' || tok === '/>') cls = 't-tag';
+        else if (tok[0] === '"' || tok[0] === "'") cls = 't-str';
+        else cls = 't-attr';
+        html += '<span class="' + cls + '">' + esc(tok) + '</span>';
+      }
+    } else {
+      re = /\/\/[^\n]*|\/\*[\s\S]*?\*\/|`(?:\\[\s\S]|[^`\\])*`|"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*'|\b\d[\w.]*\b|\b[A-Za-z_$][\w$]*\b/g;
+      while ((m = re.exec(src))) {
+        html += esc(src.slice(last, m.index)); last = re.lastIndex;
+        var t = m[0], c;
+        if (t.slice(0, 2) === '//' || t.slice(0, 2) === '/*') c = 't-com';
+        else if (/^["'`]/.test(t)) c = 't-str';
+        else if (/^\d/.test(t)) c = 't-num';
+        else if (KEYWORDS.test(t)) c = 't-key';
+        else if (src[re.lastIndex] === '(') c = 't-fn';
+        else c = null;
+        html += c ? '<span class="' + c + '">' + esc(t) + '</span>' : esc(t);
+      }
+    }
+    html += esc(src.slice(last));
+    // One block per line for the gutter; joined without \n because the block already breaks the line.
+    return html.split('\n').map(function (l) { return '<span class="ln">' + (l || ' ') + '</span>'; }).join('');
+  }
+  function renderCode(pre, text, path) {
+    var lang = (path || '').split('.').pop().toLowerCase();
+    if (text.length > 400000) { pre.textContent = text; return; }
+    pre.innerHTML = highlightCode(text, lang);
+  }
+
+  // ---------- render ----------
+  function render() {
+    Array.prototype.forEach.call(tabs.children, function (b) {
+      b.setAttribute('aria-selected', b.dataset.fw === state.fw ? 'true' : 'false');
+      b.classList.remove('has');
+      var v = verifiedText(b.dataset.fw);
+      b.title = CAT.frameworks[b.dataset.fw].label + ' demos  (' + (FW_ORDER.indexOf(b.dataset.fw) + 1) + ')' +
+        (v ? '\n' + v.checked + ' verified' + v.when + (v.issues ? ', ' + v.issues + ' known issue' + (v.issues === 1 ? '' : 's') : ', all pass') : '');
+    });
+    var g = findGroup(), d = findDemo(g);
+    if (g && d) {
+      FW_ORDER.forEach(function (fw) {
+        if (fw !== state.fw && counterpart(fw, g, d)) {
+          var btn = tabs.querySelector('[data-fw="' + fw + '"]');
+          if (btn) { btn.classList.add('has'); btn.title = CAT.frameworks[fw].label + ' has this demo too  (' + (FW_ORDER.indexOf(fw) + 1) + ')'; }
+        }
+      });
+      remember(state.fw, g, d);
+    }
+    document.title = g && d ? d.name + ' · ' + g.name + ' · ' + CAT.frameworks[state.fw].label + ' — jQWidgets Demos'
+                   : g ? g.name + ' · ' + CAT.frameworks[state.fw].label + ' — jQWidgets Demos' : 'jQWidgets Demo Browser';
+    renderGroups(); renderDemos(); renderContent();
+    if (focusTitle) { focusTitle = false; var t = document.querySelector('#content .title'); if (t) { t.setAttribute('tabindex', '-1'); t.focus({ preventScroll: true }); } }
+  }
+
+  function renderGroups() {
+    var c = CAT.frameworks[state.fw];
+    var ul = $('groups'), box = ul.parentNode, keep = box.scrollTop;
+    ul.innerHTML = '';
+    var hits = searchHits();
+    var hitCount = {};
+    if (hits) hits.forEach(function (h) { hitCount[h.g.id] = (hitCount[h.g.id] || 0) + 1; });
+
+    // bucket the widgets by category, keeping the catalog's order inside each
+    var buckets = {}; CATEGORIES.forEach(function (cat) { buckets[cat[0]] = []; });
+    c.groups.forEach(function (g) {
+      if (hits && !hitCount[g.id]) return;
+      var cat = catOf[gkey(g)] || 'More';
+      buckets[cat].push(g);
+    });
+    var shown = 0;
+    CATEGORIES.forEach(function (cat) {
+      var name = cat[0], list = buckets[name];
+      if (!list.length) return;
+      var closed = !hits && !!closedCats[name] && !(state.group && list.some(function (g) { return g.id === state.group; }));
+      var head = document.createElement('li');
+      head.className = 'cat' + (closed ? ' closed' : ''); head.setAttribute('role', 'button'); head.setAttribute('aria-expanded', closed ? 'false' : 'true'); head.tabIndex = 0;
+      var total = list.reduce(function (n, g) { return n + (hits ? hitCount[g.id] : g.demos.length); }, 0);
+      head.innerHTML = '<span class="chev" aria-hidden="true"></span>' + esc(name) + '<span class="count">' + total + '</span>';
+      head.onclick = function () {
+        closedCats[name] = !closedCats[name];
+        store.set('cats', Object.keys(closedCats).filter(function (k) { return closedCats[k]; }).join('|'));
+        renderGroups();
+      };
+      ul.appendChild(head);
+      if (closed) return;
+      list.forEach(function (g) {
+        var li = document.createElement('li');
+        li.setAttribute('role', 'option'); li.tabIndex = 0;
+        li.setAttribute('aria-selected', g.id === state.group ? 'true' : 'false');
+        li.innerHTML = '<span class="main"><span>' + (hits ? mark(g.name, terms()) : esc(g.name)) + '</span></span><span class="count">' + (hits ? hitCount[g.id] : g.demos.length) + '</span>';
+        li.onclick = function () {
+          if (hits) { q.value = ''; state.q = ''; }
+          document.body.classList.add('pick');
+          navigate({ fw: state.fw, group: g.id, demo: null });
+        };
+        ul.appendChild(li); shown++;
+      });
+    });
+    if (hits && !shown) ul.innerHTML = '<li class="empty">Nothing in ' + esc(c.label) + ' matches.</li>';
+    $('navTitle').innerHTML = esc(c.label) + ' <span class="sub">' + (hits ? shown + ' of ' : '') + c.groups.length + ' widgets</span>';
+    box.scrollTop = keep;
+    var sel = ul.querySelector('[aria-selected="true"]'); if (sel && sel.scrollIntoView) sel.scrollIntoView({ block: 'nearest' });
+  }
+
+  function otherChips() {
+    return elsewhere().map(function (x) {
+      return '<button type="button" class="chip" data-fw="' + x.fw + '" data-q="1" title="Search ' + esc(CAT.frameworks[x.fw].label) + ' for the same thing"><span class="dot" style="--fw:' + FW[x.fw].color + '"></span>' + esc(CAT.frameworks[x.fw].label) + ' · ' + x.n + '</button>';
+    }).join('');
+  }
+  function wireOtherChips(ul) {
+    Array.prototype.forEach.call(ul.querySelectorAll('.chip[data-q]'), function (b) { b.onclick = function () { navigate({ fw: b.dataset.fw, group: null, demo: null }); }; });
+  }
+  function renderDemos() {
+    var ul = $('demos'), box = ul.parentNode, keep = box.scrollTop;
+    ul.innerHTML = ''; flat = [];
+    var c = CAT.frameworks[state.fw];
+    var ts = terms();
+    var hits = searchHits();
+    if (hits) {
+      var fuzzy = hits.length && hits[0].fuzzy;
+      $('listTitle').innerHTML = hits.length + (fuzzy ? ' near match' : ' result') + (hits.length === 1 ? '' : (fuzzy ? 'es' : 's')) + ' <span class="sub">in ' + esc(c.label) + '</span>';
+      flat = hits.slice(0, 400);
+      if (!flat.length) {
+        var others = otherChips();
+        ul.innerHTML = '<li class="empty">No ' + esc(c.label) + ' demos match “' + esc(state.q) + '”.' + (others ? '<br><br>Found in: <span class="chips" style="display:inline-flex">' + others + '</span>' : '') + '</li>';
+        wireOtherChips(ul);
+        return;
+      }
+    } else {
+      var g = findGroup();
+      if (!g) { $('listTitle').textContent = 'Demos'; ul.innerHTML = '<li class="empty">Pick a widget, or search.</li>'; return; }
+      g.demos.forEach(function (d) { flat.push({ g: g, d: d }); });
+      $('listTitle').innerHTML = esc(g.name) + ' <span class="sub">' + g.demos.length + ' demo' + (g.demos.length === 1 ? '' : 's') + '</span>';
+    }
+    var lastGroup = null;
+    flat.forEach(function (it, i) {
+      if (hits && it.g !== lastGroup) {
+        var lab = document.createElement('li'); lab.className = 'group-label';
+        lab.textContent = it.g.name; ul.appendChild(lab); lastGroup = it.g;
+      }
+      var key = it.d.file || it.d.id;
+      var li = document.createElement('li');
+      li.setAttribute('role', 'option'); li.tabIndex = 0;
+      li.setAttribute('aria-selected', (it.g.id === state.group && key === state.demo) ? 'true' : 'false');
+      if (i === state.cursor) li.className = 'cursor';
+      var issue = issueFor(state.fw, it.g, it.d);
+      li.innerHTML = '<span class="main"><span>' + (hits && !it.fuzzy ? mark(it.d.name, ts) : esc(it.d.name)) +
+        '</span><span class="sub">' + (hits && !it.fuzzy ? mark(key, ts) : esc(key)) + '</span></span>' +
+        (issue ? '<span class="flag" title="Known issue on the last verification run">⚠</span>' : '');
+      li.title = it.d.title || '';
+      li.onclick = function () { state.cursor = i; closeDrawer(); navigate({ fw: state.fw, group: it.g.id, demo: key }); };
+      it.el = li;
+      ul.appendChild(li);
+    });
+    if (hits) {
+      var more = otherChips();
+      if (more) { var foot = document.createElement('li'); foot.className = 'results-foot'; foot.innerHTML = 'Also in ' + more; ul.appendChild(foot); wireOtherChips(ul); }
+    }
+    box.scrollTop = keep;
+    var sel = ul.querySelector('[aria-selected="true"]'); if (sel && sel.scrollIntoView) sel.scrollIntoView({ block: 'nearest' });
+  }
+
+  function renderContent() {
+    var g = findGroup(), d = findDemo(g);
+    var el = $('content');
+    if (!g || !d) { el.innerHTML = welcome(); wireWelcome(el); return; }
+    if (state.fw === 'js' || state.fw === 'ts') renderPage(el, g, d); else renderProject(el, g, d);
+  }
+
+  function siblings(g, d) {
+    var i = g.demos.indexOf(d);
+    return { prev: i > 0 ? g.demos[i - 1] : null, next: i >= 0 && i < g.demos.length - 1 ? g.demos[i + 1] : null };
+  }
+  function navBtns(g, d) {
+    var s = siblings(g, d);
+    return '<button type="button" class="btn icon" id="btnPrev" title="Previous demo (K)" aria-label="Previous demo"' + (s.prev ? '' : ' disabled') + '>‹</button>' +
+           '<button type="button" class="btn icon" id="btnNext" title="Next demo (J)" aria-label="Next demo"' + (s.next ? '' : ' disabled') + '>›</button>';
+  }
+  function wireNav(g, d) {
+    var s = siblings(g, d);
+    var go = function (t) { if (t) navigate({ fw: state.fw, group: g.id, demo: t.file || t.id }); };
+    if ($('btnPrev')) $('btnPrev').onclick = function () { go(s.prev); };
+    if ($('btnNext')) $('btnNext').onclick = function () { go(s.next); };
+  }
+  function alsoIn(g, d) {
+    var chips = [];
+    FW_ORDER.forEach(function (fw) {
+      if (fw === state.fw) return;
+      var x = counterpart(fw, g, d);
+      if (!x) return;
+      chips.push('<button type="button" class="chip" data-fw="' + fw + '" data-group="' + esc(x.group.id) + '" data-demo="' + esc(x.demo.file || x.demo.id) + '" title="Open this demo in ' + esc(CAT.frameworks[fw].label) + '"><span class="dot" style="--fw:' + FW[fw].color + '"></span>' + esc(CAT.frameworks[fw].label) + '</button>');
+    });
+    return chips.length ? '<span class="chips">Also in ' + chips.join('') + '</span>' : '';
+  }
+  function wireChips(el) {
+    Array.prototype.forEach.call(el.querySelectorAll('.chip[data-fw][data-group]'), function (b) {
+      b.onclick = function () { navigate({ fw: b.dataset.fw, group: b.dataset.group, demo: b.dataset.demo || null }); };
+    });
+  }
+  function shareUrl(withTheme) {
+    var base = location.href.split('#')[0];
+    return base + '#' + state.fw + '/' + encodeURIComponent(state.group) + '/' + encodeURIComponent(state.demo) + (withTheme ? '?theme=' + state.theme : '');
+  }
+  function issueBar(fw, g, d) {
+    var issue = issueFor(fw, g, d);
+    return issue ? '<div class="issue"><b>Known issue</b> on the last verification run: <code>' + esc(issue.slice(0, 220)) + '</code></div>' : '';
+  }
+
+  // ---- JavaScript / TypeScript: live preview ----
+  var page = { src: null, url: null, loaded: false };
+  function renderPage(el, g, d) {
+    var url = demoUrl(state.fw, g, d);
+    var src = url + '?' + encodeURIComponent(state.theme);
+    var apiLink = g.api ? '<a class="btn" target="_blank" rel="noopener" href="' + encodeURI(CAT.frameworks.js.base + '/' + g.api) + '" title="API reference for ' + esc(g.name) + '">API</a>' : '';
+    var canSrc = isHttp;
+    el.innerHTML =
+      '<div class="toolbar">' +
+        navBtns(g, d) +
+        '<span class="title"><span class="crumb">' + esc(g.name) + ' / </span>' + esc(d.name) + '</span>' +
+        alsoIn(g, d) + apiLink +
+        '<div class="seg" role="group" aria-label="View">' +
+          '<button type="button" data-view="preview" title="Preview only (P)">Preview</button>' +
+          '<button type="button" data-view="split" title="Preview and source side by side (B)"' + (canSrc ? '' : ' disabled') + '>Both</button>' +
+          '<button type="button" data-view="source" title="Source only (S)"' + (canSrc ? '' : ' disabled') + '>Code</button>' +
+        '</div>' +
+        '<div class="seg" role="group" aria-label="Preview width">' +
+          '<button type="button" data-device="desktop" title="Full width (D cycles)">Desktop</button>' +
+          '<button type="button" data-device="tablet" title="834px wide">Tablet</button>' +
+          '<button type="button" data-device="phone" title="394px wide">Phone</button>' +
+        '</div>' +
+        '<button type="button" class="btn icon" id="btnReload" title="Reload the preview (R)" aria-label="Reload">↻</button>' +
+        '<button type="button" class="btn icon" id="btnWide" title="Wide mode (W)" aria-label="Wide mode">⛶</button>' +
+        '<button type="button" class="btn" id="btnCopy" title="Copy a link to this demo, with the theme">Share</button>' +
+        '<a class="btn primary" target="_blank" rel="noopener" href="' + src + '">Open ↗</a>' +
+      '</div>' +
+      (d.title ? '<div class="desc">' + esc(d.title) + '</div>' : '') +
+      issueBar(state.fw, g, d) +
+      '<div class="stage" id="stage" data-view="' + (canSrc ? state.view : 'preview') + '" data-device="' + state.device + '">' +
+        '<div class="preview"><div class="loading" id="loading"></div><div class="frame"><iframe id="frame" title="' + esc(d.name) + ' demo" src="' + src + '"></iframe></div></div>' +
+        '<div class="codebox" id="codebox"><div class="codebar"><span class="path" id="curPath">' + esc(url) + '</span>' +
+          '<button type="button" class="btn icon" id="btnWrap" title="Wrap long lines">↵</button>' +
+          '<button type="button" class="btn icon" id="btnCopySrc">Copy</button></div>' +
+          '<pre class="code' + (state.wrap ? ' wrap' : '') + '" id="code"></pre></div>' +
+      '</div>';
+    wireChips(el); wireNav(g, d);
+    $('btnWide').onclick = toggleWide;
+    $('btnWide').classList.toggle('active', document.body.classList.contains('wide'));
+    $('btnCopy').onclick = function () { copy(shareUrl(true), 'Link'); };
+    var frame = $('frame'), loading = $('loading');
+    loading.className = 'loading on';
+    frame.onload = function () { loading.className = 'loading done'; };
+    frame.onerror = function () { toast('The demo failed to load'); loading.className = 'loading'; };
+    $('btnReload').onclick = function () { loading.className = 'loading on'; frame.src = frame.src; };
+    page = { url: url, text: null };
+    var stage = $('stage');
+    var segs = el.querySelectorAll('.seg button');
+    function syncSeg() {
+      Array.prototype.forEach.call(segs, function (b) {
+        if (b.dataset.view) b.setAttribute('aria-pressed', b.dataset.view === stage.dataset.view ? 'true' : 'false');
+        if (b.dataset.device) b.setAttribute('aria-pressed', b.dataset.device === stage.dataset.device ? 'true' : 'false');
+      });
+    }
+    Array.prototype.forEach.call(segs, function (b) {
+      b.onclick = function () {
+        if (b.disabled) return;
+        if (b.dataset.view) setView(b.dataset.view);
+        if (b.dataset.device) setDevice(b.dataset.device);
+      };
+    });
+    function setView(v) {
+      if (v !== 'preview' && !isHttp) { toast('Source view needs a web server'); return; }
+      state.view = v; store.set('view', v); stage.dataset.view = v; syncSeg();
+      if (v !== 'preview') loadSource();
+    }
+    function setDevice(dv) { state.device = dv; store.set('device', dv); stage.dataset.device = dv; syncSeg(); }
+    function loadSource() {
+      if (page.text !== null) return;
+      var pre = $('code'); pre.textContent = 'Loading…';
+      fetch(url).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); }).then(function (txt) {
+        page.text = txt; renderCode(pre, txt, url);
+      }).catch(function (e) { pre.textContent = 'Could not load the source (' + e.message + ')'; });
+    }
+    $('btnWrap').onclick = function () { state.wrap = !state.wrap; store.set('wrap', state.wrap ? '1' : '0'); $('code').classList.toggle('wrap', state.wrap); };
+    $('btnCopySrc').onclick = function () { if (page.text) copy(page.text, 'Source'); else toast('Nothing loaded yet'); };
+    syncSeg();
+    if (stage.dataset.view !== 'preview') loadSource();
+    el._setView = setView; el._setDevice = setDevice; el._reload = $('btnReload').onclick;
+  }
+
+  // ---- Angular / React / Vue: project panel ----
+  // The source on the left; where the same demo exists as a JavaScript page, that
+  // page running on the right - so the framework tabs are not read-only.
+  function renderProject(el, g, d) {
+    var c = CAT.frameworks[state.fw];
+    var dir = demoUrl(state.fw, g, d);
+    var files = (c.fileSets[d.fs] || []).slice().sort(function (a, b) {
+      var da = a.indexOf('/') >= 0 ? a.slice(0, a.lastIndexOf('/')) : '', db = b.indexOf('/') >= 0 ? b.slice(0, b.lastIndexOf('/')) : '';
+      if (da !== db) { if (!da) return -1; if (!db) return 1; return da < db ? -1 : 1; }
+      return a < b ? -1 : a > b ? 1 : 0;
+    });
+    var rel = c.base + '/' + g.id + '/' + d.id;
+    var win = navigator.platform.indexOf('Win') === 0;
+    var startCmd = d.start || FW[state.fw].run;
+    var cmds = ['cd "' + (win ? rel.replace(/\//g, '\\') : rel) + '"', 'npm install', startCmd];
+    var pkgName = c.fwPackage === '@angular/core' ? 'jqwidgets-ng' : 'jqwidgets-scripts';
+    var current = d.jqx && d.jqx.replace(/^[^\d]*/, '').split('.')[0] === String(CAT.version).split('.')[0];
+    var badges = (d.fw ? '<span class="chip badge">' + esc(c.label) + ' ' + esc(d.fw) + '</span>' : '') +
+                 (d.jqx ? '<span class="chip badge' + (current ? ' cur' : '') + '" title="' + (current ? 'Matches this SDK' : 'Older than this SDK (v' + CAT.version + ')') + '">' + pkgName + ' ' + esc(d.jqx) + '</span>' : '');
+    var sbWarn = c.stackblitz && !c.stackblitz.ok;
+    var twin = counterpart('js', g, d);
+    var twinUrl = twin ? demoUrl('js', twin.group, twin.demo) : null;
+    var view = twin ? state.pview : 'code';
+    el.innerHTML =
+      '<div class="toolbar">' +
+        navBtns(g, d) +
+        '<span class="title"><span class="crumb">' + esc(g.name) + ' / </span>' + esc(d.name) + '</span>' +
+        alsoIn(g, d) + '<span class="chips">' + badges + '</span>' +
+        (twin ? '<div class="seg" role="group" aria-label="View">' +
+          '<button type="button" data-view="preview" title="Only the running JavaScript twin (P)">Preview</button>' +
+          '<button type="button" data-view="both" title="Source and the running twin side by side (B)">Both</button>' +
+          '<button type="button" data-view="code" title="Only the source (S)">Code</button>' +
+        '</div>' : '') +
+        '<button type="button" class="btn" id="btnCopy" title="Copy a link to this demo and the open file">Share</button>' +
+        '<button type="button" class="btn" id="btnZip"' + (isHttp ? '' : ' disabled title="Needs a web server"') + ' title="Download the project as a zip">Download .zip</button>' +
+        '<button type="button" class="btn primary" id="btnSb"' + (isHttp ? '' : ' disabled title="Needs a web server"') +
+          (sbWarn ? ' title="' + esc(c.stackblitz.note) + '"' : ' title="Open and run this project in StackBlitz"') + '>⚡ StackBlitz' + (sbWarn ? ' (experimental)' : '') + '</button>' +
+      '</div>' +
+      '<div class="desc"><div class="runbox">' + (d.title ? '<span>' + esc(d.title) + '</span>' : '') +
+        '<span>Run locally:</span><span class="cmds">' + cmds.map(function (x) { return '<code>' + esc(x) + '</code>'; }).join('') + '</span>' +
+        '<button type="button" class="chip" id="btnRun" title="Copy the three commands">Copy</button>' +
+      '</div></div>' +
+      issueBar(state.fw, g, d) +
+      '<div class="pstage" id="pstage" data-view="' + view + '">' +
+        '<div class="codewrap"><div class="files" id="files"></div>' +
+          '<div class="codebox"><div class="codebar"><span class="path" id="curPath"></span>' +
+            '<button type="button" class="btn icon" id="btnWrap" title="Wrap long lines">↵</button>' +
+            '<button type="button" class="btn icon" id="btnCopySrc">Copy</button></div>' +
+            '<pre class="code' + (state.wrap ? ' wrap' : '') + '" id="code"></pre></div>' +
+        '</div>' +
+        (twin ? '<div class="preview"><div class="pvbar"><span><b>Live preview</b> · the JavaScript version, same widget and data</span>' +
+            '<a href="#js/' + encodeURIComponent(twin.group.id) + '/' + encodeURIComponent(twin.demo.file) + '" title="Open the JavaScript demo in the browser">Open →</a></div>' +
+            '<div class="loading" id="loading"></div><div class="frame"><iframe id="frame" title="' + esc(d.name) + ' — JavaScript version" src="' + twinUrl + '?' + encodeURIComponent(state.theme) + '"></iframe></div></div>' : '') +
+      '</div>';
+    wireChips(el); wireNav(g, d);
+    $('btnCopy').onclick = function () { copy(shareUrl(false) + (state.file ? '?file=' + encodeURIComponent(state.file) : ''), 'Link'); };
+    $('btnRun').onclick = function () { copy(cmds.join('\n'), 'Commands'); };
+
+    var stage = $('pstage');
+    if (twin) {
+      var frame = $('frame'), loading = $('loading');
+      loading.className = 'loading on';
+      frame.onload = function () { loading.className = 'loading done'; };
+      var segs = el.querySelectorAll('.seg button');
+      var syncSeg = function () { Array.prototype.forEach.call(segs, function (b) { b.setAttribute('aria-pressed', b.dataset.view === stage.dataset.view ? 'true' : 'false'); }); };
+      var setView = function (v) { state.pview = v; store.set('pview', v); stage.dataset.view = v; syncSeg(); };
+      Array.prototype.forEach.call(segs, function (b) { b.onclick = function () { setView(b.dataset.view); }; });
+      syncSeg();
+      el._setView = function (v) { setView(v === 'source' ? 'code' : v); };
+      el._reload = function () { loading.className = 'loading on'; frame.src = frame.src; };
+    } else {
+      el._setView = null; el._reload = null;
+    }
+
+    var filesEl = $('files'), codeEl = $('code'), lastDir = null, currentText = '';
+    files.forEach(function (f) {
+      var parts = f.split('/'), fdir = parts.length > 1 ? parts.slice(0, -1).join('/') + '/' : '';
+      if (fdir !== lastDir) { var dv = document.createElement('div'); dv.className = 'dir'; dv.textContent = fdir || '/'; filesEl.appendChild(dv); lastDir = fdir; }
+      var row = document.createElement('div');
+      row.textContent = (fdir ? '  ' : '') + parts[parts.length - 1];
+      row.dataset.path = f; row.title = f; row.tabIndex = 0;
+      row.onclick = function () { showFile(f); };
+      row.onkeydown = function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showFile(f); } };
+      filesEl.appendChild(row);
+    });
+    $('btnWrap').onclick = function () { state.wrap = !state.wrap; store.set('wrap', state.wrap ? '1' : '0'); codeEl.classList.toggle('wrap', state.wrap); };
+    $('btnCopySrc').onclick = function () { if (currentText) copy(currentText, 'Source'); };
+
+    function showFile(f) {
+      state.file = f;
+      Array.prototype.forEach.call(filesEl.children, function (r) { r.classList.toggle('active', r.dataset.path === f); });
+      $('curPath').textContent = f;
+      if (!isHttp) {
+        currentText = '';
+        codeEl.innerHTML = '<span class="hint">Source preview needs a web server. Start one with <code>start-demos.cmd</code> / <code>node scripts/serve-demos.js</code>, or open this file in your editor:<br><br><code>' + esc(rel + '/' + f) + '</code></span>';
+        return;
+      }
+      codeEl.textContent = 'Loading ' + f + '…';
+      fetch(dir + encodeURI(f)).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+        .then(function (t) { currentText = t; renderCode(codeEl, t, f); })
+        .catch(function (e) { currentText = ''; codeEl.textContent = 'Could not load ' + f + ' (' + e.message + ')'; });
+    }
+    // the file from the link, else the demo's main file, else the first
+    var first = state.file && files.indexOf(state.file) >= 0 ? state.file : (d.main && files.indexOf(d.main) >= 0 ? d.main : files[0]);
+    if (first) showFile(first);
+
+    function fetchAll(btn, label) {
+      btn.disabled = true; btn.textContent = 'Fetching ' + files.length + ' files…';
+      return Promise.all(files.map(function (f) {
+        return fetch(dir + encodeURI(f)).then(function (r) { if (!r.ok) throw new Error(f + ': HTTP ' + r.status); return r.text(); }).then(function (t) { return [f, t]; });
+      })).then(function (pairs) { btn.disabled = false; btn.textContent = label; return pairs; },
+               function (e) { btn.disabled = false; btn.textContent = label; throw e; });
+    }
+    $('btnSb').onclick = function () {
+      var btn = this, label = btn.textContent;
+      fetchAll(btn, label).then(function (pairs) {
+        var proj = {};
+        pairs.forEach(function (p) { proj[p[0]] = p[1]; });
+        if (!proj['.stackblitzrc'] && c.stackblitz) proj['.stackblitzrc'] = JSON.stringify({ installDependencies: true, startCommand: c.stackblitz.startCommand }, null, 2);
+        var form = document.createElement('form');
+        form.method = 'POST'; form.action = 'https://stackblitz.com/run'; form.target = '_blank'; form.style.display = 'none';
+        var add = function (n, v) { var i = document.createElement('input'); i.type = 'hidden'; i.name = n; i.value = v; form.appendChild(i); };
+        add('project[title]', 'jQWidgets ' + c.label + ' · ' + g.name + ' · ' + d.name);
+        add('project[description]', d.title || ('jQWidgets ' + g.name + ' demo for ' + c.label));
+        add('project[template]', 'node');
+        Object.keys(proj).forEach(function (p) { add('project[files][' + p + ']', proj[p]); });
+        document.body.appendChild(form); form.submit(); form.remove();
+      }).catch(function (e) { toast('Export failed: ' + e.message); });
+    };
+    $('btnZip').onclick = function () {
+      var btn = this, label = btn.textContent;
+      loadJsZip().then(function (JSZip) { return fetchAll(btn, label).then(function (pairs) {
+        var zip = new JSZip(), root = g.id + '-' + d.id + '/';
+        pairs.forEach(function (p) { zip.file(root + p[0], p[1]); });
+        return zip.generateAsync({ type: 'blob' });
+      }); }).then(function (blob) {
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = 'jqwidgets-' + state.fw + '-' + g.id + '-' + d.id + '.zip';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 5000);
+        toast('Downloaded ' + a.download);
+      }).catch(function (e) { btn.disabled = false; btn.textContent = label; toast('Download failed: ' + e.message); });
+    };
+  }
+  // JSZip ships with the SDK; loaded the first time a download is asked for.
+  var jszipPromise = null;
+  function loadJsZip() {
+    if (window.JSZip) return Promise.resolve(window.JSZip);
+    if (jszipPromise) return jszipPromise;
+    jszipPromise = new Promise(function (res, rej) {
+      var s = document.createElement('script'); s.src = '../scripts/jszip.min.js';
+      s.onload = function () { window.JSZip ? res(window.JSZip) : rej(new Error('JSZip did not load')); };
+      s.onerror = function () { jszipPromise = null; rej(new Error('scripts/jszip.min.js is missing')); };
+      document.head.appendChild(s);
+    });
+    return jszipPromise;
+  }
+
+  // ---- welcome ----
+  function welcome() {
+    var c = CAT.frameworks[state.fw];
+    var rows = {
+      js: '<tr><th>Run</th><td>Pick a widget — the demo runs right here. Preview it at tablet or phone width, read the page source beside it, and try all ' + CAT.themes.length + ' themes from the switcher.</td></tr>' +
+          '<tr><th>Reuse</th><td>Each page is a few <code>&lt;script src="../../../jqwidgets/…"&gt;</code> tags plus the widget call. Copy it and point the paths at <code>jqwidgets/</code> or the <code>jqwidgets-scripts</code> package.</td></tr>',
+      ts: '<tr><th>Run</th><td>Each demo ships pre-compiled, so it runs here with no build. The <code>.ts</code> beside it uses the typings in <code>jqwidgets-ts/jqwidgets.d.ts</code>.</td></tr>',
+      angular: '<tr><th>Fastest</th><td>Pick a demo and press <b>⚡ StackBlitz</b> — it boots in the browser, nothing to install. Or <b>Download .zip</b> for a project you can open in your editor.</td></tr>' +
+          '<tr><th>Locally</th><td><pre>cd "demos/Angular/grid/defaultfunctionality"\nnpm install\nnpm start</pre></td></tr>' +
+          '<tr><th>Package</th><td><code>npm i jqwidgets-ng</code> — standalone components, imported from <code>jqwidgets-ng/jqxgrid</code>. Angular 19+.</td></tr>',
+      react: '<tr><th>Fastest</th><td>Pick a demo and press <b>⚡ StackBlitz</b> — Vite starts in the browser. Or <b>Download .zip</b>.</td></tr>' +
+          '<tr><th>Locally</th><td><pre>cd "demos/React-TSX/grid/defaultfunctionality"\nnpm install\nnpm run dev</pre>Vite prints the address, usually <code>http://localhost:5173</code>.</td></tr>' +
+          '<tr><th>Package</th><td><code>npm i jqwidgets-scripts</code> — components from <code>jqwidgets-scripts/jqwidgets-react-tsx/jqxgrid</code>. React 19.</td></tr>',
+      vue: '<tr><th>Locally</th><td><pre>cd "demos/Vue.js/grid/defaultfunctionality"\nnpm install\nnpm run build</pre>That writes <code>dist/main.bundle.js</code>; then serve the folder and open <code>index.htm</code>.</td></tr>' +
+          '<tr><th>Note</th><td>These demos are still Vue 2 + webpack 3. The Vue 3 wrappers ship in <code>jqwidgets-vue3/</code>; the migration is Phase 2 in <code>MODERNIZATION-PLAN.md</code>.</td></tr>'
+    };
+    var CAN = { js: 'runs right here', ts: 'runs right here, no build', angular: 'StackBlitz · zip · npm start', react: 'StackBlitz · zip · npm run dev', vue: 'zip · npm run build' };
+    var fwCards = FW_ORDER.map(function (fw) {
+      var v = verifiedText(fw);
+      var status = !v ? '<span class="status">' + esc(CAN[fw]) + (isHttp && FW[fw].report ? ' · not verified in this build' : '') + '</span>'
+        : (v.issues ? '<span class="status"><span class="warn">●</span> ' + v.checked + ' verified' + v.when + ', ' + v.issues + ' known issue' + (v.issues === 1 ? '' : 's') + '</span>'
+                    : '<span class="status"><span class="ok">●</span> ' + v.checked + ' verified' + v.when + ', all pass</span>');
+      return '<button type="button" class="fwcard" data-fw="' + fw + '" style="--fw:' + FW[fw].color + '"' + (fw === state.fw ? ' aria-current="true"' : '') + '>' +
+        '<b>' + esc(CAT.frameworks[fw].label) + '</b>' +
+        '<div class="num">' + CAT.counts[fw] + '<small>demos in ' + CAT.frameworks[fw].groups.length + ' widgets</small></div>' + status + '</button>';
+    }).join('');
+    var rec = recent().slice(0, 10);
+    var recHtml = rec.length ? '<h2>Recently viewed</h2><div class="recent">' + rec.map(function (r) {
+      return '<button type="button" class="chip" data-fw="' + r.fw + '" data-group="' + esc(r.g.id) + '" data-demo="' + esc(r.d.file || r.d.id) + '" title="' + esc(CAT.frameworks[r.fw].label) + '"><span class="dot" style="--fw:' + FW[r.fw].color + '"></span>' + esc(r.g.name) + ' · ' + esc(r.d.name) + '</button>';
+    }).join('') + '</div>' : '';
+    var buckets = {}; CATEGORIES.forEach(function (cat) { buckets[cat[0]] = []; });
+    c.groups.forEach(function (g) { buckets[catOf[gkey(g)] || 'More'].push(g); });
+    var catHtml = CATEGORIES.map(function (cat) {
+      var list = buckets[cat[0]]; if (!list.length) return '';
+      return '<div class="catcard"><h3>' + esc(cat[0]) + '</h3><div class="wl">' + list.map(function (g) {
+        return '<button type="button" class="wchip" data-fw="' + state.fw + '" data-group="' + esc(g.id) + '">' + esc(g.name) + '<span>' + g.demos.length + '</span></button>';
+      }).join('') + '</div></div>';
+    }).join('');
+    var gen = CAT.generated ? new Date(CAT.generated) : null;
+    var total = FW_ORDER.reduce(function (n, fw) { return n + CAT.counts[fw]; }, 0);
+    // a few doors in, for someone who has never seen the widgets: the biggest ones, in this framework
+    var starters = ['grid', 'chart', 'scheduler', 'datatable', 'tree', 'kanban'].map(function (k) {
+      var g = null; c.groups.forEach(function (x) { if (!g && gkey(x) === k) g = x; });
+      if (!g) return '';
+      var d = null; g.demos.forEach(function (x) { if (!d && /^(default|defaultfunctionality|typescript-[a-z]+-defaultfunctionality|typescript-[a-z]+)$/.test(norm(x.file || x.id))) d = x; });
+      d = d || g.demos[0];
+      return '<button type="button" class="chip" data-fw="' + state.fw + '" data-group="' + esc(g.id) + '" data-demo="' + esc(d.file || d.id) + '">' + esc(g.name) + ' →</button>';
+    }).filter(Boolean).join('');
+    return '<div class="welcome"><div class="inner">' +
+      '<h1>' + total.toLocaleString() + ' jQWidgets demos, in one place</h1>' +
+      '<p class="lead">Every demo in this SDK for JavaScript, TypeScript, Angular, React and Vue. Pick a framework below or with the tabs, then a widget on the left. The demo you are looking at follows you between frameworks where it exists. Search with <kbd>/</kbd>, press <kbd>?</kbd> for shortcuts.</p>' +
+      '<div class="fws">' + fwCards + '</div>' +
+      (starters ? '<h2>Start with</h2><div class="start">' + starters + '</div>' : '') +
+      '<h2>How it works</h2><div class="steps">' +
+        '<div class="step"><b><span class="n">1</span>Pick a widget</b>' + c.groups.length + ' ' + esc(c.label) + ' widgets on the left, grouped by what they are for.</div>' +
+        '<div class="step"><b><span class="n">2</span>Choose a demo</b>Its demos fill the middle column. <kbd>↑</kbd><kbd>↓</kbd> to move, <kbd>Enter</kbd> to open, <kbd>J</kbd><kbd>K</kbd> to step.</div>' +
+        '<div class="step"><b><span class="n">3</span>Play with it</b>' + (state.fw === 'js' || state.fw === 'ts' ? 'It runs live on the right — switch theme, preview at phone width, show the source beside it.' : 'Read the source, open it in StackBlitz, download the project, or copy the commands to run it locally.') + '</div>' +
+      '</div>' + recHtml +
+      '<h2>' + esc(c.label) + ' widgets</h2><div class="catgrid">' + catHtml + '</div>' +
+      '<h2>Getting started</h2><table>' + rows[state.fw] +
+        '<tr><th>Docs</th><td><a href="https://www.jqwidgets.com/documentation/" target="_blank" rel="noopener">jqwidgets.com/documentation</a> · the local API reference is linked from every JavaScript widget · <a href="../ReleaseNotes.txt" target="_blank" rel="noopener">release notes for v' + esc(CAT.version) + '</a></td></tr>' +
+      '</table>' +
+      (isHttp ? '' : '<p class="footnote">Tip: run <code>start-demos.cmd</code> (or <code>node scripts/serve-demos.js</code>) to unlock the Ajax demos, source view, StackBlitz and downloads.</p>') +
+      '<p class="footnote">jQWidgets ' + esc(CAT.version) + (gen ? ' · catalog built ' + gen.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '') + ' · <code>node scripts/verify-demos.js</code> rebuilds the catalog and re-verifies every set.</p>' +
+    '</div></div>';
+  }
+  function wireWelcome(el) {
+    wireChips(el);
+    Array.prototype.forEach.call(el.querySelectorAll('.fwcard'), function (b) { b.onclick = function () { switchFramework(b.dataset.fw); }; });
+    Array.prototype.forEach.call(el.querySelectorAll('.wchip'), function (b) { b.onclick = function () { navigate({ fw: b.dataset.fw, group: b.dataset.group, demo: null }); }; });
+  }
+
+  // ---------- wide mode + keyboard ----------
+  function toggleWide() { document.body.classList.toggle('wide'); var b = $('btnWide'); if (b) b.classList.toggle('active', document.body.classList.contains('wide')); }
+  function moveCursor(delta) {
+    if (!flat.length) return;
+    var n = state.cursor < 0 ? (delta > 0 ? 0 : flat.length - 1) : state.cursor + delta;
+    state.cursor = Math.max(0, Math.min(flat.length - 1, n));
+    Array.prototype.forEach.call($('demos').querySelectorAll('li'), function (li) { li.classList.remove('cursor'); });
+    var it = flat[state.cursor];
+    if (it && it.el) { it.el.classList.add('cursor'); it.el.scrollIntoView({ block: 'nearest' }); }
+  }
+  function openCursor() {
+    var it = flat[state.cursor]; if (!it) return;
+    navigate({ fw: state.fw, group: it.g.id, demo: it.d.file || it.d.id });
+  }
+  function step(delta) {
+    var g = findGroup(), d = findDemo(g); if (!g || !d) { moveCursor(delta); return; }
+    var s = siblings(g, d), t = delta > 0 ? s.next : s.prev;
+    if (t) navigate({ fw: state.fw, group: g.id, demo: t.file || t.id });
+  }
+  document.addEventListener('keydown', function (e) {
+    var typing = /input|textarea|select/i.test(document.activeElement.tagName);
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); q.focus(); q.select(); return; }
+    if (e.key === 'Escape') {
+      if (document.body.classList.contains('drawer')) { closeDrawer(); return; }
+      if (document.body.classList.contains('wide')) { toggleWide(); return; }
+      if (typing) { q.value = ''; state.q = ''; renderGroups(); renderDemos(); q.blur(); }
+      return;
+    }
+    if (typing) {
+      if (document.activeElement === q && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) { e.preventDefault(); moveCursor(e.key === 'ArrowDown' ? 1 : -1); }
+      if (document.activeElement === q && e.key === 'Enter') { e.preventDefault(); openCursor(); }
+      return;
+    }
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var content = $('content');
+    if (e.key === '/') { e.preventDefault(); q.focus(); q.select(); return; }
+    if (e.key === '?') { e.preventDefault(); $('helpDlg').showModal(); return; }
+    if (e.key === 'ArrowDown' || e.key === 'j' || e.key === 'J') { e.preventDefault(); e.key === 'ArrowDown' ? moveCursor(1) : step(1); return; }
+    if (e.key === 'ArrowUp' || e.key === 'k' || e.key === 'K') { e.preventDefault(); e.key === 'ArrowUp' ? moveCursor(-1) : step(-1); return; }
+    if (e.key === 'Enter') { e.preventDefault(); openCursor(); return; }
+    if (e.key === 'w' || e.key === 'W') { e.preventDefault(); toggleWide(); return; }
+    if (e.key === 'p' || e.key === 'P') { if (content._setView) { e.preventDefault(); content._setView('preview'); } return; }
+    if (e.key === 'b' || e.key === 'B') { if (content._setView) { e.preventDefault(); content._setView('split'); } return; }
+    if (e.key === 's' || e.key === 'S') { if (content._setView) { e.preventDefault(); content._setView('source'); } return; }
+    if (e.key === 'r' || e.key === 'R') { if (content._reload) { e.preventDefault(); content._reload(); } return; }
+    if (e.key === 'd' || e.key === 'D') {
+      if (content._setDevice) { e.preventDefault(); var order = ['desktop', 'tablet', 'phone']; content._setDevice(order[(order.indexOf(state.device) + 1) % 3]); toast('Preview: ' + state.device); }
+      return;
+    }
+    if (e.key === 't' || e.key === 'T') {
+      e.preventDefault();
+      var i = CAT.themes.indexOf(state.theme);
+      setTheme(CAT.themes[(i + (e.shiftKey ? -1 + CAT.themes.length : 1)) % CAT.themes.length]);
+      toast('Theme: ' + state.theme);
+      return;
+    }
+    if (/^[1-5]$/.test(e.key)) { e.preventDefault(); switchFramework(FW_ORDER[+e.key - 1]); }
+  });
+
+  // ---------- start ----------
+  // With no route in the address, open on the intro for the framework you were last
+  // in - the intro lists what you looked at recently, so the way back is one click.
+  if (!location.hash) { var lastFw = (store.get('last', '') || '').replace(/^#/, '').split(/[\/?]/)[0]; if (FW_ORDER.indexOf(lastFw) > 0) location.hash = '#' + lastFw; }
+  apply(parseHash());
+  loadReports();
+})();
+</script>
+</body>
+</html>

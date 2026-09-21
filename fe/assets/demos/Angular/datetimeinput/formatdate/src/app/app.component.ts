@@ -1,0 +1,56 @@
+﻿import { Component, ViewChild } from '@angular/core';
+
+
+import { jqxDateTimeInputModule, jqxDateTimeInputComponent } from 'jqwidgets-ng/jqxdatetimeinput';
+import { jqxDropDownListModule } from 'jqwidgets-ng/jqxdropdownlist';
+@Component({
+    selector: 'app-root',
+    imports: [jqxDateTimeInputModule, jqxDropDownListModule],
+    standalone: true,
+    templateUrl: './app.component.html'
+})
+
+export class AppComponent {
+    @ViewChild('myDateTimeInput') myDateTimeInput; jqxDateTimeInputComponent;
+
+    availableFormats: string[] =
+        [
+            'short date pattern', 'long date pattern', 'short time pattern', 'long time pattern', 'long date, short time pattern',
+            'long date, long time pattern', 'month/day pattern', 'month/year pattern', 'custom'
+        ];
+
+    listOnSelect(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myDateTimeInput) { return; }
+        let index: number = event.args.index;
+        switch (index) {
+            case 0:
+                this.myDateTimeInput.formatString('d');
+                break;
+            case 1:
+                this.myDateTimeInput.formatString('D');
+                break;
+            case 2:
+                this.myDateTimeInput.formatString('t');
+                break;
+            case 3:
+                this.myDateTimeInput.formatString('T');
+                break;
+            case 4:
+                this.myDateTimeInput.formatString('f');
+                break;
+            case 5:
+                this.myDateTimeInput.formatString('F');
+                break;
+            case 6:
+                this.myDateTimeInput.formatString('M');
+                break;
+            case 7:
+                this.myDateTimeInput.formatString('Y');
+                break;
+            case 8:
+                this.myDateTimeInput.formatString('dddd-MMMM-yyyy');
+                break;
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+ "checked": 814,
+ "broken": [
+  {
+   "id": "tabs/mapinsidetab",
+   "errors": [
+    "console.error: ReferenceError: google is not defined"
+   ],
+   "widget": true,
+   "note": ""
+  }
+ ],
+ "noWidget": []
+}

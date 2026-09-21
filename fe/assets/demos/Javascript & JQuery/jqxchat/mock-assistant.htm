@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="keywords" content="jQuery Chat, AI Chat, Assistant, jqxChat, streaming, offline demo" />
+    <meta name="description"
+        content="jqxChat running fully offline - a mock backend streams replies token by token so you can explore the chat UI, starter prompts, code blocks and the stop button without an API key." />
+    <title id='Description'>jqxChat streaming UI shown with an offline mock backend (no API key needed).</title>
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.light.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />
+    <script type="text/javascript" src="../../../scripts/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../../../scripts/demos.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxchat.js"></script>
+    <script type="text/javascript" src="mockassistant.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // No apiKey / proxyUrl: a "sendRequest" callback drives everything
+            // locally. jqxChatMock (mockassistant.js) streams a canned reply
+            // via widget.appendDelta(), so the full UI works with no network.
+            $('#chat').jqxChat({
+                colorScheme: 'light',
+                theme: 'light',
+                width: 460,
+                height: 620,
+                title: 'Demo Assistant',
+                subtitle: 'Offline - no API key required',
+                welcomeMessage: 'Ask me anything about **jQWidgets**, or pick a suggestion below.',
+                starterPrompts: [
+                    'What is jQWidgets?',
+                    'Show me a code example',
+                    'How does markdown rendering work?',
+                    'Tell me about theming'
+                ],
+                sendRequest: jqxChatMock
+            });
+        });
+    </script>
+    <style>
+        p.hint { max-width: 620px; font-size: 13px; line-height: 1.55; color: #444; }
+        p.hint code { background: #eef2f7; color: #b03060; padding: 1px 5px; border-radius: 3px; }
+    </style>
+</head>
+
+<body class='default'>
+    <p class="hint">
+        This assistant runs <strong>entirely in the browser</strong> - a <code>sendRequest</code> callback streams a
+        canned reply token by token. Try the starter prompts, ask for a code example to see the copy button, and press
+        the button while it is typing to test <strong>stop generation</strong>.
+    </p>
+    <div id="chat"></div>
+</body>
+
+</html>

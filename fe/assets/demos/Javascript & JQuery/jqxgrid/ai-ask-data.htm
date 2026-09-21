@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id='Description'>jqxGrid AI - ask your data questions in plain language.</title>
+    <meta name="description" content="Ask questions about the grid's data and get a concise analytical answer (aiAsk), computed from column aggregates and a row sample - provider-agnostic, shown with an offline mock." />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.tailwind.css" type="text/css" />
+    <link rel="stylesheet" href="ai-demos.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="../../../scripts/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdraw.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxchart.core.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.aggregates.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.ai.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.celltemplates.js"></script>
+    <script type="text/javascript" src="ai-mock.js"></script>
+    <script type="text/javascript" src="generatedata.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = generatedata(120);
+            var adapter = new $.jqx.dataAdapter({
+                localdata: data, datatype: 'array', datafields: [
+                    { name: 'firstname', type: 'string' }, { name: 'productname', type: 'string' },
+                    { name: 'quantity', type: 'number' }, { name: 'price', type: 'number' }
+                ]
+            });
+            $("#grid").jqxGrid({
+                theme: 'tailwind', width: '100%', height: 340, source: adapter, sortable: true, pageable: true,
+                aiSendRequest: jqxGridAIMock, rowsheight: 48, columnsheight: 38,
+                columns: [
+                    { text: 'Customer', datafield: 'firstname', width: 200, cellTemplate: { type: 'avatar' } },
+                    { text: 'Product', datafield: 'productname', width: 230 },
+                    { text: 'Quantity', datafield: 'quantity', width: 120, cellsalign: 'right' },
+                    { text: 'Unit Price', datafield: 'price', cellsalign: 'right', cellTemplate: '{{value | c2}}' }
+                ]
+            });
+
+            function ask() {
+                var q = document.getElementById('q').value;
+                if (!q.trim()) { return; }
+                $('#result').html('<div class="ai-avatar">' + ICON.spark + '</div><div class="ai-result-body">' +
+                    '<div class="ai-result-title">Analyzing</div><div class="ai-dots"><span></span><span></span><span></span></div></div>').show();
+                $("#grid").jqxGrid('aiAsk', q, function (err, res) {
+                    if (err) { render('<span class="ai-hint">' + err.message + '</span>'); return; }
+                    var html = '<div class="ai-answer-text">' + res.answer.replace(/\n/g, '<br/>') + '</div>';
+                    if (res.chart) {
+                        html += '<div class="ai-chart-cap">' + ICON.chart + '<span>' + res.chart.aggregate + '(' + res.chart.valueField + ') by ' + res.chart.categoryField + '</span></div>' +
+                            '<div id="ai-chart" class="ai-chart-box"></div>';
+                    }
+                    render(html);
+                    if (res.chart) { buildAiChart(res.chart); }
+                });
+            }
+            function render(body) {
+                $('#result').html('<div class="ai-avatar">' + ICON.spark + '</div><div class="ai-result-body">' +
+                    '<div class="ai-result-title">Answer</div>' + body + '</div>').show();
+            }
+            // aggregate the visible grid rows per the model's chart spec
+            function chartData(spec) {
+                var rows = $('#grid').jqxGrid('getrows'), g = {};
+                rows.forEach(function (r) {
+                    var k = r[spec.categoryField]; if (k == null) { k = '—'; }
+                    var v = parseFloat(r[spec.valueField]); if (isNaN(v)) { v = 0; }
+                    if (!g[k]) { g[k] = { sum: 0, cnt: 0, min: Infinity, max: -Infinity }; }
+                    var o = g[k]; o.sum += v; o.cnt++; o.min = Math.min(o.min, v); o.max = Math.max(o.max, v);
+                });
+                var agg = spec.aggregate || 'sum';
+                return Object.keys(g).map(function (k) {
+                    var o = g[k], val = agg === 'avg' ? o.sum / o.cnt : agg === 'count' ? o.cnt : agg === 'min' ? o.min : agg === 'max' ? o.max : o.sum;
+                    return { cat: k, val: Math.round(val * 100) / 100 };
+                }).sort(function (a, b) { return b.val - a.val; }).slice(0, 8);
+            }
+            function buildAiChart(spec) {
+                var data = chartData(spec); if (!data.length) { return; }
+                var PAL = ['#4338ca', '#4f46e5', '#6366f1', '#818cf8', '#a5b4fc', '#c7d2fe', '#c7d2fe', '#e0e7ff'];
+                var trunc = function (v) { v = String(v); return v.length > 12 ? v.slice(0, 11) + '…' : v; };
+                if (spec.type === 'pie') {
+                    $('#ai-chart').jqxChart({
+                        theme: 'tailwind', source: data, backgroundColor: 'transparent', showLegend: true, title: '', description: '',
+                        padding: { left: 5, top: 5, right: 5, bottom: 5}, colorScheme: 'scheme05',
+                        seriesGroups: [{ type: 'pie', showLabels: false, series: [{ dataField: 'val', displayText: 'cat', radius: 82, innerRadius: 42, centerOffset: 0 }] }]
+                    });
+                    return;
+                }
+                $('#ai-chart').jqxChart({
+                    theme: 'tailwind', source: data, backgroundColor: 'transparent', showLegend: false, title: '', description: '', enableAnimations: true,
+                    padding: { left: 5, top: 10, right: 10, bottom: 5 },
+                    categoryAxis: { dataField: 'cat', showGridLines: false, formatFunction: trunc },
+                    seriesGroups: [{
+                        type: spec.type === 'line' ? 'line' : 'column', columnsGapPercent: 55,
+                        valueAxis: { visible: true, gridLinesColor: '#eef0f4', axisSize: 0 },
+                        series: [{ dataField: 'val', color: '#4f46e5', lineWidth: 3, symbolType: 'circle', colorFunction: function (v, i) { return PAL[Math.min(i, PAL.length - 1)]; } }]
+                    }]
+                });
+            }
+            $('#ask').jqxButton({ theme: 'tailwind', width: 96, height: 46 }).addClass('jqx-primary');
+            $('#ask').on('click', ask);
+            $('#q').on('keydown', function (e) { if (e.keyCode === 13) { ask(); } });
+            $('.ai-chip').on('click', function () { document.getElementById('q').value = $(this).text(); ask(); });
+        });
+    </script>
+</head>
+<body class='ai-demo'>
+    <div class="ai-wrap">
+        <div class="ai-hero">
+            <span class="ai-badge">jqxGrid AI</span>
+            <h1>Ask your data anything</h1>
+            <p><code>aiAsk</code> sends the model your column aggregates plus a row sample and returns a concise answer - and a chart suggestion when it helps. Running with an offline mock.</p>
+        </div>
+        <div class="ai-nav">
+            <a href="ai-command-bar.htm">Command bar</a>
+            <a href="ai-ask-data.htm" class="active">Ask your data</a>
+            <a href="ai-classify-column.htm">Classify</a>
+            <a href="ai-summarize.htm">Summarize</a>
+        </div>
+
+        <div class="ai-card">
+            <div class="ai-row">
+                <div class="ai-inputbar">
+                    <span class="ai-lead"></span>
+                    <input id="q" type="text" placeholder='e.g. "what is the average unit price?"' />
+                </div>
+                <input type="button" id="ask" value="Ask" />
+            </div>
+            <div class="ai-chips">
+                <span class="ai-chips-label">Try:</span>
+                <span class="ai-chip">what is the average unit price?</span>
+                <span class="ai-chip">what is the total quantity?</span>
+                <span class="ai-chip">how many rows are there?</span>
+            </div>
+        </div>
+
+        <div class="ai-card"><div id="grid"></div></div>
+
+        <div id="result" class="ai-result" style="display:none;"></div>
+
+        <p class="ai-foot"><strong>Note:</strong> the mock computes from the visible rows. When the answer suggests a chart, the returned spec (<code>type / categoryField / valueField / aggregate</code>) is rendered live below with <code>jqxChart</code> — swap in a real model and it works the same.</p>
+    </div>
+
+    <script type="text/javascript">
+        var ICON = {
+            spark: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.7 4.6L18.3 8.3 13.7 10 12 14.6 10.3 10 5.7 8.3 10.3 6.6z"/><path d="M18.5 13.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></svg>',
+            chat: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"/></svg>',
+            chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7M3 20h18"/></svg>'
+        };
+        document.querySelector('.ai-badge').innerHTML = ICON.spark + ' jqxGrid AI';
+        document.querySelector('.ai-lead').innerHTML = ICON.chat;
+    </script>
+</body>
+</html>

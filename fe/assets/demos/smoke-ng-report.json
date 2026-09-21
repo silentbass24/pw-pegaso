@@ -1,0 +1,48 @@
+{
+ "checked": 863,
+ "partial": false,
+ "broken": [
+  {
+   "id": "switchbutton/twowaydatabinding",
+   "errors": [
+    "console.error: ERROR TypeError: this.indeterminate is not a function"
+   ],
+   "widget": true,
+   "note": ""
+  },
+  {
+   "id": "tabs/mapinsidetab",
+   "errors": [
+    "console.error: Google Maps JavaScript API error: InvalidKeyMapError\nhttps://developers.google.com/maps/documentation/javascript/error-messages#invalid-key-map-error"
+   ],
+   "widget": true,
+   "note": ""
+  }
+ ],
+ "noWidget": [
+  {
+   "id": "menu/contextmenu",
+   "note": ""
+  },
+  {
+   "id": "toolbar/nonminimizabletools",
+   "note": ""
+  },
+  {
+   "id": "toolbar/resizabletoolbar",
+   "note": ""
+  },
+  {
+   "id": "tooltip/closeonclick",
+   "note": ""
+  },
+  {
+   "id": "tooltip/defaultfunctionality",
+   "note": ""
+  },
+  {
+   "id": "tooltip/tooltippositions",
+   "note": ""
+  }
+ ]
+}

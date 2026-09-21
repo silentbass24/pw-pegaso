@@ -1,0 +1,44 @@
+{
+ "checked": 771,
+ "broken": [
+  {
+   "id": "tabs/mapinsidetab",
+   "errors": [
+    "Uncaught ReferenceError: google is not defined",
+    "#root is empty: the component did not render"
+   ],
+   "widget": false,
+   "note": ""
+  }
+ ],
+ "noWidget": [
+  {
+   "id": "chart/fluidsize",
+   "note": ""
+  },
+  {
+   "id": "menu/contextmenu",
+   "note": ""
+  },
+  {
+   "id": "toolbar/nonminimizabletools",
+   "note": ""
+  },
+  {
+   "id": "toolbar/resizabletoolbar",
+   "note": ""
+  },
+  {
+   "id": "tooltip/closeonclick",
+   "note": ""
+  },
+  {
+   "id": "tooltip/defaultfunctionality",
+   "note": ""
+  },
+  {
+   "id": "tooltip/tooltippositions",
+   "note": ""
+  }
+ ]
+}

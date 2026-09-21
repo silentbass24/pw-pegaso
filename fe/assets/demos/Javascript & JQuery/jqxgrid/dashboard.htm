@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title id='Description'>jQWidgets Sales Dashboard - a fully functional admin app with a grid, chart and an AI copilot (jqxChat) in the tailwind theme.</title>
+    <meta name="description" content="A complete admin dashboard built entirely with jQWidgets: sidebar navigation across Dashboard / Orders / Customers / Products views, a working date-range filter and live search, KPI cards with real computed trends, a jqxChart, jqxGrids, and the jqxChat component as a copilot that drives the data - all in the tailwind theme." />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.tailwind.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="../../../scripts/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdraw.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxchart.core.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.filter.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.ai.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.celltemplates.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxchat.js"></script>
+    <script type="text/javascript" src="ai-mock.js"></script>
+    <script type="text/javascript" src="generatedata.js"></script>
+    <script type="text/javascript">
+        var IC = {
+            logo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg>',
+            dashboard: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>',
+            orders: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>',
+            customers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>',
+            products: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg>',
+            reports: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>',
+            settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6h.09A1.65 1.65 0 0 0 11 3.09V3a2 2 0 0 1 4 0v.09A1.65 1.65 0 0 0 16 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+            bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
+            search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>',
+            revenue: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+            cart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>',
+            trend: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>',
+            up: '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>',
+            down: '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'
+        };
+        function paintIcons(root) { (root || document).querySelectorAll('[data-ic]').forEach(function (el) { if (!el.getAttribute('data-painted')) { el.innerHTML = IC[el.getAttribute('data-ic')] || ''; el.setAttribute('data-painted', '1'); } }); }
+
+        $(document).ready(function () {
+            var THEME = 'tailwind';
+            var DAY = 86400000, NOW = Date.now();
+            var BLUES = ['#1e40af', '#1d4ed8', '#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe'];
+
+            // ---- data (add revenue + a synthetic order date over the last 180 days) ----
+            var ALL = generatedata(600);
+            ALL.forEach(function (d) {
+                d.revenue = Math.round(d.quantity * d.price * 100) / 100;
+                d._t = NOW - Math.floor(Math.random() * 180) * DAY - Math.floor(Math.random() * DAY);
+                d.customer = d.firstname + ' ' + d.lastname;
+                var s = Math.random(); d.status = s < 0.68 ? 'Paid' : s < 0.88 ? 'Pending' : 'Refunded';
+            });
+
+            var state = { view: 'dashboard', rangeDays: Infinity, search: '' };
+            var app = { grid: null, chart: null, update: null };
+            var ANIM = true, DENSITY = 'comfortable', TRENDS = true;
+
+            // ---- helpers ----
+            function money(n) { return '$' + Math.round(n).toLocaleString(); }
+            function matchSearch(r) {
+                if (!state.search) { return true; }
+                var s = state.search.toLowerCase();
+                return (r.firstname + ' ' + r.lastname + ' ' + r.productname).toLowerCase().indexOf(s) !== -1;
+            }
+            function scopedOrders() {
+                var cutoff = isFinite(state.rangeDays) ? NOW - state.rangeDays * DAY : -Infinity;
+                return ALL.filter(function (r) { return r._t >= cutoff && matchSearch(r); });
+            }
+            function scopedAdapter() {
+                return new $.jqx.dataAdapter({
+                    localdata: scopedOrders(), datatype: 'array', datafields: [
+                        { name: 'firstname', type: 'string' }, { name: 'lastname', type: 'string' },
+                        { name: 'customer', type: 'string' }, { name: 'status', type: 'string' },
+                        { name: 'productname', type: 'string' }, { name: 'quantity', type: 'number' },
+                        { name: 'price', type: 'number' }, { name: 'revenue', type: 'number' },
+                        { name: '_t', type: 'number' }
+                    ]
+                });
+            }
+            function aggProducts(rows) {
+                var by = {};
+                rows.forEach(function (r) { var k = r.productname; (by[k] = by[k] || { product: k, orders: 0, units: 0, revenue: 0 }); by[k].orders++; by[k].units += r.quantity; by[k].revenue += r.revenue; });
+                return Object.keys(by).map(function (k) { by[k].revenue = Math.round(by[k].revenue); return by[k]; }).sort(function (a, b) { return b.revenue - a.revenue; });
+            }
+            function aggCustomers(rows) {
+                var by = {};
+                rows.forEach(function (r) { var k = r.firstname + ' ' + r.lastname; (by[k] = by[k] || { customer: k, orders: 0, revenue: 0 }); by[k].orders++; by[k].revenue += r.revenue; });
+                return Object.keys(by).map(function (k) { by[k].revenue = Math.round(by[k].revenue); by[k].avg = Math.round(by[k].revenue / by[k].orders); return by[k]; }).sort(function (a, b) { return b.revenue - a.revenue; });
+            }
+
+            // ---- KPIs (count-up + real computed trends vs the previous period) ----
+            function animateNumber(el, to, fmt) {
+                if (!ANIM) { el.textContent = fmt(to); el.setAttribute('data-v', to); return; }
+                var from = parseFloat(el.getAttribute('data-v') || '0'), start = null, dur = 500;
+                function step(ts) {
+                    if (start === null) { start = ts; }
+                    var p = Math.min((ts - start) / dur, 1), e = 1 - Math.pow(1 - p, 3), val = from + (to - from) * e;
+                    el.textContent = fmt(val);
+                    if (p < 1) { requestAnimationFrame(step); } else { el.textContent = fmt(to); el.setAttribute('data-v', to); }
+                }
+                requestAnimationFrame(step);
+            }
+            function metricSet(rows) {
+                var rev = 0, c = {}; rows.forEach(function (r) { rev += r.revenue; c[r.firstname + r.lastname] = 1; });
+                var n = rows.length; return { rev: rev, orders: n, avg: n ? rev / n : 0, cust: Object.keys(c).length };
+            }
+            function windowRows(daysStart, daysEnd) {
+                var a = NOW - daysStart * DAY, b = NOW - daysEnd * DAY;
+                return ALL.filter(function (r) { return r._t >= a && r._t < b && matchSearch(r); });
+            }
+            function computeTrends() {
+                var r = state.rangeDays, cs, ce, ps, pe;
+                if (!isFinite(r)) { cs = 90; ce = 0; ps = 180; pe = 90; } else { cs = r; ce = 0; ps = 2 * r; pe = r; }
+                var cur = metricSet(windowRows(cs, ce)), prev = metricSet(windowRows(ps, pe));
+                function d(a, b) { return b <= 0 ? (a > 0 ? 100 : 0) : (a - b) / b * 100; }
+                return { rev: d(cur.rev, prev.rev), orders: d(cur.orders, prev.orders), avg: d(cur.avg, prev.avg), cust: d(cur.cust, prev.cust) };
+            }
+            function renderPill(id, pct) {
+                var el = document.getElementById(id); if (!el) { return; }
+                if (!TRENDS) { el.style.display = 'none'; return; }
+                el.style.display = ''; var up = pct >= 0; el.className = 'trend ' + (up ? 'up' : 'down');
+                el.innerHTML = (up ? IC.up : IC.down) + ' ' + Math.abs(pct).toFixed(1) + '%';
+            }
+            function renderKPIs(rows) {
+                var m = metricSet(rows);
+                animateNumber(document.getElementById('kpi-rev'), m.rev, money);
+                animateNumber(document.getElementById('kpi-orders'), m.orders, function (v) { return Math.round(v).toLocaleString(); });
+                animateNumber(document.getElementById('kpi-avg'), m.avg, function (v) { return '$' + v.toFixed(2); });
+                animateNumber(document.getElementById('kpi-cust'), m.cust, function (v) { return String(Math.round(v)); });
+                var t = computeTrends();
+                renderPill('t-rev', t.rev); renderPill('t-orders', t.orders); renderPill('t-avg', t.avg); renderPill('t-cust', t.cust);
+            }
+
+            function currentSourceRows() {
+                if ((state.view === 'dashboard' || state.view === 'orders') && app.grid && $(app.grid).length) {
+                    try { return $(app.grid).jqxGrid('getrows'); } catch (e) { }
+                }
+                return scopedOrders();
+            }
+            function refreshDerived() {
+                var rows = currentSourceRows();
+                renderKPIs(rows);
+                if (app.update) { app.update(rows); }
+            }
+
+            // ---- reusable component builders ----
+            var trunc = function (v) { return v.length > 12 ? v.slice(0, 11) + '…' : v; };
+            function buildChart(sel, data, catField, valField, catFmt) {
+                app.chart = sel;
+                $(sel).jqxChart({
+                    theme: THEME, source: data, backgroundColor: 'transparent', showLegend: false,
+                    title: '', description: '', enableAnimations: true,
+                    padding: { left: 5, top: 10, right: 12, bottom: 5 },
+                    categoryAxis: { dataField: catField, showGridLines: false, formatFunction: catFmt },
+                    seriesGroups: [{
+                        type: 'column', columnsGapPercent: 55,
+                        valueAxis: { visible: true, gridLinesColor: '#eef0f4', axisSize: 0, labels: { formatFunction: function (v) { return v >= 1000 ? '$' + (v / 1000).toFixed(1) + 'k' : '$' + Math.round(v); } } },
+                        series: [{ dataField: valField, colorFunction: function (v, i) { return BLUES[Math.min(i, BLUES.length - 1)]; } }]
+                    }]
+                });
+            }
+            function updateChart(data) { if (app.chart && $(app.chart).length) { $(app.chart).jqxChart({ source: data }); $(app.chart).jqxChart('update'); } }
+            function buildLineChart(sel, data) {
+                app.chart = sel;
+                $(sel).jqxChart({
+                    theme: THEME, source: data, backgroundColor: 'transparent', showLegend: false,
+                    title: '', description: '', enableAnimations: true,
+                    padding: { left: 5, top: 10, right: 12, bottom: 5 },
+                    categoryAxis: { dataField: 'month', showGridLines: false },
+                    seriesGroups: [{
+                        type: 'line',
+                        valueAxis: { visible: true, gridLinesColor: '#eef0f4', axisSize: 0, labels: { formatFunction: function (v) { return v >= 1000 ? '$' + (v / 1000).toFixed(1) + 'k' : '$' + Math.round(v); } } },
+                        series: [{ dataField: 'revenue', lineWidth: 3, symbolSize: 8, symbolType: 'circle', color: '#2563eb', fillColorSymbol: '#2563eb' }]
+                    }]
+                });
+            }
+            function buildTrendChart(sel, data) {
+                app.chart = sel;
+                $(sel).jqxChart({
+                    theme: THEME, source: data, backgroundColor: 'transparent', showLegend: false,
+                    title: '', description: '', enableAnimations: true,
+                    padding: { left: 5, top: 14, right: 16, bottom: 5 },
+                    categoryAxis: { dataField: 'month', showGridLines: false, showTickMarks: false },
+                    seriesGroups: [{
+                        type: 'spline',
+                        valueAxis: { visible: true, gridLinesColor: '#eef2f7', axisSize: 0, labels: { formatFunction: function (v) { return v >= 1000 ? '$' + (v / 1000).toFixed(1) + 'k' : '$' + Math.round(v); } } },
+                        series: [{ dataField: 'revenue', lineWidth: 3, symbolType: 'circle', symbolSize: 7, color: '#2563eb', fillColorSymbol: '#ffffff' }]
+                    }]
+                });
+            }
+            var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            function monthAgg(rows) {
+                var now = new Date(NOW), buckets = [], idx = {};
+                for (var i = 5; i >= 0; i--) {
+                    var d = new Date(now.getFullYear(), now.getMonth() - i, 1), key = d.getFullYear() + '-' + d.getMonth();
+                    buckets.push({ month: MON[d.getMonth()], revenue: 0 }); idx[key] = buckets.length - 1;
+                }
+                rows.forEach(function (r) { var d = new Date(r._t), key = d.getFullYear() + '-' + d.getMonth(); if (idx[key] !== undefined) { buckets[idx[key]].revenue += r.revenue; } });
+                buckets.forEach(function (b) { b.revenue = Math.round(b.revenue); });
+                return buckets;
+            }
+            function renderSummary(rows) {
+                var ap = aggProducts(rows), ac = aggCustomers(rows), ma = monthAgg(rows);
+                var best = ma.slice().sort(function (a, b) { return b.revenue - a.revenue; })[0];
+                function row(k, v) { return '<div class="sum-row"><span>' + k + '</span><b>' + v + '</b></div>'; }
+                document.querySelector('#vsummary').innerHTML =
+                    row('Orders in scope', rows.length.toLocaleString()) + row('Distinct products', ap.length) +
+                    row('Distinct customers', ac.length) + row('Best month', best ? best.month + ' · ' + money(best.revenue) : '—') +
+                    row('Top product', ap[0] ? ap[0].product : '—');
+            }
+            function exportCsv(rows) {
+                var cols = ['firstname', 'lastname', 'productname', 'quantity', 'price', 'revenue'];
+                var lines = ['Customer,Surname,Product,Qty,Unit Price,Revenue'];
+                rows.forEach(function (r) { lines.push(cols.map(function (c) { var v = r[c]; return (typeof v === 'string' && v.indexOf(',') !== -1) ? '"' + v + '"' : v; }).join(',')); });
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' }));
+                a.download = 'orders.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                toast('Exported ' + rows.length + ' rows to CSV');
+            }
+            var toastTimer = null;
+            function toast(msg) {
+                var el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show');
+                clearTimeout(toastTimer); toastTimer = setTimeout(function () { el.classList.remove('show'); }, 2200);
+            }
+            function rangeIdx() { return state.rangeDays === 30 ? 0 : state.rangeDays === 90 ? 1 : state.rangeDays === 365 ? 2 : 3; }
+
+            function buildOrdersGrid(sel, height) {
+                app.grid = sel;
+                var rh = DENSITY === 'compact' ? 40 : 48;
+                $(sel).jqxGrid({
+                    theme: THEME, width: '100%', height: height, source: scopedAdapter(),
+                    filterable: true, sortable: true, sortmode: 'many', pageable: true, pagesize: Math.max(5, Math.floor((height - 44) / rh)),
+                    aiSendRequest: jqxGridAIMock, columnsheight: 38, rowsheight: rh,
+                    columns: [
+                        { text: 'Customer', datafield: 'customer', width: 190, cellTemplate: { type: 'avatar' } },
+                        { text: 'Product', datafield: 'productname', minwidth: 160 },
+                        { text: 'Status', datafield: 'status', width: 116, cellTemplate: { type: 'badge', dot: true, colors: { Paid: 'green', Pending: 'amber', Refunded: 'red' } } },
+                        { text: 'Qty', datafield: 'quantity', width: 66, cellsalign: 'right' },
+                        { text: 'Unit Price', datafield: 'price', width: 104, cellsalign: 'right', cellTemplate: '{{value | c2}}' },
+                        { text: 'Revenue', datafield: 'revenue', width: 124, cellsalign: 'right', cellTemplate: { type: 'money', decimals: 0 } }
+                    ]
+                });
+                $(sel).on('bindingcomplete filter sort', refreshDerived);
+            }
+            function buildAggGrid(sel, height, columns, rows, fields) {
+                app.grid = sel;
+                $(sel).jqxGrid({
+                    theme: THEME, width: '100%', height: height, sortable: true, pageable: true, pagesize: 8,
+                    columnsheight: 38, rowsheight: (DENSITY === 'compact' ? 32 : 40), columns: columns,
+                    source: new $.jqx.dataAdapter({ localdata: rows, datatype: 'array', datafields: fields })
+                });
+            }
+            function rebindAgg(sel, rows, fields) {
+                if (app.grid && $(sel).length) { $(sel).jqxGrid({ source: new $.jqx.dataAdapter({ localdata: rows, datatype: 'array', datafields: fields }) }); }
+            }
+            function topList(sel, agg, nameField) {
+                var max = agg[0] ? agg[0].revenue : 1;
+                document.querySelector(sel).innerHTML = agg.slice(0, 5).map(function (d, i) {
+                    return '<div class="tp"><div class="tp-top"><span><em>' + (i + 1) + '</em> ' + d[nameField] + '</span><b>' + money(d.revenue) + '</b></div>' +
+                        '<div class="tp-bar"><i style="width:' + Math.round(d.revenue / max * 100) + '%"></i></div></div>';
+                }).join('') || '<div class="tp-empty">No matching records.</div>';
+            }
+
+            // ---- view templates ----
+            function aiBar() {
+                return '<div class="grid-head"><div style="display:flex;align-items:center;gap:10px;"><h3 class="panel-title">Orders</h3><span class="badge-ai">✦ AI enabled</span></div>' +
+                    '<div class="cmd"><div class="box"><span data-ic="search"></span><input id="q" type="text" placeholder=\'AI: "price over 3, sort by price desc"\' /></div>' +
+                    '<input type="button" id="run" value="Run" /><input type="button" id="reset" value="Reset" /></div></div>';
+            }
+            var TEMPLATES = {
+                dashboard: function () {
+                    return '<div class="panels"><div class="panel"><div class="panel-head"><h3>Revenue trend</h3><span class="sub">last 6 months · live</span></div><div id="vchart" class="chart"></div></div>' +
+                        '<div class="panel"><div class="panel-head"><h3>Top products</h3><span class="sub">by revenue</span></div><div id="vtop"></div></div></div>' +
+                        '<div class="panel">' + aiBar() + '<div id="vgrid"></div><div class="hint">Everything reacts to the grid. Filter with the AI bar, the column menus, or the <b>Sales Copilot</b> (bottom-right) — try <code>show orders over $4, sort by price desc</code>.</div></div>';
+                },
+                orders: function () { return '<div class="panel">' + aiBar() + '<div id="vgrid"></div></div>'; },
+                customers: function () {
+                    return '<div class="panels"><div class="panel"><div class="panel-head"><h3>Top customers</h3><span class="sub">by revenue</span></div><div id="vchart" class="chart"></div></div>' +
+                        '<div class="panel"><div class="panel-head"><h3>Leaderboard</h3><span class="sub">best customers</span></div><div id="vtop"></div></div></div>' +
+                        '<div class="panel"><h3 class="panel-title" style="margin-bottom:14px;">All customers</h3><div id="vgrid"></div></div>';
+                },
+                products: function () {
+                    return '<div class="panels"><div class="panel"><div class="panel-head"><h3>Revenue by product</h3><span class="sub">Top 7 · live</span></div><div id="vchart" class="chart"></div></div>' +
+                        '<div class="panel"><div class="panel-head"><h3>Top products</h3><span class="sub">by revenue</span></div><div id="vtop"></div></div></div>' +
+                        '<div class="panel"><h3 class="panel-title" style="margin-bottom:14px;">Product catalog</h3><div id="vgrid"></div></div>';
+                },
+                reports: function () {
+                    return '<div class="panel"><div class="grid-head"><div style="display:flex;align-items:center;gap:10px;"><h3 class="panel-title">Revenue trend</h3><span class="badge-vi">last 6 months</span></div><input type="button" id="export" value="Export CSV" /></div><div id="vchart" class="chart" style="height:280px;"></div></div>' +
+                        '<div class="panels"><div class="panel"><div class="panel-head"><h3>Top products</h3><span class="sub">by revenue</span></div><div id="vtop"></div></div>' +
+                        '<div class="panel"><div class="panel-head"><h3>Summary</h3><span class="sub">current scope</span></div><div id="vsummary"></div></div></div>';
+                },
+                settings: function () {
+                    return '<div class="panels" style="grid-template-columns:1fr 1fr;">' +
+                        '<div class="panel"><h3 class="panel-title">General</h3><p class="set-desc">Defaults applied across every view.</p>' +
+                        '<div class="set-row"><label>Default date range</label><div id="set-range"></div></div>' +
+                        '<div class="set-row"><label>Table density</label><div id="set-density"></div></div></div>' +
+                        '<div class="panel"><h3 class="panel-title">Preferences</h3><p class="set-desc">Personalize the dashboard behavior.</p>' +
+                        '<div class="set-row"><div><label>KPI count-up animation</label><span class="set-sub">Animate numbers when the data changes</span></div><div id="set-anim"></div></div>' +
+                        '<div class="set-row"><div><label>Show trend badges</label><span class="set-sub">Period-over-period deltas on the KPIs</span></div><div id="set-trend"></div></div></div></div>' +
+                        '<div class="panel" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;"><span class="set-desc" style="margin:0;">Changes apply immediately across all views.</span><div style="display:flex;gap:8px;"><input type="button" id="set-reset" value="Reset" /><input type="button" id="set-save" value="Save changes" /></div></div>';
+                }
+            };
+            var META = {
+                dashboard: { title: 'Sales overview', sub: 'Live view of orders — filter with the range, search, AI bar, or the Sales Copilot.' },
+                orders: { title: 'Orders', sub: 'Every order in scope. Filter, sort and page — or drive it with natural language.' },
+                customers: { title: 'Customers', sub: 'Revenue and order volume aggregated per customer.' },
+                products: { title: 'Products', sub: 'Revenue, units and orders aggregated per product.' },
+                reports: { title: 'Reports', sub: 'Revenue trend and an exportable summary for the current scope.' },
+                settings: { title: 'Settings', sub: 'Configure defaults and preferences for the dashboard.', hideKpis: true, hideRange: true }
+            };
+            var CUST_F = [{ name: 'customer', type: 'string' }, { name: 'orders', type: 'number' }, { name: 'avg', type: 'number' }, { name: 'revenue', type: 'number' }];
+            var PROD_F = [{ name: 'product', type: 'string' }, { name: 'orders', type: 'number' }, { name: 'units', type: 'number' }, { name: 'revenue', type: 'number' }];
+            var BUILDERS = {
+                dashboard: function () {
+                    app.update = function (rows) { updateChart(monthAgg(rows)); topList('#vtop', aggProducts(rows), 'product'); };
+                    buildTrendChart('#vchart', monthAgg(scopedOrders()));
+                    buildOrdersGrid('#vgrid', 336);
+                    wireAiBar();
+                },
+                orders: function () { app.update = null; buildOrdersGrid('#vgrid', 520); wireAiBar(); },
+                customers: function () {
+                    var C = [{ text: 'Customer', datafield: 'customer', minwidth: 200, cellTemplate: { type: 'avatar' } }, { text: 'Orders', datafield: 'orders', width: 110, cellsalign: 'right' }, { text: 'Avg order', datafield: 'avg', width: 140, cellsalign: 'right', cellTemplate: { type: 'money', decimals: 0, color: false } }, { text: 'Revenue', datafield: 'revenue', width: 150, cellsalign: 'right', cellTemplate: { type: 'money', decimals: 0 } }];
+                    app.update = function (rows) { var ac = aggCustomers(rows); updateChart(ac.slice(0, 7)); topList('#vtop', ac, 'customer'); rebindAgg('#vgrid', ac, CUST_F); };
+                    buildChart('#vchart', aggCustomers(scopedOrders()).slice(0, 7), 'customer', 'revenue', function (v) { return v.split(' ')[0]; });
+                    buildAggGrid('#vgrid', 380, C, aggCustomers(scopedOrders()), CUST_F);
+                },
+                products: function () {
+                    var C = [{ text: 'Product', datafield: 'product', minwidth: 200 }, { text: 'Orders', datafield: 'orders', width: 110, cellsalign: 'right' }, { text: 'Units', datafield: 'units', width: 110, cellsalign: 'right' }, { text: 'Revenue', datafield: 'revenue', width: 150, cellsalign: 'right', cellTemplate: { type: 'money', decimals: 0 } }];
+                    app.update = function (rows) { var ap = aggProducts(rows); updateChart(ap.slice(0, 7)); topList('#vtop', ap, 'product'); rebindAgg('#vgrid', ap, PROD_F); };
+                    buildChart('#vchart', aggProducts(scopedOrders()).slice(0, 7), 'product', 'revenue', trunc);
+                    buildAggGrid('#vgrid', 380, C, aggProducts(scopedOrders()), PROD_F);
+                },
+                reports: function () {
+                    app.update = function (rows) { updateChart(monthAgg(rows)); topList('#vtop', aggProducts(rows), 'product'); renderSummary(rows); };
+                    buildLineChart('#vchart', monthAgg(scopedOrders()));
+                    $('#export').jqxButton({ theme: THEME, height: 38 }).addClass('jqx-primary');
+                    $('#export').on('click', function () { exportCsv(scopedOrders()); });
+                },
+                settings: function () {
+                    app.update = null;
+                    $('#set-range').jqxDropDownList({ theme: THEME, width: 180, height: 38, source: ['Last 30 days', 'This quarter', 'This year', 'All time'], selectedIndex: rangeIdx(), autoDropDownHeight: true });
+                    $('#set-density').jqxDropDownList({ theme: THEME, width: 180, height: 38, source: ['Comfortable', 'Compact'], selectedIndex: DENSITY === 'compact' ? 1 : 0, autoDropDownHeight: true });
+                    $('#set-anim').jqxCheckBox({ theme: THEME, checked: ANIM });
+                    $('#set-trend').jqxCheckBox({ theme: THEME, checked: TRENDS });
+                    $('#set-save').jqxButton({ theme: THEME, height: 38 }).addClass('jqx-primary');
+                    $('#set-reset').jqxButton({ theme: THEME, height: 38 });
+                    $('#set-save').on('click', function () {
+                        var ri = $('#set-range').jqxDropDownList('getSelectedIndex');
+                        state.rangeDays = [30, 90, 365, Infinity][ri];
+                        $('#range').jqxDropDownList('selectIndex', ri);
+                        DENSITY = $('#set-density').jqxDropDownList('getSelectedIndex') === 1 ? 'compact' : 'comfortable';
+                        ANIM = $('#set-anim').jqxCheckBox('checked');
+                        TRENDS = $('#set-trend').jqxCheckBox('checked');
+                        toast('Settings saved');
+                    });
+                    $('#set-reset').on('click', function () {
+                        $('#set-range').jqxDropDownList('selectIndex', 3);
+                        $('#set-density').jqxDropDownList('selectIndex', 0);
+                        $('#set-anim').jqxCheckBox({ checked: true });
+                        $('#set-trend').jqxCheckBox({ checked: true });
+                    });
+                }
+            };
+
+            function wireAiBar() {
+                $('#run').jqxButton({ theme: THEME, width: 84, height: 38 }).addClass('jqx-primary');
+                $('#reset').jqxButton({ theme: THEME, height: 38 });
+                function runCommand() { var q = document.getElementById('q').value; if (q.trim()) { $(app.grid).jqxGrid('aiCommand', q, refreshDerived); } }
+                $('#run').on('click', runCommand);
+                $('#q').on('keydown', function (e) { if (e.keyCode === 13) { runCommand(); } });
+                $('#reset').on('click', function () { try { $(app.grid).jqxGrid('clearfilters'); } catch (e) { } document.getElementById('q').value = ''; refreshDerived(); });
+            }
+
+            // ---- view lifecycle ----
+            function buildView() {
+                try { if (app.chart && $(app.chart).length) { $(app.chart).jqxChart('destroy'); } } catch (e) { }
+                try { if (app.grid && $(app.grid).length) { $(app.grid).jqxGrid('destroy'); } } catch (e) { }
+                app.chart = null; app.grid = null; app.update = null;
+
+                document.getElementById('view-title').textContent = META[state.view].title;
+                document.getElementById('view-sub').textContent = META[state.view].sub;
+                document.getElementById('crumb').textContent = META[state.view].title;
+                document.querySelectorAll('.nav a').forEach(function (a) { a.classList.toggle('active', a.getAttribute('data-view') === state.view); });
+                document.querySelector('.kpis').style.display = META[state.view].hideKpis ? 'none' : 'grid';
+                document.getElementById('range').style.display = META[state.view].hideRange ? 'none' : '';
+
+                var body = document.getElementById('view-body');
+                body.style.opacity = '0';
+                body.innerHTML = TEMPLATES[state.view]();
+                paintIcons(body);
+                BUILDERS[state.view]();
+                refreshDerived();
+                requestAnimationFrame(function () { body.style.opacity = '1'; });
+            }
+            function setView(v) { if (v === state.view) { return; } state.view = v; buildView(); }
+
+            function applyScope() {
+                if ((state.view === 'dashboard' || state.view === 'orders') && app.grid && $(app.grid).length) {
+                    $(app.grid).jqxGrid({ source: scopedAdapter() }); // bindingcomplete -> refreshDerived
+                } else {
+                    refreshDerived();
+                }
+            }
+
+            // ---- shell wiring ----
+            paintIcons(document);
+            document.querySelectorAll('.nav a').forEach(function (a) {
+                a.addEventListener('click', function (e) { e.preventDefault(); var v = a.getAttribute('data-view'); if (v) { setView(v); } });
+            });
+
+            $('#range').jqxDropDownList({ theme: THEME, width: 150, height: 36, autoDropDownHeight: true, source: ['Last 30 days', 'This quarter', 'This year', 'All time'], selectedIndex: 3 });
+            $('#range').on('select', function (e) { var map = [30, 90, 365, Infinity]; state.rangeDays = map[e.args.index]; applyScope(); });
+
+            var searchTimer = null;
+            document.getElementById('topsearch').addEventListener('input', function () {
+                var v = this.value; clearTimeout(searchTimer);
+                searchTimer = setTimeout(function () { state.search = v.trim(); applyScope(); }, 180);
+            });
+
+            // ---- copilot (drives the orders grid) ----
+            function ensureOrders() { if (state.view !== 'dashboard' && state.view !== 'orders') { setView('orders'); } }
+            function copilotSend(payload) {
+                var msgs = payload.messages || [], text = msgs.length ? msgs[msgs.length - 1].content : '';
+                var isCommand = /\b(filter|sort|group|show|only|over|above|under|below|greater|less|more than|fewer|clear|reset|contains|top)\b/i.test(text);
+                ensureOrders();
+                if (isCommand) {
+                    return $(app.grid).jqxGrid('aiCommand', text).then(function (res) {
+                        refreshDerived();
+                        var a = (res.applied && res.applied.length) ? res.applied.join(', ') : 'nothing matched';
+                        return 'Done — I applied **' + a + '** to the orders grid. The KPIs and charts updated to match.';
+                    });
+                }
+                return $(app.grid).jqxGrid('aiAsk', text).then(function (res) { return res.answer; });
+            }
+            $('#copilot').jqxChat({
+                mode: 'popup', launcherPosition: 'bottom-right', colorScheme: 'light', accentColor: '#2563eb',
+                title: 'Sales Copilot', subtitle: 'Filter or ask about the orders', width: 380, height: 540,
+                welcomeMessage: 'Hi! I can drive this dashboard. Try **"show orders over $4, sort by price desc"** or **"what is the average unit price?"**',
+                starterPrompts: ['Show orders over $4, sort by price desc', 'What is the average unit price?', 'Clear filters'],
+                sendRequest: copilotSend
+            });
+
+            buildView();
+        });
+    </script>
+    <style>
+        :root { --line: #e8eaf0; --muted: #64748b; --ink: #0f172a; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--ink); background: #f4f5f9; -webkit-font-smoothing: antialiased; }
+        .app { display: flex; min-height: 100vh; }
+
+        .sidebar { width: 234px; flex: 0 0 234px; background: #0b1220; color: #cbd5e1; padding: 20px 14px; position: sticky; top: 0; height: 100vh; }
+        .brand { display: flex; align-items: center; gap: 10px; padding: 4px 8px 20px; }
+        .brand .mark { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg, #2563eb, #4f46e5); color: #fff; display: inline-flex; align-items: center; justify-content: center; }
+        .brand .mark svg { width: 18px; height: 18px; }
+        .brand b { color: #fff; font-size: 15px; letter-spacing: -.01em; }
+        .brand small { display: block; font-size: 11px; color: #64748b; }
+        .nav-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: #4b5771; margin: 14px 10px 6px; }
+        .nav a { display: flex; align-items: center; gap: 11px; padding: 9px 11px; margin: 2px 0; border-radius: 9px; color: #9fb0c9; text-decoration: none; font-size: 13.5px; font-weight: 500; line-height: 1; cursor: pointer; transition: all .14s; }
+        .nav a > span { flex: 0 0 18px; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; }
+        .nav a svg { display: block; width: 18px; height: 18px; opacity: .85; }
+        .nav a:hover { background: rgba(255,255,255,.05); color: #e2e8f0; }
+        .nav a.active { background: linear-gradient(135deg, rgba(37,99,235,.92), rgba(79,70,229,.92)); color: #fff; box-shadow: 0 8px 18px rgba(37,99,235,.35); }
+        .nav a.active svg { opacity: 1; }
+        .side-card { margin-top: 22px; background: linear-gradient(135deg, #1d283b, #172033); border: 1px solid rgba(255,255,255,.06); border-radius: 13px; padding: 14px; }
+        .side-card b { color: #fff; font-size: 12.5px; }
+        .side-card p { margin: 5px 0 0; font-size: 11.5px; color: #8ea0bd; line-height: 1.5; }
+
+        .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+        .topbar { height: 64px; background: #fff; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 16px; padding: 0 24px; position: sticky; top: 0; z-index: 20; }
+        .crumbs { font-size: 13px; color: var(--muted); }
+        .crumbs b { color: var(--ink); font-weight: 600; }
+        .topbar .search { margin-left: auto; display: flex; align-items: center; gap: 8px; background: #f1f3f8; border: 1px solid transparent; border-radius: 9px; padding: 0 12px; width: 280px; }
+        .topbar .search:focus-within { background: #fff; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(59,130,246,.25); }
+        .topbar .search input { border: 0; background: transparent; outline: none; height: 38px; font-size: 13.5px; flex: 1; min-width: 0; }
+        .topbar .search svg { width: 15px; height: 15px; color: #9aa3b2; }
+        .icon-btn { width: 38px; height: 38px; border-radius: 9px; border: 1px solid var(--line); background: #fff; color: #475569; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
+        .icon-btn svg { width: 17px; height: 17px; }
+        .icon-btn .dot { position: absolute; top: 8px; right: 9px; width: 7px; height: 7px; border-radius: 50%; background: #ef4444; border: 2px solid #fff; }
+        .user { display: flex; align-items: center; gap: 9px; }
+        .user .av { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #2563eb, #4f46e5); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+        .user .nm { font-size: 13px; font-weight: 600; line-height: 1.1; }
+        .user .nm span { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
+
+        .content { padding: 22px 24px 60px; }
+        .content-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+        .content-head h2 { margin: 0; font-size: 19px; font-weight: 800; letter-spacing: -.01em; }
+        .content-head p { margin: 3px 0 0; font-size: 13px; color: var(--muted); max-width: 640px; }
+
+        .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 18px; }
+        .kpi { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; box-shadow: 0 6px 20px rgba(20,20,55,.05); transition: transform .15s, box-shadow .15s; }
+        .kpi:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(20,20,55,.09); }
+        .kpi .k-top { display: flex; align-items: center; justify-content: space-between; }
+        .kpi .k-ic { width: 40px; height: 40px; border-radius: 11px; display: inline-flex; align-items: center; justify-content: center; }
+        .kpi .k-ic svg { width: 19px; height: 19px; }
+        .trend { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 999px; }
+        .trend.up { color: #16a34a; background: #dcfce7; }
+        .trend.down { color: #dc2626; background: #fee2e2; }
+        .kpi .val { font-size: 27px; font-weight: 800; margin-top: 12px; letter-spacing: -.02em; }
+        .kpi .lbl { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+        .ic-blue { background: #dbeafe; color: #2563eb; } .ic-violet { background: #ede9fe; color: #7c3aed; }
+        .ic-green { background: #dcfce7; color: #16a34a; } .ic-amber { background: #fef3c7; color: #d97706; }
+
+        #view-body { transition: opacity .22s ease; }
+        .panels { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 18px; }
+        .panel { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; box-shadow: 0 6px 20px rgba(20,20,55,.05); }
+        .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .panel-head h3 { margin: 0; font-size: 14.5px; font-weight: 700; }
+        .panel-head .sub { font-size: 12px; color: var(--muted); }
+        .panel-title { margin: 0; font-size: 15px; font-weight: 700; }
+        .chart { width: 100%; height: 256px; }
+        .tp { margin-bottom: 13px; } .tp:last-child { margin-bottom: 0; }
+        .tp-top { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+        .tp-top em { color: #94a3b8; font-style: normal; font-weight: 700; margin-right: 6px; }
+        .tp-top b { color: var(--ink); }
+        .tp-bar { height: 8px; background: #eef0f4; border-radius: 6px; overflow: hidden; }
+        .tp-bar i { display: block; height: 100%; background: linear-gradient(90deg, #2563eb, #60a5fa); border-radius: 6px; transition: width .4s ease; }
+        .tp-empty { color: var(--muted); font-size: 13px; }
+
+        .grid-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
+        .cmd { display: flex; gap: 8px; align-items: center; }
+        .cmd .box { display: flex; align-items: center; gap: 8px; background: #f1f3f8; border: 1px solid transparent; border-radius: 9px; padding: 0 12px; width: 340px; max-width: 52vw; }
+        .cmd .box:focus-within { background: #fff; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(59,130,246,.25); }
+        .cmd .box input { flex: 1; border: 0; outline: none; height: 38px; font-size: 13.5px; background: transparent; min-width: 0; }
+        .cmd .box svg { width: 15px; height: 15px; color: #9aa3b2; }
+        .badge-ai { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: #2563eb; background: #eff6ff; border: 1px solid #bfdbfe; padding: 3px 9px; border-radius: 999px; }
+        .hint { font-size: 12px; color: var(--muted); margin-top: 12px; }
+        .hint code { background: #eef0f6; color: #1d4ed8; padding: 1px 5px; border-radius: 4px; }
+
+        .badge-vi { display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; color: #7c3aed; background: #f5f3ff; border: 1px solid #ddd6fe; padding: 3px 9px; border-radius: 999px; }
+        .set-desc { font-size: 12.5px; color: var(--muted); margin: 4px 0 8px; }
+        .set-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); }
+        .set-row label { font-size: 13.5px; font-weight: 600; display: block; }
+        .set-sub { font-size: 12px; color: var(--muted); }
+        .sum-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+        .sum-row:first-child { border-top: 0; }
+        .sum-row b { font-weight: 700; color: var(--ink); }
+        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: #0f172a; color: #fff; padding: 11px 18px; border-radius: 11px; font-size: 13px; font-weight: 600; box-shadow: 0 12px 30px rgba(0,0,0,.28); opacity: 0; pointer-events: none; transition: all .25s; z-index: 50; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ---- modern refinements ---- */
+        body { background: #f6f7fb; }
+        .panel, .kpi { border: 1px solid #edeef3; border-radius: 18px; box-shadow: 0 1px 2px rgba(16,24,40,.03), 0 14px 30px -18px rgba(16,24,40,.22); }
+        .kpi:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(16,24,40,.03), 0 22px 40px -20px rgba(37,99,235,.35); }
+        .kpi .val { font-size: 28px; }
+        .content { padding: 24px 28px 64px; }
+        .topbar { backdrop-filter: saturate(140%) blur(6px); background: rgba(255,255,255,.85); }
+
+        @media (max-width: 1000px) { .sidebar { display: none; } .kpis { grid-template-columns: repeat(2, 1fr); } .panels { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body class='default'>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand"><span class="mark" data-ic="logo"></span><span><b>Northwind</b><small>Commerce</small></span></div>
+            <div class="nav-label">Menu</div>
+            <nav class="nav">
+                <a data-view="dashboard"><span data-ic="dashboard"></span> Dashboard</a>
+                <a data-view="orders"><span data-ic="orders"></span> Orders</a>
+                <a data-view="customers"><span data-ic="customers"></span> Customers</a>
+                <a data-view="products"><span data-ic="products"></span> Products</a>
+            </nav>
+            <div class="nav-label">System</div>
+            <nav class="nav">
+                <a data-view="reports"><span data-ic="reports"></span> Reports</a>
+                <a data-view="settings"><span data-ic="settings"></span> Settings</a>
+            </nav>
+            <div class="side-card"><b>✦ Sales Copilot</b><p>Ask questions or filter the data in plain English. Open it bottom-right.</p></div>
+        </aside>
+
+        <div class="main">
+            <div class="topbar">
+                <div class="crumbs">Northwind / <b id="crumb">Dashboard</b></div>
+                <div class="search"><span data-ic="search"></span><input id="topsearch" type="text" placeholder="Search customers or products…" /></div>
+                <button class="icon-btn" title="Notifications"><span data-ic="bell"></span><span class="dot"></span></button>
+                <div class="user"><span class="av">AM</span><span class="nm">Alex Morgan<span>Sales manager</span></span></div>
+            </div>
+
+            <div class="content">
+                <div class="content-head">
+                    <div><h2 id="view-title">Sales overview</h2><p id="view-sub">Live view of orders.</p></div>
+                    <div id="range"></div>
+                </div>
+
+                <div class="kpis">
+                    <div class="kpi"><div class="k-top"><span class="k-ic ic-blue" data-ic="revenue"></span><span class="trend up" id="t-rev"></span></div><div class="val" id="kpi-rev">—</div><div class="lbl">Total revenue</div></div>
+                    <div class="kpi"><div class="k-top"><span class="k-ic ic-violet" data-ic="cart"></span><span class="trend up" id="t-orders"></span></div><div class="val" id="kpi-orders">—</div><div class="lbl">Orders</div></div>
+                    <div class="kpi"><div class="k-top"><span class="k-ic ic-green" data-ic="trend"></span><span class="trend up" id="t-avg"></span></div><div class="val" id="kpi-avg">—</div><div class="lbl">Avg order value</div></div>
+                    <div class="kpi"><div class="k-top"><span class="k-ic ic-amber" data-ic="customers"></span><span class="trend up" id="t-cust"></span></div><div class="val" id="kpi-cust">—</div><div class="lbl">Active customers</div></div>
+                </div>
+
+                <div id="view-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="copilot"></div>
+    <div id="toast" class="toast"></div>
+</body>
+</html>

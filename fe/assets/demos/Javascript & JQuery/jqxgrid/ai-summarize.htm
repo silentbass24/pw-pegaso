@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id='Description'>jqxGrid AI - summarize the selected rows in plain language.</title>
+    <meta name="description" content="Select rows and get an instant natural-language summary of them (aiSummarize) - provider-agnostic, shown with an offline mock." />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="../../../jqwidgets/styles/jqx.tailwind.css" type="text/css" />
+    <link rel="stylesheet" href="ai-demos.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="../../../scripts/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.ai.js"></script>
+    <script type="text/javascript" src="../../../jqwidgets/jqxgrid.celltemplates.js"></script>
+    <script type="text/javascript" src="ai-mock.js"></script>
+    <script type="text/javascript" src="generatedata.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = generatedata(100);
+            var adapter = new $.jqx.dataAdapter({
+                localdata: data, datatype: 'array', datafields: [
+                    { name: 'firstname', type: 'string' }, { name: 'productname', type: 'string' },
+                    { name: 'quantity', type: 'number' }, { name: 'price', type: 'number' }
+                ]
+            });
+            $("#grid").jqxGrid({
+                theme: 'tailwind', width: '100%', height: 340, source: adapter, sortable: true,
+                selectionmode: 'checkbox', pageable: true, aiSendRequest: jqxGridAIMock, rowsheight: 48, columnsheight: 38,
+                columns: [
+                    { text: 'Customer', datafield: 'firstname', width: 200, cellTemplate: { type: 'avatar' } },
+                    { text: 'Product', datafield: 'productname', width: 230 },
+                    { text: 'Quantity', datafield: 'quantity', width: 120, cellsalign: 'right' },
+                    { text: 'Unit Price', datafield: 'price', cellsalign: 'right', cellTemplate: { type: 'money', color: false } }
+                ],
+                ready: function () {
+                    $("#grid").jqxGrid('selectrow', 0); $("#grid").jqxGrid('selectrow', 1); $("#grid").jqxGrid('selectrow', 2);
+                }
+            });
+            $('#sum').jqxButton({ theme: 'tailwind', height: 40 }).addClass('jqx-primary');
+            $('#sum').on('click', function () {
+                $('#result').html('<div class="ai-avatar">' + ICON.spark + '</div><div class="ai-result-body">' +
+                    '<div class="ai-result-title">Summarizing</div><div class="ai-dots"><span></span><span></span><span></span></div></div>').show();
+                $("#grid").jqxGrid('aiSummarize', function (err, res) {
+                    if (err) {
+                        $('#result').html('<div class="ai-avatar">' + ICON.spark + '</div><div class="ai-result-body"><div class="ai-result-title">Error</div><span class="ai-hint">' + err.message + '</span></div>');
+                        return;
+                    }
+                    $('#result').html('<div class="ai-avatar">' + ICON.spark + '</div><div class="ai-result-body">' +
+                        '<div class="ai-result-title">Summary of ' + res.count + ' rows</div>' +
+                        '<div class="ai-answer-text">' + res.summary + '</div></div>').show();
+                });
+            });
+        });
+    </script>
+</head>
+<body class='ai-demo'>
+    <div class="ai-wrap">
+        <div class="ai-hero">
+            <span class="ai-badge">jqxGrid AI</span>
+            <h1>Summarize any selection</h1>
+            <p>Tick some rows and let the model describe them in a sentence or two with <code>aiSummarize</code> - it falls back to the visible rows when nothing is selected. Offline mock here.</p>
+        </div>
+        <div class="ai-nav">
+            <a href="ai-command-bar.htm">Command bar</a>
+            <a href="ai-ask-data.htm">Ask your data</a>
+            <a href="ai-classify-column.htm">Classify</a>
+            <a href="ai-summarize.htm" class="active">Summarize</a>
+        </div>
+
+        <div class="ai-card">
+            <div style="margin-bottom:14px;"><input type="button" id="sum" value="Summarize selected rows" /></div>
+            <div id="grid"></div>
+        </div>
+
+        <div id="result" class="ai-result" style="display:none;"></div>
+
+        <p class="ai-foot"><strong>Great for:</strong> explaining a filtered slice, briefing a report, or a "TL;DR" of what the user just selected. Provider &amp; key via <code>aiKey</code> / <code>aiProxyUrl</code>.</p>
+    </div>
+
+    <script type="text/javascript">
+        var ICON = {
+            spark: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.7 4.6L18.3 8.3 13.7 10 12 14.6 10.3 10 5.7 8.3 10.3 6.6z"/><path d="M18.5 13.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></svg>',
+            doc: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg>'
+        };
+        document.querySelector('.ai-badge').innerHTML = ICON.spark + ' jqxGrid AI';
+    </script>
+</body>
+</html>

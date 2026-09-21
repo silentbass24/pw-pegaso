@@ -1,0 +1,37 @@
+﻿<div #jqxWidget style="font-size: 13px; font-family: Verdana; float: left;">
+  <div style='margin-top: 10px;'>
+    Numeric
+  </div>
+  <jqxMaskedInput [theme]="'fluent'" #numericInput
+                  [rtl]="true"
+                  [width]="250"
+                  [height]="25">
+  </jqxMaskedInput>
+  <div style='margin-top: 10px;'>
+    Zip Code
+  </div>
+  <jqxMaskedInput [theme]="'fluent'" #zipCodeInput
+                  [mask]="'#####-####'"
+                  [rtl]="true"
+                  [width]="250"
+                  [height]="25">
+  </jqxMaskedInput>
+  <div style='margin-top: 10px;'>
+    SSN
+  </div>
+  <jqxMaskedInput [theme]="'fluent'" #ssnInput
+                  [mask]="'###-##-####'"
+                  [rtl]="true"
+                  [width]="250"
+                  [height]="25">
+  </jqxMaskedInput>
+  <div style='margin-top: 10px;'>
+    Date
+  </div>
+  <jqxMaskedInput [theme]="'fluent'" #dateInput
+                  [mask]="'##/##/####'"
+                  [rtl]="true"
+                  [width]="250"
+                  [height]="25">
+  </jqxMaskedInput>
+</div>

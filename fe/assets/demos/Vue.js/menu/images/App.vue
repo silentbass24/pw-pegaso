@@ -1,0 +1,107 @@
+﻿<template>
+    <div style="height: 300px;">
+        <JqxMenu :mode="'vertical'"
+                 :width="150"
+                 :height="225">
+            <ul>
+                <li>
+                    <img style="float: left; margin-right: 5px;" src="img/mailIcon.png" /><span>Mail</span>
+                </li>
+                <li>
+                    <img style="float: left; margin-right: 5px;" src="img/calendarIcon.png" /><span>Calendar</span>
+                </li>
+                <li>
+                    <img style="float: left; margin-right: 5px;" src="img/contactsIcon.png" /><span>Contacts</span>
+                </li>
+                <li>
+                    <img style="float: left; margin-right: 5px;" src="img/folder.png" /><span>
+                        <span>Inbox</span>
+                    </span>
+                    <ul>
+                        <li>
+                            <img style="float: left; margin-right: 5px;" src="img/folder.png" /><span>jQWidgets</span>
+                            <ul>
+                                <li>
+                                    <img style="float: left; margin-right: 5px;" src="img/folder.png" /><span>Admin</span>
+                                </li>
+                                <li>
+                                    <img style="float: left; margin-right: 5px;" src="img/folder.png" /><span>Corporate</span>
+                                </li>
+                                <li>
+                                    <img style="float: left; margin-right: 5px;" src="img/folder.png" /><span>Finance</span>
+                                </li>
+                                <li>
+                                    <img style="float: left; margin-right: 5px;" src="img/folder.png" /><span>Other</span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <img style="float: left; margin-right: 5px;" src="img/folder.png" /><span>Personal</span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <img style="float: left; margin-right: 5px;" src="img/recycle.png" />
+                    <span>Deleted Items</span>
+                    <ul>
+                        <li>
+                            <img style="float: left; margin-right: 5px;" src="img/folder.png" /><span>Today</span>
+                        </li>
+                        <li>
+                            <img style="float: left; margin-right: 5px;" src="img/folder.png" /><span>
+                                Last
+                                Week
+                            </span>
+                        </li>
+                        <li>
+                            <img style="float: left; margin-right: 5px;" src="img/folder.png" /><span>
+                                Last
+                                Month
+                            </span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <img style="float: left; margin-right: 5px;" src="img/settings.png" /><span>Settings</span>
+                    <ul style="width: 230px;">
+                        <li>
+                            <JqxCheckBox style="float: left; margin-right: 5px;" :checked="true">
+                            </JqxCheckBox>
+                            Enable Auto-Save
+                        </li>
+                        <li>
+                            <JqxCheckBox style="float: left; margin-right: 5px;">
+                            </JqxCheckBox>
+                            Send email as anonymous
+                        </li>
+                        <li>
+                            <JqxCheckBox style="float: left; margin-right: 5px;">
+                            </JqxCheckBox>
+                            Save sent emails
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <img style="float: left; margin-right: 5px;" src="img/notesIcon.png" /><span>Notes</span>
+                </li>
+                <li>
+                    <img style="float: left; margin-right: 5px;" src="img/favorites.png" /><span>Favorites</span>
+                </li>
+            </ul>
+        </JqxMenu>
+    </div>
+</template>
+<script>
+    import JqxMenu from "jqwidgets-scripts/jqwidgets-vue/vue_jqxmenu.vue";
+    import JqxCheckBox from "jqwidgets-scripts/jqwidgets-vue/vue_jqxcheckbox.vue";
+
+    export default {
+        components: {
+            JqxMenu,
+            JqxCheckBox
+        }
+    }
+</script>
+
+<style>
+</style>

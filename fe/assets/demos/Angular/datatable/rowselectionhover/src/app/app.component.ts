@@ -1,0 +1,125 @@
+﻿import { Component, ViewChild, ElementRef } from '@angular/core';
+
+import { jqxInputComponent, jqxInputModule } from 'jqwidgets-ng/jqxinput';
+
+import { generatedata } from '../assets/generatedata';
+import { jqxButtonComponent, jqxButtonModule } from 'jqwidgets-ng/jqxbuttons';
+
+import { jqxDataTableModule, jqxDataTableComponent } from 'jqwidgets-ng/jqxdatatable';
+import { jqxDropDownListModule } from 'jqwidgets-ng/jqxdropdownlist';
+
+@Component({
+    selector: 'app-root',
+    imports: [jqxDataTableModule, jqxButtonModule, jqxInputModule, jqxDropDownListModule],
+    standalone: true,
+    templateUrl: './app.component.html'
+})
+
+export class AppComponent {
+    @ViewChild('myDataTable') myDataTable: jqxDataTableComponent;
+    @ViewChild('myInput') myInput: jqxInputComponent;
+    @ViewChild('selectedRows') selectedRows: ElementRef;
+
+    source: any =
+        {
+            localData: generatedata(15, false),
+            datatype: "array",
+            dataFields:
+                [
+                    { name: 'firstname', type: 'string' },
+                    { name: 'lastname', type: 'string' },
+                    { name: 'productname', type: 'string' },
+                    { name: 'quantity', type: 'number' },
+                    { name: 'price', type: 'number' }
+                ]
+        };
+
+    getWidth(): any {
+        if (document.body.offsetWidth < 850) {
+            return '90%';
+        }
+
+        return 850;
+    }
+
+    dataAdapter: any = new jqx.dataAdapter(this.source);
+
+    columns: any[] =
+        [
+            { text: 'First Name', dataField: 'firstname', width: 200 },
+            { text: 'Last Name', dataField: 'lastname', width: 200 },
+            { text: 'Product', dataField: 'productname', width: 180 },
+            { text: 'Unit Price', dataField: 'price', width: 90, align: 'right', cellsAlign: 'right', cellsFormat: 'c2' },
+            { text: 'Quantity', dataField: 'quantity', align: 'right', cellsAlign: 'right' }
+        ];
+
+    selectionInfo() {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myDataTable || !this.selectedRows) { return; }
+        // gets selected row indexes. The method returns an Array of indexes.
+        let selection = this.myDataTable.getSelection();
+        let selectedRows = '<br/>Selected Row Indexes:<br/>';
+        if (selection && selection.length > 0) {
+            let rows = this.myDataTable.getRows();
+            for (let i = 0; i < selection.length; i++) {
+                let rowData = selection[i];
+                selectedRows += rows.indexOf(rowData);
+                if (i < selection.length - 1) {
+                    selectedRows += ', ';
+                }
+                if (i > 1 && i % 8 === 0) {
+                    selectedRows += '<br/>';
+                }
+            }
+        }
+        this.selectedRows.nativeElement.innerHTML = selectedRows;
+    }
+
+    dropDownOnChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myDataTable) { return; }
+        switch (event.args.index) {
+            case 0:
+                // disable multiple rows selection with Shift or Ctrl.
+                this.myDataTable.selectionMode('singleRow');
+                break;
+            case 1:
+                // enable multiple rows selection with Shift or Ctrl.
+                this.myDataTable.selectionMode('multipleRows');
+                break;
+        }
+    };
+
+    rowSelectBtnOnClick(): void {
+        let index = parseInt(this.myInput.val());
+        this.myDataTable.selectRow(index);
+    };
+
+    clearSelectionBtnOnClick(): void {
+        this.myDataTable.clearSelection();
+    };
+
+    tableOnRowSelect(event: any): void {
+        // event arguments
+        let args = event.args;
+        // row index
+        let index = args.index;
+        // row data
+        let rowData = args.row;
+        // row key
+        let rowKey = args.key;
+        this.selectionInfo();
+    };
+
+    tableOnRowUnselect(event: any): void {
+        // event arguments
+        let args = event.args;
+        // row index
+        let index = args.index;
+        // row data
+        let rowData = args.row;
+        // row key
+        let rowKey = args.key;
+        this.selectionInfo();
+    };
+}

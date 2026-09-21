@@ -1,0 +1,15 @@
+﻿<jqxListBox [theme]="'fluent'" #listbox
+            [filterable]="true"
+            [selectedIndex]="0"
+            [source]="shirts"
+            [itemHeight]="90"
+            [renderer]="renderer"
+            [width]="250"
+            [height]="300">
+</jqxListBox>
+<div style="margin-top: 10px;">
+  <jqxButton [theme]="'fluent'" #clearFilter
+             (onClick)="click($event)">
+    Clear Filter
+  </jqxButton>
+</div>

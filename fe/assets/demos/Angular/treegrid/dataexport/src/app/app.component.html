@@ -1,0 +1,32 @@
+﻿<jqxTreeGrid [theme]="'fluent'"
+             [width]="getWidth()"
+             [source]="dataAdapter"
+             [columns]="columns"
+             [ready]="ready"
+             [exportSettings]="exportSettings"
+             #TreeGrid>
+</jqxTreeGrid>
+
+<div style="margin-top: 20px;">
+  <div style="float: left;">
+    <jqxButton [theme]="'fluent'" #excelExport (onClick)="excelExportClick()">Export to Excel</jqxButton>
+    <br />
+    <br />
+    <jqxButton [theme]="'fluent'" #xmlExport (onClick)="xmlExportClick()">Export to XML</jqxButton>
+  </div>
+  <div style="float: left; margin-left: 10px;">
+    <jqxButton [theme]="'fluent'" #csvExport (onClick)="csvExportClick()">Export to CSV</jqxButton>
+    <br />
+    <br />
+    <jqxButton [theme]="'fluent'" #tsvExport (onClick)="tsvExportClick()">Export to TSV</jqxButton>
+  </div>
+  <div style="float: left; margin-left: 10px;">
+    <jqxButton [theme]="'fluent'" #htmlExport (onClick)="htmlExportClick()">Export to HTML</jqxButton>
+    <br />
+    <br />
+    <jqxButton [theme]="'fluent'" #jsonExport (onClick)="jsonExportClick()">Export to JSON</jqxButton>
+  </div>
+  <div style="float: left; margin-left: 10px;">
+    <jqxButton [theme]="'fluent'" #pdfExport  (onClick)="pdfExportClick()">Export to PDF</jqxButton>
+  </div>
+</div>

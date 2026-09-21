@@ -1,0 +1,21 @@
+{
+  "name": "jqwidgets-react/jqxchart",
+  "version": "27.0.0",
+  "main": "react_jqxchart.umd.js",
+  "module": "react_jqxchart.esm.js",
+  "typings": "react_jqxchart.d.ts",
+  "exports": {
+    ".": {
+      "types": "./react_jqxchart.d.ts",
+      "import": "./react_jqxchart.esm.js",
+      "require": "./react_jqxchart.umd.js",
+      "default": "./react_jqxchart.umd.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+  },
+  "sideEffects": true
+}

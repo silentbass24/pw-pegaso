@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jQWidgets v27.0.0 – UI components for JavaScript, Angular, React, Vue and jQuery</title>
+<meta name="description" content="jQWidgets SDK: 80+ UI components for JavaScript, TypeScript, Angular, React, Vue, jQuery and ASP.NET. Start here to run the demos and set up your project.">
+<style>
+  :root { --bg: #f5f6f8; --panel: #fff; --line: #e1e4e8; --text: #1f2328; --muted: #656d76; --accent: #0969da; --accent-soft: #ddf4ff; --code-bg: #f6f8fa; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0d1117; --panel: #161b22; --line: #30363d; --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --accent-soft: #14283f; --code-bg: #0d1117; } }
+  :root[data-theme="dark"] { --bg: #0d1117; --panel: #161b22; --line: #30363d; --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --accent-soft: #14283f; --code-bg: #0d1117; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--text); background: var(--bg); }
+  a { color: var(--accent); }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; }
+  code { background: var(--code-bg); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
+  pre { background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow: auto; }
+  pre code { border: 0; padding: 0; background: transparent; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 32px 16px 64px; }
+  header { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; }
+  .logo { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #0969da, #8250df); display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 18px; }
+  header h1 { font-size: 24px; margin: 0; }
+  header .ver { color: var(--muted); font-weight: 400; }
+  header .links { margin-left: auto; display: flex; gap: 14px; font-size: 14px; }
+  .hero { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  .hero h2 { margin: 0 0 6px; font-size: 20px; }
+  .hero p { margin: 0 0 16px; color: var(--muted); }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--text); text-decoration: none; font-weight: 600; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn:hover { border-color: var(--accent); }
+  .actions .or { color: var(--muted); font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .card h3 { margin: 0 0 8px; font-size: 16px; }
+  .card p { margin: 0 0 8px; color: var(--muted); font-size: 14px; }
+  .card pre { margin: 8px 0 0; font-size: 12.5px; }
+  section { margin-top: 28px; }
+  section h2 { font-size: 18px; margin: 0 0 10px; }
+  details { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 16px; margin-bottom: 10px; }
+  summary { cursor: pointer; font-weight: 600; }
+  details ul { columns: 2; column-gap: 24px; font-size: 14px; padding-left: 18px; }
+  details li { break-inside: avoid; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 13px; }
+  tr:last-child td { border-bottom: 0; }
+  footer { margin-top: 36px; color: var(--muted); font-size: 13px; }
+  @media (max-width: 640px) { details ul { columns: 1; } header .links { margin-left: 0; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">jQ</div>
+    <h1>jQWidgets <span class="ver">v27.0.0</span></h1>
+    <nav class="links">
+      <a href="https://www.jqwidgets.com/" target="_blank" rel="noopener">jqwidgets.com</a>
+      <a href="https://www.jqwidgets.com/documentation/" target="_blank" rel="noopener">Documentation</a>
+      <a href="https://www.jqwidgets.com/community/" target="_blank" rel="noopener">Forums</a>
+      <a href="ReleaseNotes.txt">Release notes</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h2>Start with the demos</h2>
+    <p>3,600 runnable examples for 80+ components — JavaScript, TypeScript, Angular, React and Vue — in one searchable browser with live preview, theme switching, source view and one-click StackBlitz export.</p>
+    <div class="actions">
+      <a class="btn primary" href="demos/index.htm">Open the Demo Browser →</a>
+      <span class="or">or, for the full experience,</span>
+      <span class="btn" title="Runs a tiny local web server (needs Node.js) so demos that load data with Ajax work too">double-click <code>start-demos.cmd</code> <span style="color:var(--muted);font-weight:400">/ run <code>sh start-demos.sh</code></span></span>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>JavaScript / jQuery</h3>
+      <p>Include <code>jqwidgets/jqxcore.js</code>, the widget files you need and a theme. No build step.</p>
+      <pre><code>&lt;link rel="stylesheet" href="jqwidgets/styles/jqx.base.css"&gt;
+&lt;link rel="stylesheet" href="jqwidgets/styles/jqx.fluent.css"&gt;
+&lt;script src="scripts/jquery-3.7.1.min.js"&gt;&lt;/script&gt;
+&lt;script src="jqwidgets/jqxcore.js"&gt;&lt;/script&gt;
+&lt;script src="jqwidgets/jqxgrid.js"&gt;&lt;/script&gt;</code></pre>
+    </div>
+    <div class="card">
+      <h3>Angular</h3>
+      <p>Angular 19 or newer. Standalone components import from <code>jqwidgets-ng/&lt;widget&gt;</code>.</p>
+      <pre><code>npm i jqwidgets-ng
+import { jqxGridModule } from 'jqwidgets-ng/jqxgrid';</code></pre>
+    </div>
+    <div class="card">
+      <h3>React</h3>
+      <p>React 16.8 – 19. Class-based wrappers with full typings; use a <code>ref</code> to call widget methods.</p>
+      <pre><code>npm i jqwidgets-scripts
+import JqxGrid from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxgrid';</code></pre>
+    </div>
+    <div class="card">
+      <h3>Vue</h3>
+      <p>Vue 3 wrappers in <code>jqwidgets-vue3/</code> (Composition API, SSR-safe). Vue 2 wrappers remain in <code>jqwidgets-vue/</code>.</p>
+      <pre><code>npm i jqwidgets-scripts
+import JqxGrid from 'jqwidgets-scripts/jqwidgets-vue3/vue_jqxgrid.vue';</code></pre>
+    </div>
+  </div>
+
+  <section>
+    <h2>What is in this folder</h2>
+    <table>
+      <tr><th>jqwidgets/</th><td>The SDK: <code>jqxcore.js</code>, one file per widget, <code>jqx-all.js</code> (everything), <code>modules/</code> (bundled per-widget builds), <code>globalization/</code>, and <code>styles/</code> with the base stylesheet, 38 themes and their images. In general you need files from this folder only.</td></tr>
+      <tr><th>jqwidgets-ts/</th><td>TypeScript definitions (<code>jqwidgets.d.ts</code>) and the Angular component sources (<code>angular_jqx*.ts</code>).</td></tr>
+      <tr><th>jqwidgets-react-tsx/</th><td>React components (ESM + UMD builds with typings, one folder per widget).</td></tr>
+      <tr><th>jqwidgets-vue3/ &amp; jqwidgets-vue/</th><td>Vue 3 and Vue 2 single-file components.</td></tr>
+      <tr><th>demos/</th><td><a href="demos/index.htm">Demo Browser</a> · <code>Javascript &amp; JQuery/</code> (also API reference pages under <code>documentation/</code>; the old jQuery Mobile set is still on disk under <code>mobiledemos/</code> but is not offered in the browser) · <code>Typescript/</code> · <code>Angular/</code> · <code>React-TSX/</code> · <code>Vue.js/</code> · <code>Showcase/</code> (full sample apps) · <code>ASP.NET MVC/</code>, <code>ASP.NET Tag Helpers/</code>, <code>JSP/</code>, <code>PHP/</code> (server integration; the PHP samples need the Northwind MySQL database from <code>demos/PHP/Northwind.MySQL5.sql</code>) · <code>Angular1.x/</code> (legacy AngularJS) · <code>sampledata/</code> shared by all demos.</td></tr>
+      <tr><th>scripts/, styles/, images/</th><td>Third-party libraries and assets used only by the demos (jQuery, Bootstrap, Knockout, RequireJS, …), plus <code>scripts/serve-demos.js</code> and <code>scripts/build-demo-catalog.js</code> which power the Demo Browser.</td></tr>
+    </table>
+    <p style="color:var(--muted);font-size:14px">Any demo that loads data with Ajax must be served over <code>http://</code>. <code>start-demos.cmd</code> / <code>start-demos.sh</code> does that with a single-file Node.js server and opens the Demo Browser.</p>
+  </section>
+
+  <section>
+    <h2>NPM packages</h2>
+    <table>
+      <tr><th><a href="https://www.npmjs.com/package/jqwidgets-scripts" target="_blank" rel="noopener">jqwidgets-scripts</a></th><td>Source files for jQuery/JavaScript, React and Vue.</td></tr>
+      <tr><th><a href="https://www.npmjs.com/package/jqwidgets-ng" target="_blank" rel="noopener">jqwidgets-ng</a></th><td>Angular modules and standalone components.</td></tr>
+      <tr><th><a href="https://www.npmjs.com/package/jqwidgets-framework" target="_blank" rel="noopener">jqwidgets-framework</a></th><td>Source files, demos, docs and images (this SDK).</td></tr>
+      <tr><th>Smart UI</th><td><a href="https://www.npmjs.com/package/smart-webcomponents" target="_blank" rel="noopener">smart-webcomponents</a> · <a href="https://www.npmjs.com/package/smart-webcomponents-angular" target="_blank" rel="noopener">smart-webcomponents-angular</a> · <a href="https://www.npmjs.com/package/smart-webcomponents-react" target="_blank" rel="noopener">smart-webcomponents-react</a> · Blazor: <code>dotnet add package Smart.Blazor</code> — see <a href="https://www.htmlelements.com/" target="_blank" rel="noopener">htmlelements.com</a></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>SDK file reference</h2>
+    <details>
+      <summary>Themes (jqwidgets/styles/) — always include jqx.base.css plus one theme</summary>
+      <ul>
+        <li>jqx.base.css — base stylesheet (required)</li>
+        <li>jqx.fluent.css — Fluent (default in the demos)</li>
+        <li>jqx.tailwind.css / jqx.tailwind-dark.css — Tailwind</li>
+        <li>jqx.material.css / material-purple / material-green — Material</li>
+        <li>jqx.bootstrap.css — Bootstrap</li>
+        <li>jqx.light.css / jqx.dark.css</li>
+        <li>jqx.office.css, jqx.metro.css, jqx.metrodark.css, jqx.web.css</li>
+        <li>jqx.arctic.css, jqx.glacier.css, jqx.blue.css, jqx.darkblue.css, jqx.energyblue.css</li>
+        <li>jqx.android.css, jqx.windowsphone.css, jqx.blackberry.css, jqx.mobile.css</li>
+        <li>jqx.black.css, jqx.shinyblack.css, jqx.classic.css, jqx.flat.css, jqx.fresh.css</li>
+        <li>jqx.highcontrast.css, jqx.orange.css, jqx.summer.css</li>
+        <li>jqx.ui-darkness.css, ui-lightness, ui-le-frog, ui-overcast, ui-redmond, ui-smoothness, ui-start, ui-sunny — jQuery UI ports</li>
+        <li>styles/images/ — images referenced by the stylesheets</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Widget and plug-in files (jqwidgets/) — include only what you use, or jqx-all.js</summary>
+      <ul>
+        <li>jqxcore.js — core (required)</li>
+        <li>jqxdata.js — data adapter · jqxdata.export.js — export · jqxdate.js — dates</li>
+        <li>jqxgrid.js + jqxgrid.sort/filter/grouping/selection/columnsresize/columnsreorder/pager/edit/storage/aggregates/ai/celltemplates.js</li>
+        <li>jqxchart.core.js + jqxchart.api/annotations/rangeselector/waterfall.js</li>
+        <li>jqxscheduler.js, jqxscheduler.api.js · jqxgantt.js, jqxgantt.api.js · jqxkanban.js · jqxpivotgrid.js · jqxtreegrid.js · jqxdatatable.js</li>
+        <li>jqxchat.js — AI chat · jqxwidgets.ai.js — shared AI helpers · jqxpicklist.js — dual-list picker</li>
+        <li>jqxbargauge.js, jqxbulletchart.js, jqxgauge.js, jqxknob.js, jqxrating.js, jqxprogressbar.js, jqxheatmap.js, jqxtreemap.js, jqxtagcloud.js</li>
+        <li>jqxbuttons.js, jqxbuttongroup.js, jqxcheckbox.js, jqxradiobutton.js, jqxswitchbutton.js, jqxdropdownbutton.js</li>
+        <li>jqxinput.js, jqxmaskedinput.js, jqxnumberinput.js, jqxpasswordinput.js, jqxformattedinput.js, jqxcomplexinput.js, jqxtextarea.js, jqxeditor.js</li>
+        <li>jqxcalendar.js, jqxdatetimeinput.js, jqxtimepicker.js, jqxcolorpicker.js, jqxfileupload.js, jqxform.js, jqxvalidator.js</li>
+        <li>jqxcombobox.js, jqxdropdownlist.js, jqxlistbox.js, jqxlistmenu.js, jqxtree.js, jqxmenu.js, jqxnavbar.js, jqxnavigationbar.js, jqxribbon.js, jqxtoolbar.js, jqxtabs.js</li>
+        <li>jqxwindow.js, jqxpopover.js, jqxtooltip.js, jqxnotification.js, jqxloader.js, jqxpanel.js, jqxexpander.js, jqxsplitter.js, jqxlayout.js, jqxdocking.js, jqxdockinglayout.js, jqxdockpanel.js, jqxresponsivepanel.js</li>
+        <li>jqxscrollbar.js, jqxscrollview.js, jqxslider.js, jqxrangeselector.js, jqxsortable.js, jqxdragdrop.js, jqxdraw.js, jqxresponse.js</li>
+        <li>jqxangular.js — AngularJS 1.x plug-in · jqxknockout.js — Knockout plug-in</li>
+        <li>jqx-all.js — everything in one file</li>
+      </ul>
+    </details>
+  </section>
+
+  <section>
+    <h2>License, purchase and support</h2>
+    <table>
+      <tr><th>License</th><td><a href="https://www.jqwidgets.com/license/" target="_blank" rel="noopener">jqwidgets.com/license</a> · <a href="EULA.pdf">EULA.pdf</a></td></tr>
+      <tr><th>Sales</th><td><a href="mailto:sales@jqwidgets.com">sales@jqwidgets.com</a> · +359 88-2223800</td></tr>
+      <tr><th>Support</th><td><a href="mailto:support@jqwidgets.com">support@jqwidgets.com</a> · <a href="https://www.jqwidgets.com/community/" target="_blank" rel="noopener">community forums</a></td></tr>
+    </table>
+  </section>
+
+  <footer>© 2011–2026 jQWidgets. Release notes for this version are in <a href="ReleaseNotes.txt">ReleaseNotes.txt</a>.</footer>
+</div>
+</body>
+</html>

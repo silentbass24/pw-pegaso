@@ -1,0 +1,16 @@
+﻿<div id="timpicker">
+  <jqxTimePicker #timepicker (onChange)="change($event)" [width]="size" [height]="size" [format]="format"></jqxTimePicker>
+</div>
+
+<div id="settingsForm">
+  <jqxForm #myForm
+      (onFormDataChange)="formDataChange($event)"
+      (onButtonClick)="buttonClick($event)"
+      [width]="280"
+      [height]="'auto'"
+      [template]="template"
+      [value]="sampleValue"
+  >
+  </jqxForm>
+  <div style="margin-top: 10px;">Current value: <span id="currenttime"></span></div>
+</div>

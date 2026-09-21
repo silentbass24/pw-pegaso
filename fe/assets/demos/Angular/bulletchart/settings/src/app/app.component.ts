@@ -1,0 +1,187 @@
+﻿
+import { Component, ViewChild } from '@angular/core';
+
+import { jqxBulletChartComponent, jqxBulletChartModule } from 'jqwidgets-ng/jqxbulletchart';
+import { jqxCheckBoxComponent, jqxCheckBoxModule } from 'jqwidgets-ng/jqxcheckbox';
+import { jqxDropDownListComponent, jqxDropDownListModule } from 'jqwidgets-ng/jqxdropdownlist';
+import { jqxExpanderComponent, jqxExpanderModule } from 'jqwidgets-ng/jqxexpander';
+import { jqxRadioButtonComponent, jqxRadioButtonModule } from 'jqwidgets-ng/jqxradiobutton';
+import { jqxSliderComponent, jqxSliderModule } from 'jqwidgets-ng/jqxslider';
+
+@Component({
+    selector: 'app-root',
+    imports: [jqxBulletChartModule, jqxCheckBoxModule, jqxSliderModule, jqxDropDownListModule, jqxExpanderModule, jqxRadioButtonModule],
+    standalone: true,
+    templateUrl: './app.component.html'
+})
+
+export class AppComponent {
+    @ViewChild('myBulletChart') myBulletChart: jqxBulletChartComponent;
+    @ViewChild('showLabelsCheckbox') showLabelsCheckbox: jqxCheckBoxComponent;
+    @ViewChild('disabledCheckbox') disabledCheckbox: jqxCheckBoxComponent;
+    @ViewChild('rtlCheckbox') rtlCheckbox: jqxCheckBoxComponent;
+    @ViewChild('enableAnimationCheckbox') enableAnimationCheckbox: jqxCheckBoxComponent;
+    @ViewChild('nearRadio') nearRadio: jqxRadioButtonComponent;
+    @ViewChild('farRadio') farRadio: jqxRadioButtonComponent;
+    @ViewChild('bothRadio') bothRadio: jqxRadioButtonComponent;
+    @ViewChild('currencyRadio') currencyRadio: jqxRadioButtonComponent;
+    @ViewChild('percentRadio') percentRadio: jqxRadioButtonComponent;
+    @ViewChild('noneRadio') noneRadio: jqxRadioButtonComponent;
+    @ViewChild('valueSlider') valueSlider: jqxSliderComponent;
+    @ViewChild('pointerDropDownList') pointerDropDownList: jqxDropDownListComponent;
+    @ViewChild('targetDropDownList') targetDropDownList: jqxDropDownListComponent;
+
+    ranges: any[] =
+        [
+            { startValue: 0, endValue: 200, color: '#000000', opacity: 0.5 },
+            { startValue: 200, endValue: 250, color: '#000000', opacity: 0.3 },
+            { startValue: 250, endValue: 300, color: '#000000', opacity: 0.1 }
+        ];
+
+    pointer: any = { value: 270, label: 'Revenue 2025 YTD', size: '25%', color: '' };
+
+    target: any = { value: 260, label: 'Revenue 2024 YTD', size: 4, color: '' };
+
+    ticks: any = { position: 'both', interval: 50, size: 10 };
+
+    colorChoices: string[] = ['Black', 'Red', 'Green', 'Blue', 'From theme'];
+
+    showLabelsCheckboxChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myBulletChart || !this.nearRadio || !this.farRadio || !this.bothRadio) { return; }
+        let checked = event.args.checked;
+        if (checked) {
+            this.nearRadio.enable();
+            this.farRadio.enable();
+            this.bothRadio.enable();
+
+            if (this.nearRadio.checked() === true) {
+                this.myBulletChart.ticks({ position: 'near' });
+            }
+            else if (this.farRadio.checked() === true) {
+                this.myBulletChart.ticks({ position: 'far' });
+            }
+            else {
+                this.myBulletChart.ticks({ position: 'both' });
+            }
+        }
+        else {
+            this.myBulletChart.ticks({ position: 'none' });
+            this.nearRadio.disable();
+            this.farRadio.disable();
+            this.bothRadio.disable();
+        }
+    };
+
+    nearRadioChecked(): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myBulletChart) { return; }
+        this.myBulletChart.ticks({ position: 'near' });
+    };
+
+    farRadioChecked(): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myBulletChart) { return; }
+        this.myBulletChart.ticks({ position: 'far' });
+    };
+
+    bothRadioChecked(): void {
+        // jqxRadioButton fires onChecked as it initialises, before @ViewChild is set
+        if (!this.myBulletChart) { return; }
+        // jqxRadioButton fires onChecked as it initialises, before @ViewChild is set
+        if (!this.myBulletChart) { return; }
+        this.myBulletChart.ticks({ position: 'both' });
+    };
+
+    currencyRadioChecked(): void {
+        // jqxRadioButton fires onChecked as it initialises, before @ViewChild is set
+        if (!this.myBulletChart) { return; }
+        // jqxRadioButton fires onChecked as it initialises, before @ViewChild is set
+        if (!this.myBulletChart) { return; }
+        this.myBulletChart.labelsFormat('c');
+    };
+
+    percentRadioChecked(): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myBulletChart) { return; }
+        this.myBulletChart.labelsFormat('p');
+    };
+
+    noneRadioChecked(): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myBulletChart) { return; }
+        this.myBulletChart.labelsFormat(null);
+    };
+
+    enableAnimationCheckboxChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myBulletChart) { return; }
+        let checked = event.args.checked;
+        if (checked) {
+            this.myBulletChart.animationDuration(400);
+        }
+        else {
+            this.myBulletChart.animationDuration(0);
+        }
+    };
+
+    valueSliderChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myBulletChart) { return; }
+        let value = event.args.value;
+        this.myBulletChart.val(value);
+    };
+
+    pointerDropDownListChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myBulletChart) { return; }
+        let choice = event.args.item.label;
+        let newColor;
+        if (choice != 'From theme') {
+            newColor = choice;
+        }
+        else {
+            newColor = '';
+        }
+        this.myBulletChart.pointer({ color: newColor });
+    };
+
+    targetDropDownListChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myBulletChart) { return; }
+        let choice = event.args.item.label;
+        let newColor;
+        if (choice != 'From theme') {
+            newColor = choice;
+        }
+        else {
+            newColor = '';
+        }
+        this.myBulletChart.target({ color: newColor });
+    };
+
+    disabledCheckboxChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myBulletChart) { return; }
+        let checked = event.args.checked;
+        if (checked) {
+            this.myBulletChart.disabled(true);
+        }
+        else {
+            this.myBulletChart.disabled(false);
+        }
+    };
+
+    rtlCheckboxChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myBulletChart) { return; }
+        let checked = event.args.checked;
+        if (checked) {
+            this.myBulletChart.rtl(true);
+        }
+        else {
+            this.myBulletChart.rtl(false);
+        }
+    };
+
+}

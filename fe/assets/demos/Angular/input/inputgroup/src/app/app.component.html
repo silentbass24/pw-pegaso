@@ -1,0 +1,12 @@
+﻿<div style="height: 30px"></div>
+
+<jqxInput [theme]="'fluent'" #myInput style="float: left"
+    [width]="250" [height]="23" [source]="countries"
+    [minLength]="1" [placeHolder]="'Enter a Country:'">
+</jqxInput>
+
+<div style="float: left">
+    <jqxButton [theme]="'fluent'" (onClick)="myBtnOnClick()"
+        [width]="28" [height]="25" [imgSrc]="'assets/img/search_lg.png'">
+    </jqxButton>
+</div>

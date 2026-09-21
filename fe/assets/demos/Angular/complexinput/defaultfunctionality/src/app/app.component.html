@@ -1,0 +1,15 @@
+﻿<jqxComplexInput [theme]="'fluent'" #myComplexInput
+    [width]="250" [height]="25" [value]="'15 + 7.2i'">
+</jqxComplexInput>
+
+<div style="margin-top: 20px;">
+
+    <jqxButton [theme]="'fluent'" (onClick)="getRealPart()" [width]="150">
+        Get real part
+    </jqxButton>
+
+    <jqxButton [theme]="'fluent'" (onClick)="getImaginarypart()" [width]="150">
+        Get imaginary part
+    </jqxButton>
+
+</div>

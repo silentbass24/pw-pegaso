@@ -1,0 +1,90 @@
+﻿import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+
+import { generatedata } from '../assets/generatedata';
+import { jqxCheckBoxComponent, jqxCheckBoxModule } from 'jqwidgets-ng/jqxcheckbox';
+import { jqxGridModule, jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
+import { jqxDropDownListModule } from 'jqwidgets-ng/jqxdropdownlist';
+@Component({
+    selector: 'app-root',
+    imports: [jqxGridModule, jqxCheckBoxModule, jqxDropDownListModule],
+    standalone: true,
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    encapsulation: ViewEncapsulation.None
+})
+
+export class AppComponent {
+    @ViewChild('myGrid') myGrid: jqxGridComponent;
+
+    source: any =
+        {
+            localdata: generatedata(200, false),
+            datatype: 'array',
+            datafields:
+                [
+                    { name: 'firstname', type: 'string' },
+                    { name: 'lastname', type: 'string' },
+                    { name: 'productname', type: 'string' },
+                    { name: 'available', type: 'bool' },
+                    { name: 'quantity', type: 'number' },
+                    { name: 'price', type: 'number' }
+                ]
+        };
+
+    getWidth(): any {
+        if (document.body.offsetWidth < 850) {
+            return '90%';
+        }
+
+        return 850;
+    }
+
+    dataAdapter: any = new jqx.dataAdapter(this.source);
+
+    columns: any[] =
+        [
+            { text: 'First Name', columntype: 'textbox', datafield: 'firstname', width: 90 },
+            { text: 'Last Name', datafield: 'lastname', width: 90 },
+            { text: 'Product', datafield: 'productname' },
+            { text: 'Quantity', datafield: 'quantity', width: 70, cellsalign: 'right' },
+            { text: 'Available', datafield: 'available', columntype: 'checkbox', width: 67 }
+        ];
+
+    myDropDownListOnSelect(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myGrid) { return; }
+        let index = event.args.index;
+        let editMode = index == 0 ? 'click' : index == 1 ? 'dblclick' : 'selectedcell';
+        this.myGrid.editmode(editMode);
+    };
+
+    firstnameOnChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myGrid) { return; }
+        this.myGrid.setcolumnproperty('firstname', 'editable', event.args.checked);
+    };
+
+    lastnameOnChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myGrid) { return; }
+        this.myGrid.setcolumnproperty('lastname', 'editable', event.args.checked);
+    };
+
+    quantityOnChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myGrid) { return; }
+        this.myGrid.setcolumnproperty('quantity', 'editable', event.args.checked);
+    };
+
+    productnameOnChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myGrid) { return; }
+        this.myGrid.setcolumnproperty('productname', 'editable', event.args.checked);
+    };
+
+    availableOnChange(event: any): void {
+        // the widget raises this while initialising, before @ViewChild is populated
+        if (!this.myGrid) { return; }
+        this.myGrid.setcolumnproperty('available', 'editable', event.args.checked);
+    };
+}

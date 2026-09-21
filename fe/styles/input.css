@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@import "./dashboard.css";
+
+.title{
+    @apply text-3xl font-bold text-center mb-6;
+}
+body {
+    @apply min-h-screen flex items-center justify-center bg-gray-100;
+}
+.card-login {
+    @apply bg-white p-8 rounded-xl shadow-lg w-full max-w-sm;
+}
+.form-login {
+    @apply w-full flex flex-col gap-4 mt-4;
+}
+.form-login-input {
+    @apply w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 gap-8 mt-8;
+}
+.form-login-button {
+    @apply w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600;
+}
